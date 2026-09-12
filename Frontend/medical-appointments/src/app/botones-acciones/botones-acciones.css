@@ -1,0 +1,112 @@
+/* =========================================
+   CONTENEDOR DE ACCIONES
+========================================= */
+
+.acciones-tabla {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   BOTÓN GENÉRICO
+========================================= */
+
+.btn-accion {
+  width: 32px;
+  height: 32px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid transparent;
+
+  border-radius: 6px;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  font-size: 14px;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+
+/* =========================================
+   EFECTO AL PRESIONAR
+========================================= */
+
+.btn-accion:active {
+  transform: scale(0.92);
+}
+
+
+/* =========================================
+   VER
+========================================= */
+
+.btn-ver {
+  color: #6c5ce7;
+}
+
+.btn-ver:hover {
+  background: #eeeaff;
+
+  border-color: #ddd6fe;
+}
+
+
+/* =========================================
+   EDITAR
+========================================= */
+
+.btn-editar {
+  color: #d97706;
+}
+
+.btn-editar:hover {
+  background: #fff7ed;
+
+  border-color: #fed7aa;
+}
+
+
+/* =========================================
+   ELIMINAR
+========================================= */
+
+.btn-eliminar {
+  color: #dc2626;
+}
+
+.btn-eliminar:hover {
+  background: #fef2f2;
+
+  border-color: #fecaca;
+}
+
+
+/* =========================================
+   ICONOS
+========================================= */
+
+.btn-accion i {
+  font-size: 14px;
+
+  pointer-events: none;
+}

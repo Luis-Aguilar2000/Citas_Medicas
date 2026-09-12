@@ -1,26 +1,35 @@
-/* ==========================================
-   BOTONES PRINCIPALES
-   ========================================== */
-
+/* BOTÓN NUEVO PACIENTE */
 .btn-nuevo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
   background: #6c5ce7;
   color: white;
   border: none;
-  padding: 11px 20px;
-  border-radius: 6px;
+  padding: 10px 18px;
+  border-radius: 7px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-nuevo i {
+  font-size: 16px;
 }
 
 .btn-nuevo:hover {
-  background: #5b4cc4; /* Tono morado más oscuro para el hover */
+  background: #5b4cc4;
 }
 
-/* ==========================================
-   MODAL: CONTENEDOR Y ESTRUCTURA
-   ========================================== */
+.btn-nuevo:active {
+  transform: scale(0.98);
+}
 
-/* Fondo oscuro translúcido detrás del modal */
+
+/* MODAL Y FONDO */
 .overlay {
   position: fixed;
   inset: 0;
@@ -28,10 +37,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 2000;
 }
 
-/* Ventana principal del modal */
 .modal-paciente {
   width: 580px;
   max-width: 90%;
@@ -41,33 +49,54 @@
   border-radius: 14px;
   padding: 26px 30px;
   box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
 }
 
-/* Cabecera del modal */
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+.modal-marca {
+  display: flex;
+  align-items: center;
+}
+
 .mini-logo {
-  background: #6c5ce7;
-  color: white;
   width: 28px;
   height: 28px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  border-radius: 7px;
   margin-right: 8px;
+  background: #6c5ce7;
+  color: white;
+  border-radius: 7px;
+}
+
+.mini-logo i {
+  font-size: 14px;
 }
 
 .btn-cerrar {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
+  border-radius: 7px;
   background: transparent;
-  font-size: 25px;
-  cursor: pointer;
   color: #777;
+  font-size: 17px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.btn-cerrar:hover {
+  background: #f3f4f6;
+  color: #333;
 }
 
 .modal-paciente h2 {
@@ -77,33 +106,13 @@
 
 .subtitulo {
   margin-top: 0;
+  margin-bottom: 22px;
   color: #888;
   font-size: 13px;
 }
 
-/* Indicador de pasos o pestañas */
-.pasos {
-  display: flex;
-  gap: 25px;
-  border-bottom: 1px solid #ddd;
-  margin: 22px 0;
-  font-size: 13px;
-  color: #aaa;
-}
 
-.pasos span {
-  padding-bottom: 10px;
-}
-
-.pasos .activo {
-  color: #6c5ce7;
-  border-bottom: 2px solid #6c5ce7;
-}
-
-/* ==========================================
-   FORMULARIO DENTRO DEL MODAL
-   ========================================== */
-
+/* FORMULARIO */
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -121,8 +130,9 @@
 
 .campo label {
   margin-bottom: 6px;
-  font-size: 13px;
   color: #555;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .campo input,
@@ -131,103 +141,124 @@
   padding: 11px 12px;
   border: 1px solid #d0d0d0;
   border-radius: 6px;
+  background: white;
+  color: #333;
   font-size: 14px;
+  font-family: inherit;
   outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* Borde morado en foco */
+.campo textarea {
+  resize: vertical;
+}
+
 .campo input:focus,
 .campo select:focus,
 .campo textarea:focus {
   border-color: #6c5ce7;
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.08);
 }
 
-/* Botones de acción del formulario */
+.campo input:disabled,
+.campo select:disabled,
+.campo textarea:disabled {
+  background: #f8f9fa;
+  border-color: #e5e7eb;
+  color: #555;
+  cursor: default;
+  opacity: 1;
+}
+
+
+/* ACCIONES MODAL */
 .acciones {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 10px;
   margin-top: 25px;
 }
 
 .btn-cancelar {
   background: white;
+  color: #555;
   border: 1px solid #ccc;
   padding: 10px 18px;
   border-radius: 6px;
   cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-cancelar:hover {
+  background: #f8f8f8;
 }
 
 .btn-guardar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
   background: #6c5ce7;
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 6px;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .btn-guardar:hover {
   background: #5b4cc4;
 }
 
-/* Ajuste responsive para formularios */
-@media (max-width: 650px) {
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
 
-  .campo-completo {
-    grid-column: auto;
-  }
-}
-
-/* ==========================================
-   TABLA DE PACIENTES
-   ========================================== */
-
-/* Contenedor tipo tarjeta */
+/* TABLA DE PACIENTES */
 .tabla-contenedor {
-  margin-top: 30px;
+  margin-top: 20px;
   background: white;
-  border-radius: 12px;
   border: 1px solid #e5e7eb;
+  border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
   overflow: hidden;
 }
 
-/* Encabezado de la tarjeta */
 .tabla-header {
-  padding: 20px 24px;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 24px;
   border-bottom: 1px solid #e5e7eb;
+  box-sizing: border-box;
 }
 
 .tabla-header h2 {
   margin: 0;
-  font-size: 20px;
-  color: #333;
+  color: #222;
+  font-size: 22px;
+  font-weight: 600;
 }
 
 .tabla-header p {
   margin: 5px 0 0;
-  font-size: 13px;
   color: #888;
+  font-size: 13px;
 }
 
-/* Contenedor con scroll horizontal para pantallas pequeñas */
 .tabla-responsive {
   width: 100%;
   overflow-x: auto;
 }
 
-/* Elemento tabla */
 .tabla-pacientes {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
 }
 
-/* Fila de cabecera de la tabla */
 .tabla-pacientes thead {
   background: #6c5ce7;
 }
@@ -243,7 +274,6 @@
   white-space: nowrap;
 }
 
-/* Celdas de datos */
 .tabla-pacientes td {
   padding: 14px 16px;
   border-bottom: 1px solid #eeeeee;
@@ -251,7 +281,6 @@
   vertical-align: middle;
 }
 
-/* Filas y efecto hover con tinte morado muy suave */
 .tabla-pacientes tbody tr {
   transition: background 0.2s ease;
 }
@@ -264,13 +293,11 @@
   border-bottom: none;
 }
 
-/* Columna de ID */
 .id-paciente {
   color: #6c5ce7;
   font-weight: 600;
 }
 
-/* Celda con nombre y avatar */
 .paciente-info {
   display: flex;
   align-items: center;
@@ -282,40 +309,108 @@
   white-space: nowrap;
 }
 
-.avatar {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ede9fe; /* Tinte lila claro */
-  color: #6c5ce7;
-  font-weight: bold;
-  font-size: 15px;
-  border-radius: 50%;
-}
-
-/* Etiqueta / badge de sexo */
 .sexo {
   display: inline-block;
   padding: 5px 10px;
-  background: #ede9fe; /* Tinte lila claro */
+  background: #ede9fe;
   color: #5b4cc4;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 500;
 }
 
-/* Estado sin registros */
+
+/* ACCIONES DE LA TABLA */
+.columna-acciones {
+  text-align: center !important;
+}
+
+.acciones-tabla {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.btn-accion {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.btn-accion:active {
+  transform: scale(0.94);
+}
+
+.btn-ver {
+  color: #6c5ce7;
+}
+
+.btn-ver:hover {
+  background: #eeeaff;
+  border-color: #ddd6fe;
+}
+
+.btn-editar {
+  color: #d97706;
+}
+
+.btn-editar:hover {
+  background: #fff7ed;
+  border-color: #fed7aa;
+}
+
+.btn-eliminar {
+  color: #dc2626;
+}
+
+.btn-eliminar:hover {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
 .sin-datos {
   text-align: center;
   padding: 35px !important;
   color: #999 !important;
 }
 
-/* Ajuste responsive de la tabla */
+
+/* DISEÑO RESPONSIVE */
+@media (max-width: 650px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .campo-completo {
+    grid-column: auto;
+  }
+  .modal-paciente {
+    padding: 22px 20px;
+  }
+}
+
+@media (max-width: 700px) {
+  .tabla-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .btn-nuevo {
+    width: 100%;
+  }
+}
+
 @media (max-width: 900px) {
   .tabla-pacientes {
-    min-width: 1000px;
+    min-width: 1100px;
   }
 }

@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 import { MainLayout } from './layout/main-layout/main-layout';
 
+import { Inicio } from './inicio/inicio';
 import { Pacientes } from './pacientes/pacientes';
 import { Consultorios } from './consultorios/consultorios';
 import { HorarioMedico } from './horario-medico/horario-medico';
@@ -13,6 +14,11 @@ export const routes: Routes = [
     component: MainLayout,
 
     children: [
+
+      {
+        path: 'inicio',
+        component: Inicio
+      },
 
       {
         path: 'pacientes',
@@ -31,7 +37,7 @@ export const routes: Routes = [
 
       {
         path: '',
-        redirectTo: 'pacientes',
+        redirectTo: 'inicio',
         pathMatch: 'full'
       }
 

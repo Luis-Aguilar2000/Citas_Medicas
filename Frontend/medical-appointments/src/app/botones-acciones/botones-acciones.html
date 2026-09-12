@@ -1,0 +1,53 @@
+<div class="acciones-tabla">
+
+  <!-- =========================================
+       VER
+  ========================================= -->
+
+  <button
+    *ngIf="mostrarVer"
+    type="button"
+    class="btn-accion btn-ver"
+    title="Ver"
+    aria-label="Ver"
+    (click)="onVer()">
+
+    <i class="bi bi-eye"></i>
+
+  </button>
+
+
+  <!-- =========================================
+       EDITAR
+  ========================================= -->
+
+  <button
+    *ngIf="mostrarEditar"
+    type="button"
+    class="btn-accion btn-editar"
+    title="Editar"
+    aria-label="Editar"
+    (click)="onEditar()">
+
+    <i class="bi bi-pencil"></i>
+
+  </button>
+
+
+  <!-- =========================================
+       ELIMINAR
+  ========================================= -->
+
+  <button
+    *ngIf="mostrarEliminar"
+    type="button"
+    class="btn-accion btn-eliminar"
+    title="Eliminar"
+    aria-label="Eliminar"
+    (click)="onEliminar()">
+
+    <i class="bi bi-trash"></i>
+
+  </button>
+
+</div>

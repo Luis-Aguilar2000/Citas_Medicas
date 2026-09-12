@@ -1,0 +1,317 @@
+/* =========================================
+   INICIO
+========================================= */
+
+.inicio {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   BIENVENIDA
+========================================= */
+
+.bienvenida {
+  padding: 30px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.bienvenida-contenido {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icono-bienvenida {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  background: #ede9fe;
+  color: #6c5ce7;
+
+  border-radius: 14px;
+
+  font-size: 27px;
+}
+
+.bienvenida h1 {
+  margin: 0 0 7px;
+
+  color: #222;
+
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.bienvenida p {
+  margin: 0;
+
+  color: #777;
+
+  font-size: 14px;
+}
+
+
+/* =========================================
+   SECCIONES
+========================================= */
+
+.seccion {
+  margin-top: 28px;
+}
+
+.titulo-seccion {
+  margin-bottom: 14px;
+}
+
+.titulo-seccion h2 {
+  margin: 0;
+
+  color: #333;
+
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.titulo-seccion p {
+  margin: 5px 0 0;
+
+  color: #888;
+
+  font-size: 13px;
+}
+
+
+/* =========================================
+   TARJETAS
+========================================= */
+
+.tarjetas {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 18px;
+}
+
+.tarjeta {
+  position: relative;
+
+  min-height: 105px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 20px;
+
+  box-sizing: border-box;
+
+  background: white;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+
+  box-shadow:
+    0 3px 12px rgba(0, 0, 0, 0.04);
+
+  color: inherit;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.tarjeta:hover {
+  transform: translateY(-2px);
+
+  border-color: #d8d1ff;
+
+  box-shadow:
+    0 7px 20px rgba(0, 0, 0, 0.07);
+}
+
+.tarjeta-icono {
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  background: #ede9fe;
+  color: #6c5ce7;
+
+  border-radius: 10px;
+
+  font-size: 20px;
+}
+
+.tarjeta h3 {
+  margin: 0 0 5px;
+
+  color: #333;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.tarjeta p {
+  margin: 0;
+
+  padding-right: 20px;
+
+  color: #888;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.flecha {
+  position: absolute;
+
+  right: 18px;
+
+  color: #aaa;
+
+  font-size: 13px;
+}
+
+
+/* =========================================
+   ACCIONES RÁPIDAS
+========================================= */
+
+.acciones-rapidas {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 15px;
+}
+
+.accion-rapida {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 16px 18px;
+
+  background: white;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 9px;
+
+  color: inherit;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.accion-rapida:hover {
+  background: #faf9ff;
+  border-color: #d8d1ff;
+}
+
+.accion-icono {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  background: #f2f0ff;
+  color: #6c5ce7;
+
+  border-radius: 8px;
+
+  font-size: 16px;
+}
+
+.accion-rapida div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.accion-rapida strong {
+  color: #444;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.accion-rapida span:not(.accion-icono) {
+  color: #999;
+
+  font-size: 11px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+
+  .tarjetas {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .acciones-rapidas {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .bienvenida {
+    padding: 22px;
+  }
+
+  .bienvenida-contenido {
+    align-items: flex-start;
+  }
+
+  .bienvenida h1 {
+    font-size: 21px;
+  }
+
+  .tarjetas,
+  .acciones-rapidas {
+    grid-template-columns: 1fr;
+  }
+
+}
