@@ -1,11 +1,6 @@
 ﻿using Generics.Interfaces;
 using Domain.Models;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.feature.Consultorios.Commands
 {
@@ -14,10 +9,12 @@ namespace Core.feature.Consultorios.Commands
         public int IdConsultorio { get; set; }
     }
 
+
     public class DeleteConsultorioCommandHandler
-       : IRequestHandler<DeleteConsultorioCommand, bool>
+        : IRequestHandler<DeleteConsultorioCommand, bool>
     {
         private readonly IGenericRepository<Consultorio> _repository;
+
 
         public DeleteConsultorioCommandHandler(
             IGenericRepository<Consultorio> repository)
@@ -25,19 +22,27 @@ namespace Core.feature.Consultorios.Commands
             _repository = repository;
         }
 
+
         public async Task<bool> Handle(
             DeleteConsultorioCommand request,
             CancellationToken cancellationToken)
         {
-            var consultorio = await _repository.GetByIdAsync(
-                request.IdConsultorio);
+            var consultorio =
+                await _repository.GetByIdAsync(
+                    request.IdConsultorio
+                );
 
-            if (consultorio == null) { 
-            
+
+            if (consultorio == null)
+            {
                 return false;
             }
 
-            await _repository.AddAsync(consultorio);
+
+            await _repository.DeleteAsync(
+                consultorio
+            );
+
 
             return true;
         }

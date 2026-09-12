@@ -16,19 +16,26 @@ namespace Core.feature.Consultorios.Commands
 
         public string? Ubicacion { get; set; }
 
+        public string? Descripcion { get; set; }
+
         public bool Estado { get; set; }
+
+        public DateTime FechaRegistro { get; set; }
     }
+
 
     public class AddConsultorioCommandHandler
         : IRequestHandler<AddConsultorioCommand, bool>
     {
         private readonly IGenericRepository<Consultorio> _repository;
 
+
         public AddConsultorioCommandHandler(
             IGenericRepository<Consultorio> repository)
         {
             _repository = repository;
         }
+
 
         public async Task<bool> Handle(
             AddConsultorioCommand request,
@@ -37,14 +44,34 @@ namespace Core.feature.Consultorios.Commands
             var consultorio = new Consultorio
             {
                 IdConsultorio = request.IdConsultorio,
-                Nombre = request.Nombre ?? string.Empty,
-                NumeroConsultorio = request.NumeroConsultorio,
-                Piso = request.Piso,
-                Ubicacion = request.Ubicacion,
-                Estado = request.Estado
+
+                Nombre =
+                    request.Nombre ?? string.Empty,
+
+                NumeroConsultorio =
+                    request.NumeroConsultorio,
+
+                Piso =
+                    request.Piso,
+
+                Ubicacion =
+                    request.Ubicacion,
+
+                Descripcion =
+                    request.Descripcion,
+
+                Estado =
+                    request.Estado,
+
+                FechaRegistro =
+                    request.FechaRegistro
             };
 
-            await _repository.AddAsync(consultorio);
+
+            await _repository.AddAsync(
+                consultorio
+            );
+
 
             return true;
         }

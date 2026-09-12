@@ -18,11 +18,82 @@ export interface Consultorio {
 })
 export class ConsultoriosService {
 
-  private apiUrl = 'https://localhost:7250/Consultorios';
+  private apiUrl =
+    'https://localhost:7250/Consultorios';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient
+  ) {}
 
-  getConsultorios(): Observable<Consultorio[]> {
-    return this.http.get<Consultorio[]>(this.apiUrl);
+
+  // =========================================
+  // OBTENER TODOS
+  // =========================================
+
+  getConsultorios():
+    Observable<Consultorio[]> {
+
+    return this.http.get<Consultorio[]>(
+      this.apiUrl
+    );
   }
+
+
+  // =========================================
+  // OBTENER POR ID
+  // =========================================
+
+  getConsultorioById(
+    idConsultorio: number
+  ): Observable<Consultorio> {
+
+    return this.http.get<Consultorio>(
+      `${this.apiUrl}/${idConsultorio}`
+    );
+  }
+
+
+  // =========================================
+  // AGREGAR
+  // =========================================
+
+  addConsultorio(
+    consultorio: Consultorio
+  ): Observable<boolean> {
+
+    return this.http.post<boolean>(
+      this.apiUrl,
+      consultorio
+    );
+  }
+
+
+  // =========================================
+  // ACTUALIZAR
+  // =========================================
+
+  updateConsultorio(
+    consultorio: Consultorio
+  ): Observable<boolean> {
+
+    return this.http.put<boolean>(
+      `${this.apiUrl}/${consultorio.idConsultorio}`,
+      consultorio
+    );
+  }
+
+
+  // =========================================
+  // ELIMINAR
+  // =========================================
+
+  deleteConsultorio(
+    idConsultorio: number
+  ): Observable<boolean> {
+
+    return this.http.delete<boolean>(
+      `${this.apiUrl}/${idConsultorio}`
+    );
+  }
+
 }
