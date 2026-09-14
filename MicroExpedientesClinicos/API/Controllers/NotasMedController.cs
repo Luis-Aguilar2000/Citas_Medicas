@@ -6,7 +6,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AntecedentesFamiliaresController : ControllerBase
+    public class NotasMedController : ControllerBase
     {
 
         private readonly IMediator _mediator;
@@ -14,20 +14,20 @@ namespace API.Controllers
 
 
         [HttpGet]
-        public async Task<List<AntecedentesFamiliares>> Get(
+        public async Task<List<NotasMedicas>> Get(
             [FromQuery] int totalRegistros = 0)
         {
-            return await _mediator.Send(new GetAntecFamiliaresQuery
+            return await _mediator.Send(new GetNotasMedQuery
             {
                 TotalRegistros = totalRegistros
             });
         }
 
         [HttpGet("{id}")]
-        public async Task<AntecedentesFamiliares> GetById(int id)
+        public async Task<NotasMedicas> GetById(int id)
         {
             return await _mediator.Send(
-                new GetAntecFamiliaresByIdQuery
+                new GetNotasMedByIdQuery
                 {
                     IdPaciente = id
                 });
@@ -35,7 +35,7 @@ namespace API.Controllers
 
         [HttpPost]
         public async Task<bool> Post(
-            [FromBody] AddAntecFamiliaresCommand command)
+            [FromBody] AddNotasMedCommand command)
         {
             return await _mediator.Send(command);
         }

@@ -1,3 +1,5 @@
+using Core.feature.Alergia.Commands;
+using Core.feature.Alergia.Queries;
 using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +19,7 @@ namespace API.Controllers
         public async Task<List<Alergias>> Get(
             [FromQuery] int totalRegistros = 0)
         {
-            return await _mediator.Send(new GetPacienteQuery
+            return await _mediator.Send(new GetAlergiasQuery
             {
                 TotalRegistros = totalRegistros
             });
@@ -27,15 +29,15 @@ namespace API.Controllers
         public async Task<Alergias> GetById(int id)
         {
             return await _mediator.Send(
-                new GetPacienteByIdQuery
+                new GetAlergiasByIdQuery
                 {
-                    IdPaciente = id
+                    AlergiaId = id
                 });
         }
 
         [HttpPost]
         public async Task<bool> Post(
-            [FromBody] AddPacienteCommand command)
+            [FromBody] AddAlergiasCommand command)
         {
             return await _mediator.Send(command);
         }
