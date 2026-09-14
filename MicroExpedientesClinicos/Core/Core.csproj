@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="feature\Alergia\Commands\" />
+    <Folder Include="feature\Alergia\Queries\" />
+    <Folder Include="feature\AntecedenteFamiliares\Commands\" />
+    <Folder Include="feature\AntecedenteFamiliares\Queries\" />
+    <Folder Include="feature\AntecedenteMedicos\Commands\" />
+    <Folder Include="feature\AntecedenteMedicos\Queries\" />
+    <Folder Include="feature\AtencionDiagnosticos\Commands\" />
+    <Folder Include="feature\AtencionDiagnosticos\Queries\" />
+    <Folder Include="feature\AtencionSintomas\Commands\" />
+    <Folder Include="feature\AtencionSintomas\Queries\" />
+    <Folder Include="feature\Atencion\Commands\" />
+    <Folder Include="feature\Atencion\Queries\" />
+    <Folder Include="feature\Diagnostico\Commands\" />
+    <Folder Include="feature\Diagnostico\Queries\" />
+    <Folder Include="feature\ExpedienteClinico\Commands\" />
+    <Folder Include="feature\ExpedienteClinico\Queries\" />
+    <Folder Include="feature\Habitoss\Commands\" />
+    <Folder Include="feature\Habitoss\Queries\" />
+    <Folder Include="feature\NotasMedica\Commands\" />
+    <Folder Include="feature\NotasMedica\Queries\" />
+    <Folder Include="feature\SignoVitales\Commands\" />
+    <Folder Include="feature\SignoVitales\Queries\" />
+    <Folder Include="feature\Sintomass\Commands\" />
+    <Folder Include="feature\Sintomass\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="14.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -18,6 +18,22 @@
   <Folder Name="/MicroBase/E.API/">
     <Project Path="src/API/API.csproj" Id="b8884d26-c06e-4000-9e01-f9e1c1880f57" />
   </Folder>
+  <Folder Name="/MicroExpedientesClinicos/" />
+  <Folder Name="/MicroExpedientesClinicos/A.Domain/">
+    <Project Path="MicroExpedientesClinicos/Domain/Domain.csproj" Id="13577adc-1430-4c12-b9ce-73e7975150af" />
+  </Folder>
+  <Folder Name="/MicroExpedientesClinicos/B.Core/">
+    <Project Path="MicroExpedientesClinicos/Core/Core.csproj" Id="68557524-ff7b-4a63-bc2a-bd489b997582" />
+  </Folder>
+  <Folder Name="/MicroExpedientesClinicos/C.Persistence/">
+    <Project Path="MicroExpedientesClinicos/Persistence/Persistence.csproj" Id="ae1fc1e8-6032-4fd7-8186-6ca1292d9396" />
+  </Folder>
+  <Folder Name="/MicroExpedientesClinicos/D.Infraestructura/">
+    <Project Path="MicroExpedientesClinicos/Infraestructura/Infraestructura.csproj" Id="d6a5c477-abaf-4881-b653-f7dc9407f350" />
+  </Folder>
+  <Folder Name="/MicroExpedientesClinicos/E.API/">
+    <Project Path="MicroExpedientesClinicos/API/API.csproj" Id="4aa436e2-d916-434c-8e25-42a1fefeacee" />
+  </Folder>
   <Folder Name="/MicroIdentidadUsuarios/" />
   <Folder Name="/MicroIdentidadUsuarios/A.Domain/">
     <Project Path="MicroIIdentidadUsuarios/Domain/Domain.csproj" Id="a41d1243-4f5f-4751-b85d-2710e103211b" />
