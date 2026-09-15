@@ -1,5 +1,4 @@
-﻿using Core.feature.Consultorios.Queries;
-using Core.feature.HorarioMedico.Commands;
+﻿using Core.feature.HorarioMedico.Commands;
 using Core.feature.HorarioMedico.Queries;
 using Domain.Models;
 using MediatR;
@@ -19,6 +18,11 @@ namespace API.Controllers
             _mediator = mediator;
         }
 
+
+        // =========================================
+        // GET - LISTAR HORARIOS
+        // =========================================
+
         [HttpGet]
         public async Task<List<HorariosMedico>> Get(
             [FromQuery] int totalRegistros = 0)
@@ -27,24 +31,96 @@ namespace API.Controllers
                 new GetHorarioMedicoQuery
                 {
                     TotalRegistros = totalRegistros
-                });
+                }
+            );
         }
+
+
+        // =========================================
+        // GET - HORARIO POR ID
+        // =========================================
 
         [HttpGet("{id}")]
-        public async Task<HorariosMedico?> GetById(int id)
+        public async Task<ActionResult<HorariosMedico>> GetById(
+            int id)
         {
-            return await _mediator.Send(
-                new GetHorarioMedicoByIdQuery
-                {
-                    IdHorario = id
-                });
+            var horario =
+                await _mediator.Send(
+                    new GetHorarioMedicoByIdQuery
+                    {
+                        IdHorario = id
+                    }
+                );
+
+            if (horario == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(horario);
         }
 
+
+        // =========================================
+        // POST - CREAR HORARIO
+        // =========================================
+
         [HttpPost]
-        public async Task<bool> Post(
+        public async Task<ActionResult<bool>> Post(
             [FromBody] AddHorarioMedicoCommand command)
         {
-            return await _mediator.Send(command);
+            var resultado =
+                await _mediator.Send(command);
+
+            return Ok(resultado);
+        }
+
+
+        // =========================================
+        // PUT - ACTUALIZAR HORARIO
+        // =========================================
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<bool>> Put(
+            int id,
+            [FromBody] UpdateHorarioMedicoCommand command)
+        {
+            command.IdHorario = id;
+
+            var resultado =
+                await _mediator.Send(command);
+
+            if (!resultado)
+            {
+                return NotFound();
+            }
+
+            return Ok(true);
+        }
+
+
+        // =========================================
+        // DELETE - ELIMINAR HORARIO
+        // =========================================
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<bool>> Delete(
+            int id)
+        {
+            var resultado =
+                await _mediator.Send(
+                    new DeleteHorarioMedicoCommand
+                    {
+                        IdHorario = id
+                    }
+                );
+
+            if (!resultado)
+            {
+                return NotFound();
+            }
+
+            return Ok(true);
         }
     }
 }

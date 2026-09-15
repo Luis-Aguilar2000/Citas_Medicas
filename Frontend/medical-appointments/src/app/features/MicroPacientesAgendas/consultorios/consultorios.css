@@ -1,32 +1,19 @@
-/* =========================================
-   BOTÓN NUEVO CONSULTORIO
-========================================= */
-
+/* BOTÓN NUEVO CONSULTORIO */
 .btn-nuevo {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 7px;
-
   background: #6c5ce7;
   color: white;
-
   border: none;
-
   padding: 10px 18px;
-
   border-radius: 7px;
-
   cursor: pointer;
-
   font-size: 14px;
   font-weight: 500;
-
   white-space: nowrap;
-
-  transition:
-    background 0.2s ease,
-    transform 0.15s ease;
+  transition: background 0.2s ease, transform 0.15s ease;
 }
 
 .btn-nuevo i {
@@ -41,61 +28,32 @@
   transform: scale(0.98);
 }
 
-
-/* =========================================
-   OVERLAY
-========================================= */
-
+/* OVERLAY */
 .overlay {
   position: fixed;
-
   inset: 0;
-
-  background:
-    rgba(0, 0, 0, 0.55);
-
+  background: rgba(0, 0, 0, 0.55);
   display: flex;
-
   justify-content: center;
   align-items: center;
-
   z-index: 1000;
 }
 
-
-/* =========================================
-   MODAL
-========================================= */
-
+/* MODAL */
 .modal-consultorio {
   width: 580px;
-
   max-width: 90%;
   max-height: 90vh;
-
   overflow-y: auto;
-
   background: white;
-
   border-radius: 14px;
-
   padding: 26px 30px;
-
   box-sizing: border-box;
-
-  box-shadow:
-    0 15px 45px
-    rgba(0, 0, 0, 0.3);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
 }
-
-
-/* =========================================
-   HEADER MODAL
-========================================= */
 
 .modal-header {
   display: flex;
-
   justify-content: space-between;
   align-items: center;
 }
@@ -105,49 +63,25 @@
   align-items: center;
 }
 
-
-/* =========================================
-   MINI LOGO
-========================================= */
-
 .mini-logo {
   width: 28px;
   height: 28px;
-
   display: inline-flex;
-
   justify-content: center;
   align-items: center;
-
   margin-right: 8px;
-
   background: #6c5ce7;
   color: white;
-
   border-radius: 7px;
 }
 
-
-/* =========================================
-   CERRAR MODAL
-========================================= */
-
 .btn-cerrar {
   border: none;
-
   background: transparent;
-
   color: #777;
-
   font-size: 25px;
-
   cursor: pointer;
 }
-
-
-/* =========================================
-   TÍTULO MODAL
-========================================= */
 
 .modal-consultorio h2 {
   margin-top: 24px;
@@ -156,29 +90,19 @@
 
 .subtitulo {
   margin-top: 0;
-
   color: #888;
-
   font-size: 13px;
 }
 
-
-/* =========================================
-   FORMULARIO
-========================================= */
-
+/* FORMULARIO */
 .form-grid {
   display: grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
+  grid-template-columns: 1fr 1fr;
   gap: 18px;
 }
 
 .campo {
   display: flex;
-
   flex-direction: column;
 }
 
@@ -188,9 +112,7 @@
 
 .campo label {
   margin-bottom: 6px;
-
   color: #555;
-
   font-size: 13px;
 }
 
@@ -198,16 +120,10 @@
 .campo select,
 .campo textarea {
   padding: 11px 12px;
-
-  border:
-    1px solid #d0d0d0;
-
+  border: 1px solid #d0d0d0;
   border-radius: 6px;
-
   font-size: 14px;
-
   outline: none;
-
   box-sizing: border-box;
 }
 
@@ -221,65 +137,38 @@
   border-color: #6c5ce7;
 }
 
-
-/* =========================================
-   CAMPOS BLOQUEADOS
-========================================= */
-
 .campo input:disabled,
 .campo select:disabled,
 .campo textarea:disabled {
   background: #f8f8f8;
-
   color: #555;
-
   cursor: default;
 }
 
-
-/* =========================================
-   BOTONES MODAL
-========================================= */
-
 .acciones {
   display: flex;
-
   justify-content: flex-end;
-
   gap: 10px;
-
   margin-top: 25px;
 }
 
 .btn-cancelar {
   background: white;
-
   border: 1px solid #ccc;
-
   padding: 10px 18px;
-
   border-radius: 6px;
-
   cursor: pointer;
 }
 
 .btn-guardar {
   display: inline-flex;
-
   align-items: center;
-
   gap: 6px;
-
   background: #6c5ce7;
-
   color: white;
-
   border: none;
-
   padding: 10px 20px;
-
   border-radius: 6px;
-
   cursor: pointer;
 }
 
@@ -287,98 +176,50 @@
   background: #5b4cc4;
 }
 
-
-/* =========================================
-   CONTENEDOR TABLA
-========================================= */
-
+/* TABLA Y CONTENEDOR */
 .tabla-contenedor {
   margin-top: 20px;
-
   background: white;
-
-  border:
-    1px solid #e5e7eb;
-
+  border: 1px solid #e5e7eb;
   border-radius: 12px;
-
-  box-shadow:
-    0 4px 15px
-    rgba(0, 0, 0, 0.06);
-
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
   overflow: hidden;
 }
 
-
-/* =========================================
-   HEADER TABLA
-========================================= */
-
 .tabla-header {
   min-height: 72px;
-
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
-
   gap: 20px;
-
   padding: 18px 24px;
-
-  border-bottom:
-    1px solid #e5e7eb;
-
+  border-bottom: 1px solid #e5e7eb;
   box-sizing: border-box;
 }
 
 .tabla-header h2 {
   margin: 0;
-
   color: #222;
-
   font-size: 22px;
-
   font-weight: 600;
 }
 
 .tabla-header p {
   margin: 5px 0 0;
-
   color: #888;
-
   font-size: 13px;
 }
 
-
-/* =========================================
-   RESPONSIVE TABLA
-========================================= */
-
 .tabla-responsive {
   width: 100%;
-
   overflow-x: auto;
 }
 
-
-/* =========================================
-   TABLA
-========================================= */
-
 .tabla-consultorios {
   width: 100%;
-
   border-collapse: collapse;
-
   font-size: 14px;
 }
-
-
-/* =========================================
-   ENCABEZADO
-========================================= */
 
 .tabla-consultorios thead {
   background: #6c5ce7;
@@ -386,192 +227,106 @@
 
 .tabla-consultorios th {
   padding: 14px 16px;
-
   text-align: left;
-
   color: white;
-
   font-size: 12px;
-
   font-weight: 600;
-
   text-transform: uppercase;
-
   letter-spacing: 0.4px;
-
   white-space: nowrap;
 }
 
-
-/* =========================================
-   CELDAS
-========================================= */
-
 .tabla-consultorios td {
   padding: 14px 16px;
-
-  border-bottom:
-    1px solid #eeeeee;
-
+  border-bottom: 1px solid #eeeeee;
   color: #555;
-
   vertical-align: middle;
 }
 
-
-/* =========================================
-   FILAS
-========================================= */
-
 .tabla-consultorios tbody tr {
-  transition:
-    background 0.2s ease;
+  transition: background 0.2s ease;
 }
 
 .tabla-consultorios tbody tr:hover {
   background: #f8f7fd;
 }
 
-.tabla-consultorios
-tbody
-tr:last-child td {
+.tabla-consultorios tbody tr:last-child td {
   border-bottom: none;
 }
 
-
-/* =========================================
-   ID
-========================================= */
-
 .id-consultorio {
   color: #6c5ce7;
-
   font-weight: 600;
 }
 
-
-/* =========================================
-   INFORMACIÓN CONSULTORIO
-========================================= */
-
 .consultorio-info {
   display: flex;
-
   align-items: center;
-
   gap: 10px;
 }
 
 .consultorio-info strong {
   color: #333;
-
   white-space: nowrap;
 }
 
-
-/* =========================================
-   ESTADO
-========================================= */
-
+/* ESTADOS Y ACCIONES */
 .estado {
   display: inline-block;
-
   padding: 5px 10px;
-
   border-radius: 20px;
-
   font-size: 12px;
-
   font-weight: 500;
-
   white-space: nowrap;
 }
 
 .estado-activo {
   background: #dcfce7;
-
   color: #15803d;
 }
 
 .estado-inactivo {
   background: #fee2e2;
-
   color: #b91c1c;
 }
 
-
-/* =========================================
-   ACCIONES
-========================================= */
-
 .columna-acciones {
   text-align: center !important;
-
   white-space: nowrap;
 }
 
-
-/* =========================================
-   SIN DATOS
-========================================= */
-
 .sin-datos {
   text-align: center;
-
   padding: 35px !important;
-
   color: #999 !important;
 }
 
-
-/* =========================================
-   RESPONSIVE FORMULARIO
-========================================= */
-
+/* RESPONSIVE */
 @media (max-width: 650px) {
-
   .form-grid {
     grid-template-columns: 1fr;
   }
-
   .campo-completo {
     grid-column: auto;
   }
-
   .modal-consultorio {
     padding: 22px 20px;
   }
-
 }
 
-
-/* =========================================
-   RESPONSIVE HEADER
-========================================= */
-
 @media (max-width: 700px) {
-
   .tabla-header {
     align-items: flex-start;
-
     flex-direction: column;
   }
-
   .btn-nuevo {
     width: 100%;
   }
-
 }
 
-
-/* =========================================
-   RESPONSIVE TABLA
-========================================= */
-
 @media (max-width: 1000px) {
-
   .tabla-consultorios {
     min-width: 1150px;
   }
-
 }

@@ -3,9 +3,9 @@ import { Routes } from '@angular/router';
 import { MainLayout } from './layout/main-layout/main-layout';
 
 import { Inicio } from './inicio/inicio';
-import { Pacientes } from './pacientes/pacientes';
-import { Consultorios } from './consultorios/consultorios';
-import { HorarioMedico } from './horario-medico/horario-medico';
+import { Pacientes } from './features/MicroPacientesAgendas/pacientes/pacientes';
+import { Consultorios } from './features/MicroPacientesAgendas/consultorios/consultorios';
+import { HorarioMedico } from './features/MicroPacientesAgendas/horario-medico/horario-medico';
 
 export const routes: Routes = [
 

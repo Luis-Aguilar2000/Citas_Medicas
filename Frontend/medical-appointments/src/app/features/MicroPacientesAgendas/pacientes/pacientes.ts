@@ -1,8 +1,8 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PacientesService, Paciente } from '../services/pacientes';
-import { BotonesAcciones } from '../botones-acciones/botones-acciones';
+import { PacientesService, Paciente } from '../../../core/services/pacientes';
+import { BotonesAcciones } from '../../../shared/components/botones-acciones/botones-acciones';
 
 @Component({
   selector: 'app-pacientes',
@@ -12,8 +12,7 @@ import { BotonesAcciones } from '../botones-acciones/botones-acciones';
   styleUrl: './pacientes.css'
 })
 export class Pacientes implements OnInit {
-  
-  // ESTADOS Y DATOS
+
   pacientes = signal<Paciente[]>([]);
   mostrarFormulario = false;
   modoFormulario: 'nuevo' | 'ver' | 'editar' = 'nuevo';
@@ -26,7 +25,6 @@ export class Pacientes implements OnInit {
     this.cargarPacientes();
   }
 
-  // CARGAR LISTADO
   cargarPacientes(): void {
     this.pacientesService.getPacientes().subscribe({
       next: (data) => this.pacientes.set(data),
@@ -34,7 +32,6 @@ export class Pacientes implements OnInit {
     });
   }
 
-  // ACCIONES DEL MODAL
   abrirNuevoPaciente(): void {
     this.modoFormulario = 'nuevo';
     this.pacienteSeleccionado = null;
@@ -56,7 +53,6 @@ export class Pacientes implements OnInit {
     this.mostrarFormulario = true;
   }
 
-  // ELIMINAR
   eliminarPaciente(paciente: Paciente): void {
     const nombreCompleto = `${paciente.nombres} ${paciente.apellidos}`;
     if (!confirm(`¿Desea eliminar al paciente ${nombreCompleto}?`)) return;
@@ -67,7 +63,6 @@ export class Pacientes implements OnInit {
     });
   }
 
-  // GUARDAR (CREAR / EDITAR)
   guardarPaciente(): void {
     if (this.modoFormulario === 'nuevo') {
       this.agregarPaciente();
@@ -96,7 +91,6 @@ export class Pacientes implements OnInit {
     });
   }
 
-  // CERRAR Y LIMPIAR
   cerrarFormulario(): void {
     this.mostrarFormulario = false;
     this.modoFormulario = 'nuevo';
@@ -122,4 +116,5 @@ export class Pacientes implements OnInit {
       fechaRegistro: new Date().toISOString()
     };
   }
+
 }
