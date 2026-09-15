@@ -1,6 +1,7 @@
 ﻿using Core.feature.HorarioMedico.Commands;
 using Core.feature.HorarioMedico.Queries;
 using Domain.Models;
+using Generics.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,19 +21,23 @@ namespace API.Controllers
 
 
         // =========================================
-        // GET - LISTAR HORARIOS
+        // GET - LISTAR HORARIOS PAGINADOS
         // =========================================
 
         [HttpGet]
-        public async Task<List<HorariosMedico>> Get(
-            [FromQuery] int totalRegistros = 0)
+        public async Task<ActionResult<PagedResult<HorariosMedico>>> Get(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
         {
-            return await _mediator.Send(
+            var resultado = await _mediator.Send(
                 new GetHorarioMedicoQuery
                 {
-                    TotalRegistros = totalRegistros
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
                 }
             );
+
+            return Ok(resultado);
         }
 
 
@@ -44,13 +49,12 @@ namespace API.Controllers
         public async Task<ActionResult<HorariosMedico>> GetById(
             int id)
         {
-            var horario =
-                await _mediator.Send(
-                    new GetHorarioMedicoByIdQuery
-                    {
-                        IdHorario = id
-                    }
-                );
+            var horario = await _mediator.Send(
+                new GetHorarioMedicoByIdQuery
+                {
+                    IdHorario = id
+                }
+            );
 
             if (horario == null)
             {
@@ -69,8 +73,7 @@ namespace API.Controllers
         public async Task<ActionResult<bool>> Post(
             [FromBody] AddHorarioMedicoCommand command)
         {
-            var resultado =
-                await _mediator.Send(command);
+            var resultado = await _mediator.Send(command);
 
             return Ok(resultado);
         }
@@ -87,8 +90,7 @@ namespace API.Controllers
         {
             command.IdHorario = id;
 
-            var resultado =
-                await _mediator.Send(command);
+            var resultado = await _mediator.Send(command);
 
             if (!resultado)
             {
@@ -107,13 +109,12 @@ namespace API.Controllers
         public async Task<ActionResult<bool>> Delete(
             int id)
         {
-            var resultado =
-                await _mediator.Send(
-                    new DeleteHorarioMedicoCommand
-                    {
-                        IdHorario = id
-                    }
-                );
+            var resultado = await _mediator.Send(
+                new DeleteHorarioMedicoCommand
+                {
+                    IdHorario = id
+                }
+            );
 
             if (!resultado)
             {

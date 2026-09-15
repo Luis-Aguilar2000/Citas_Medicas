@@ -1,0 +1,800 @@
+<!-- =========================================
+     MODAL CITA
+========================================= -->
+
+<div
+  class="overlay"
+  *ngIf="mostrarFormulario">
+
+  <div class="modal-cita">
+
+
+    <!-- =====================================
+         HEADER MODAL
+    ====================================== -->
+
+    <div class="modal-header">
+
+      <div class="modal-marca">
+
+        <span class="mini-logo">
+          <i class="bi bi-calendar-check"></i>
+        </span>
+
+        <strong>
+          Cita médica
+        </strong>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="btn-cerrar"
+        (click)="cerrarFormulario()">
+
+        <i class="bi bi-x-lg"></i>
+
+      </button>
+
+    </div>
+
+
+    <!-- =====================================
+         TÍTULO
+    ====================================== -->
+
+    <h2
+      *ngIf="modoFormulario === 'nuevo'">
+
+      Registrar nueva cita
+
+    </h2>
+
+
+    <h2
+      *ngIf="modoFormulario === 'ver'">
+
+      Información de la cita
+
+    </h2>
+
+
+    <h2
+      *ngIf="modoFormulario === 'editar'">
+
+      Editar cita
+
+    </h2>
+
+
+    <!-- =====================================
+         SUBTÍTULO
+    ====================================== -->
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'nuevo'">
+
+      Complete la información para programar la cita
+
+    </p>
+
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'ver'">
+
+      Consulte la información registrada
+
+    </p>
+
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'editar'">
+
+      Modifique la información necesaria
+
+    </p>
+
+
+
+    <!-- =====================================
+         FORMULARIO
+    ====================================== -->
+
+    <div class="form-grid">
+
+
+      <!-- PACIENTE -->
+
+      <div class="campo">
+
+        <label>
+          Paciente
+        </label>
+
+        <select
+          [(ngModel)]="nuevaCita.idPaciente"
+          [disabled]="modoFormulario === 'ver'">
+
+          <option [ngValue]="0">
+            Seleccione un paciente
+          </option>
+
+
+          <option
+            *ngFor="let paciente of pacientes()"
+            [ngValue]="paciente.idPaciente">
+
+            {{ paciente.nombres }}
+            {{ paciente.apellidos }}
+
+          </option>
+
+        </select>
+
+      </div>
+
+
+
+      <!-- MÉDICO -->
+
+      <div class="campo">
+
+        <label>
+          Médico
+        </label>
+
+        <input
+          type="number"
+          min="1"
+          placeholder="ID del médico"
+          [(ngModel)]="nuevaCita.idMedico"
+          [disabled]="modoFormulario === 'ver'">
+
+        <small class="campo-ayuda">
+          Temporalmente se utiliza el ID del médico.
+        </small>
+
+      </div>
+
+
+
+      <!-- CONSULTORIO -->
+
+      <div class="campo">
+
+        <label>
+          Consultorio
+        </label>
+
+        <select
+          [(ngModel)]="nuevaCita.idConsultorio"
+          [disabled]="modoFormulario === 'ver'">
+
+          <option [ngValue]="0">
+            Seleccione un consultorio
+          </option>
+
+
+          <option
+            *ngFor="let consultorio of consultorios()"
+            [ngValue]="consultorio.idConsultorio">
+
+            {{ consultorio.nombre }}
+
+          </option>
+
+        </select>
+
+      </div>
+
+
+
+      <!-- ESTADO -->
+
+      <div class="campo">
+
+        <label>
+          Estado
+        </label>
+
+        <select
+          [(ngModel)]="nuevaCita.idEstadoCita"
+          [disabled]="modoFormulario === 'ver'">
+
+          <option [ngValue]="0">
+            Seleccione un estado
+          </option>
+
+
+          <option
+            *ngFor="let estado of estadosCitas()"
+            [ngValue]="estado.idEstadoCita">
+
+            {{ estado.nombreEstado }}
+
+          </option>
+
+        </select>
+
+      </div>
+
+
+
+      <!-- FECHA -->
+
+      <div class="campo">
+
+        <label>
+          Fecha
+        </label>
+
+        <input
+          type="date"
+          [(ngModel)]="nuevaCita.fechaCita"
+          [disabled]="modoFormulario === 'ver'">
+
+      </div>
+
+
+
+      <!-- HORARIO -->
+
+      <div class="campo">
+
+        <label>
+          Horario
+        </label>
+
+
+        <div class="horario-form">
+
+
+          <div>
+
+            <span class="label-hora">
+              Inicio
+            </span>
+
+            <input
+              type="time"
+              [(ngModel)]="nuevaCita.horaInicio"
+              [disabled]="modoFormulario === 'ver'">
+
+          </div>
+
+
+          <div>
+
+            <span class="label-hora">
+              Fin
+            </span>
+
+            <input
+              type="time"
+              [(ngModel)]="nuevaCita.horaFin"
+              [disabled]="modoFormulario === 'ver'">
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+
+
+      <!-- MOTIVO -->
+
+      <div class="campo campo-completo">
+
+        <label>
+          Motivo de consulta
+        </label>
+
+        <textarea
+          rows="3"
+          placeholder="Ingrese el motivo de la consulta"
+          [(ngModel)]="nuevaCita.motivoConsulta"
+          [disabled]="modoFormulario === 'ver'">
+        </textarea>
+
+      </div>
+
+
+
+      <!-- OBSERVACIONES -->
+
+      <div class="campo campo-completo">
+
+        <label>
+          Observaciones
+        </label>
+
+        <textarea
+          rows="3"
+          placeholder="Ingrese observaciones adicionales"
+          [(ngModel)]="nuevaCita.observaciones"
+          [disabled]="modoFormulario === 'ver'">
+        </textarea>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =====================================
+         ACCIONES MODAL
+    ====================================== -->
+
+    <div class="acciones">
+
+
+      <button
+        *ngIf="modoFormulario === 'ver'"
+        type="button"
+        class="btn-cancelar"
+        (click)="cerrarFormulario()">
+
+        Cerrar
+
+      </button>
+
+
+
+      <ng-container
+        *ngIf="modoFormulario !== 'ver'">
+
+
+        <button
+          type="button"
+          class="btn-cancelar"
+          (click)="cerrarFormulario()">
+
+          Cancelar
+
+        </button>
+
+
+        <button
+          type="button"
+          class="btn-guardar"
+          (click)="guardarCita()">
+
+          <i class="bi bi-check-lg"></i>
+
+          {{
+            modoFormulario === 'nuevo'
+              ? 'Guardar'
+              : 'Guardar cambios'
+          }}
+
+        </button>
+
+
+      </ng-container>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =========================================
+     TABLA AGENDA Y CITAS
+========================================= -->
+
+<div class="tabla-contenedor">
+
+
+  <!-- =====================================
+       HEADER
+  ====================================== -->
+
+  <div class="tabla-header">
+
+    <div>
+
+      <h2>
+        Agenda y Citas
+      </h2>
+
+      <p>
+
+        {{ totalRegistros }}
+
+        {{
+          totalRegistros === 1
+            ? 'cita registrada'
+            : 'citas registradas'
+        }}
+
+      </p>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="btn-nuevo"
+      (click)="abrirNuevaCita()">
+
+      <i class="bi bi-plus-lg"></i>
+
+      Nueva cita
+
+    </button>
+
+  </div>
+
+
+
+  <!-- =====================================
+       TABLA
+  ====================================== -->
+
+  <div class="tabla-responsive">
+
+    <table class="tabla-citas">
+
+      <thead>
+
+        <tr>
+
+          <th>
+            ID
+          </th>
+
+          <th>
+            Paciente
+          </th>
+
+          <th>
+            Médico
+          </th>
+
+          <th>
+            Consultorio
+          </th>
+
+          <th>
+            Fecha
+          </th>
+
+          <th>
+            Hora inicio
+          </th>
+
+          <th>
+            Hora fin
+          </th>
+
+          <th>
+            Estado
+          </th>
+
+          <th>
+            Motivo
+          </th>
+
+          <th class="columna-acciones">
+            Acciones
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody>
+
+
+        <tr
+          *ngFor="let cita of citas()">
+
+
+          <!-- ID -->
+
+          <td>
+
+            <span class="id-cita">
+
+              {{ cita.idCita }}
+
+            </span>
+
+          </td>
+
+
+
+          <!-- PACIENTE -->
+
+          <td>
+
+            <strong class="paciente-nombre">
+
+              {{
+                obtenerNombrePaciente(
+                  cita.idPaciente
+                )
+              }}
+
+            </strong>
+
+          </td>
+
+
+
+          <!-- MÉDICO -->
+
+          <td>
+
+            Médico #{{ cita.idMedico }}
+
+          </td>
+
+
+
+          <!-- CONSULTORIO -->
+
+          <td>
+
+            <strong class="consultorio">
+
+              {{
+                obtenerNombreConsultorio(
+                  cita.idConsultorio
+                )
+              }}
+
+            </strong>
+
+          </td>
+
+
+
+          <!-- FECHA -->
+
+          <td>
+
+            {{
+              cita.fechaCita
+                | date:'dd/MM/yyyy'
+            }}
+
+          </td>
+
+
+
+          <!-- HORA INICIO -->
+
+          <td>
+
+            {{
+              formatearHora(
+                cita.horaInicio
+              )
+            }}
+
+          </td>
+
+
+
+          <!-- HORA FIN -->
+
+          <td>
+
+            {{
+              formatearHora(
+                cita.horaFin
+              )
+            }}
+
+          </td>
+
+
+
+          <!-- ESTADO -->
+
+          <td>
+
+            <span class="estado-cita">
+
+              {{
+                obtenerNombreEstado(
+                  cita.idEstadoCita
+                )
+              }}
+
+            </span>
+
+          </td>
+
+
+
+          <!-- MOTIVO -->
+
+          <td>
+
+            <span
+              class="motivo"
+              [title]="cita.motivoConsulta || ''">
+
+              {{
+                cita.motivoConsulta
+                  || 'Sin especificar'
+              }}
+
+            </span>
+
+          </td>
+
+
+
+          <!-- ACCIONES -->
+
+          <td class="columna-acciones">
+
+            <app-botones-acciones
+
+              (ver)="verCita(cita)"
+
+              (editar)="editarCita(cita)"
+
+              (eliminar)="eliminarCita(cita)">
+
+            </app-botones-acciones>
+
+          </td>
+
+        </tr>
+
+
+
+        <!-- SIN DATOS -->
+
+        <tr
+          *ngIf="citas().length === 0">
+
+          <td
+            colspan="10"
+            class="sin-datos">
+
+            No hay citas registradas
+
+          </td>
+
+        </tr>
+
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+
+  <!-- =====================================
+       PAGINACIÓN
+  ====================================== -->
+
+  <div
+    class="paginacion-contenedor"
+    *ngIf="totalRegistros > 0">
+
+
+    <!-- INFORMACIÓN -->
+
+    <div class="paginacion-info">
+
+      Mostrando
+
+      <strong>
+        {{ obtenerRegistroInicial() }}
+      </strong>
+
+      -
+
+      <strong>
+        {{ obtenerRegistroFinal() }}
+      </strong>
+
+      de
+
+      <strong>
+        {{ totalRegistros }}
+      </strong>
+
+      citas
+
+    </div>
+
+
+
+    <!-- TAMAÑO -->
+
+    <div class="paginacion-tamano">
+
+      <label>
+        Mostrar
+      </label>
+
+      <select
+        [(ngModel)]="tamanoPagina"
+        (change)="cambiarTamanoPagina()">
+
+        <option [ngValue]="5">
+          5
+        </option>
+
+        <option [ngValue]="10">
+          10
+        </option>
+
+        <option [ngValue]="20">
+          20
+        </option>
+
+        <option [ngValue]="50">
+          50
+        </option>
+
+      </select>
+
+    </div>
+
+
+
+    <!-- CONTROLES -->
+
+    <div class="paginacion-controles">
+
+
+      <button
+        type="button"
+        class="btn-pagina btn-navegacion"
+        [disabled]="paginaActual === 1"
+        (click)="paginaAnterior()">
+
+        <i class="bi bi-chevron-left"></i>
+
+      </button>
+
+
+
+      <button
+        *ngFor="let pagina of obtenerPaginas()"
+        type="button"
+        class="btn-pagina"
+        [class.activa]="pagina === paginaActual"
+        (click)="cambiarPagina(pagina)">
+
+        {{ pagina }}
+
+      </button>
+
+
+
+      <button
+        type="button"
+        class="btn-pagina btn-navegacion"
+        [disabled]="paginaActual === totalPaginas"
+        (click)="paginaSiguiente()">
+
+        <i class="bi bi-chevron-right"></i>
+
+      </button>
+
+
+    </div>
+
+  </div>
+
+</div>

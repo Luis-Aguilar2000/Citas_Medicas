@@ -1,6 +1,7 @@
 using Core.feature.Turnos.Commands;
 using Core.feature.Turnos.Queries;
 using Domain.Models;
+using Generics.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,31 +18,63 @@ namespace API.Controllers
             _mediator = mediator;
         }
 
+
+        // =========================================
+        // GET - LISTAR TURNOS PAGINADOS
+        // =========================================
+
         [HttpGet]
-        public async Task<List<Turno>> Get(
-            [FromQuery] int totalRegistros = 0)
+        public async Task<ActionResult<PagedResult<Turno>>> Get(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
         {
-            return await _mediator.Send(new GetTurnosQuery
-            {
-                TotalRegistros = totalRegistros
-            });
+            var resultado = await _mediator.Send(
+                new GetTurnosQuery
+                {
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
+                }
+            );
+
+            return Ok(resultado);
         }
 
+
+        // =========================================
+        // GET - TURNO POR ID
+        // =========================================
+
         [HttpGet("{id}")]
-        public async Task<Turno?> GetById(int id)
+        public async Task<ActionResult<Turno>> GetById(
+            int id)
         {
-            return await _mediator.Send(
+            var turno = await _mediator.Send(
                 new GetTurnosByIdQuery
                 {
                     IdTurno = id
-                });
+                }
+            );
+
+            if (turno == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(turno);
         }
 
+
+        // =========================================
+        // POST - CREAR TURNO
+        // =========================================
+
         [HttpPost]
-        public async Task<bool> Post(
+        public async Task<ActionResult<bool>> Post(
             [FromBody] AddTurnosCommand command)
         {
-            return await _mediator.Send(command);
+            var resultado = await _mediator.Send(command);
+
+            return Ok(resultado);
         }
     }
 }

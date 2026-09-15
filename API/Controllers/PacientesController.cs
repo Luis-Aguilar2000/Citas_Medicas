@@ -1,6 +1,7 @@
 using Core.feature.Paciente.Commands;
 using Core.feature.Paciente.Queries;
 using Domain.Models;
+using Generics.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,27 +13,30 @@ namespace API.Controllers
     {
         private readonly IMediator _mediator;
 
-        public PacientesController(
-            IMediator mediator)
+        public PacientesController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
 
         // =========================================
-        // GET - LISTAR PACIENTES
+        // GET - LISTAR PACIENTES PAGINADOS
         // =========================================
 
         [HttpGet]
-        public async Task<List<Pacientes>> Get(
-            [FromQuery] int totalRegistros = 0)
+        public async Task<ActionResult<PagedResult<Pacientes>>> Get(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
         {
-            return await _mediator.Send(
+            var resultado = await _mediator.Send(
                 new GetPacienteQuery
                 {
-                    TotalRegistros = totalRegistros
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
                 }
             );
+
+            return Ok(resultado);
         }
 
 
@@ -106,13 +110,12 @@ namespace API.Controllers
         public async Task<ActionResult<bool>> Delete(
             int id)
         {
-            var resultado =
-                await _mediator.Send(
-                    new DeletePacienteCommand
-                    {
-                        IdPaciente = id
-                    }
-                );
+            var resultado = await _mediator.Send(
+                new DeletePacienteCommand
+                {
+                    IdPaciente = id
+                }
+            );
 
             if (!resultado)
             {

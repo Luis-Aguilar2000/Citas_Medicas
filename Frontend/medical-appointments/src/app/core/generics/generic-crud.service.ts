@@ -1,11 +1,35 @@
 import {
-  HttpClient
+  HttpClient,
+  HttpParams
 } from '@angular/common/http';
 
 import {
   Observable
 } from 'rxjs';
 
+
+/* =========================================
+   RESULTADO PAGINADO
+========================================= */
+
+export interface PagedResult<T> {
+
+  data: T[];
+
+  totalRecords: number;
+
+  pageSize: number;
+
+  currentPage: number;
+
+  totalPages: number;
+
+}
+
+
+/* =========================================
+   SERVICIO CRUD GENÉRICO
+========================================= */
 
 export abstract class GenericCrudService<T> {
 
@@ -31,6 +55,33 @@ export abstract class GenericCrudService<T> {
 
     return this.http.get<T[]>(
       this.apiUrl
+    );
+
+  }
+
+
+  /* =========================================
+     OBTENER PAGINADO
+  ========================================= */
+
+  getPaged(
+    pageNumber: number = 1,
+    pageSize: number = 10
+  ): Observable<PagedResult<T>> {
+
+    const params = new HttpParams()
+      .set(
+        'pageNumber',
+        pageNumber.toString()
+      )
+      .set(
+        'pageSize',
+        pageSize.toString()
+      );
+
+    return this.http.get<PagedResult<T>>(
+      this.apiUrl,
+      { params }
     );
 
   }

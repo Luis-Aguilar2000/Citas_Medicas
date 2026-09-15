@@ -1,6 +1,7 @@
 ﻿using Core.feature.Consultorios.Commands;
 using Core.feature.Consultorios.Queries;
 using Domain.Models;
+using Generics.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,27 +13,30 @@ namespace API.Controllers
     {
         private readonly IMediator _mediator;
 
-        public ConsultoriosController(
-            IMediator mediator)
+        public ConsultoriosController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
 
         // =========================================
-        // GET - LISTAR CONSULTORIOS
+        // GET - LISTAR CONSULTORIOS PAGINADOS
         // =========================================
 
         [HttpGet]
-        public async Task<List<Consultorio>> Get(
-            [FromQuery] int totalRegistros = 0)
+        public async Task<ActionResult<PagedResult<Consultorio>>> Get(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
         {
-            return await _mediator.Send(
+            var resultado = await _mediator.Send(
                 new GetConsultorioQuery
                 {
-                    TotalRegistros = totalRegistros
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
                 }
             );
+
+            return Ok(resultado);
         }
 
 
@@ -44,13 +48,12 @@ namespace API.Controllers
         public async Task<ActionResult<Consultorio>> GetById(
             int id)
         {
-            var consultorio =
-                await _mediator.Send(
-                    new GetConsultorioByIdQuery
-                    {
-                        IdConsultorio = id
-                    }
-                );
+            var consultorio = await _mediator.Send(
+                new GetConsultorioByIdQuery
+                {
+                    IdConsultorio = id
+                }
+            );
 
             if (consultorio == null)
             {
@@ -69,8 +72,7 @@ namespace API.Controllers
         public async Task<ActionResult<bool>> Post(
             [FromBody] AddConsultorioCommand command)
         {
-            var resultado =
-                await _mediator.Send(command);
+            var resultado = await _mediator.Send(command);
 
             return Ok(resultado);
         }
@@ -87,8 +89,7 @@ namespace API.Controllers
         {
             command.IdConsultorio = id;
 
-            var resultado =
-                await _mediator.Send(command);
+            var resultado = await _mediator.Send(command);
 
             if (!resultado)
             {
@@ -107,13 +108,12 @@ namespace API.Controllers
         public async Task<ActionResult<bool>> Delete(
             int id)
         {
-            var resultado =
-                await _mediator.Send(
-                    new DeleteConsultorioCommand
-                    {
-                        IdConsultorio = id
-                    }
-                );
+            var resultado = await _mediator.Send(
+                new DeleteConsultorioCommand
+                {
+                    IdConsultorio = id
+                }
+            );
 
             if (!resultado)
             {

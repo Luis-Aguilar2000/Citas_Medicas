@@ -1,16 +1,19 @@
 ﻿using Generics.Interfaces;
+using Generics.Models;
 using Domain.Models;
 using MediatR;
 
 namespace Core.feature.Consultorios.Queries
 {
-    public class GetConsultorioQuery : IRequest<List<Consultorio>>
+    public class GetConsultorioQuery : IRequest<PagedResult<Consultorio>>
     {
-        public int TotalRegistros { get; set; }
+        public int PageNumber { get; set; } = 1;
+
+        public int PageSize { get; set; } = 10;
     }
 
     public class GetConsultorioQueryHandler
-        : IRequestHandler<GetConsultorioQuery, List<Consultorio>>
+        : IRequestHandler<GetConsultorioQuery, PagedResult<Consultorio>>
     {
         private readonly IGenericRepository<Consultorio> _repository;
 
@@ -20,20 +23,15 @@ namespace Core.feature.Consultorios.Queries
             _repository = repository;
         }
 
-        public async Task<List<Consultorio>> Handle(
+        public async Task<PagedResult<Consultorio>> Handle(
             GetConsultorioQuery request,
             CancellationToken cancellationToken)
         {
-            var consultorios = await _repository.GetAllAsync();
-
-            if (request.TotalRegistros > 0)
-            {
-                return consultorios
-                    .Take(request.TotalRegistros)
-                    .ToList();
-            }
-
-            return consultorios.ToList();
+            return await _repository.GetPagedAsync(
+                pageNumber: request.PageNumber,
+                pageSize: request.PageSize,
+                cancellationToken: cancellationToken
+            );
         }
     }
 }

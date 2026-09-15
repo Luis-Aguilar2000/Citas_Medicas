@@ -9,126 +9,115 @@ import {
 
 
 /* =========================================
-   MODELO HORARIO MÉDICO
+   MODELO CITA
 ========================================= */
 
-export interface HorarioMedico {
-
-  idHorario: number;
-
+export interface Cita {
+  idCita: number;
+  idPaciente: number;
   idMedico: number;
-
   idConsultorio: number;
+  idEstadoCita: number;
 
-  diaSemana: string;
+  fechaCita: string;
 
   horaInicio: string;
-
   horaFin: string;
 
-  estado: boolean;
+  motivoConsulta: string | null;
+  observaciones: string | null;
 
+  fechaRegistro: string;
 }
 
 
 /* =========================================
-   SERVICIO HORARIOS MÉDICOS
+   SERVICIO
 ========================================= */
 
 @Injectable({
   providedIn: 'root'
 })
-export class HorarioMedicoService
-  extends GenericCrudService<HorarioMedico> {
+export class CitasService
+  extends GenericCrudService<Cita> {
 
-
-  constructor(
-    http: HttpClient
-  ) {
-
+  constructor(http: HttpClient) {
     super(
       http,
-      'https://localhost:7250/HorariosMedicos'
+      'https://localhost:7250/Citas'
     );
-
   }
 
 
   /* =========================================
-     OBTENER HORARIOS PAGINADOS
+     LISTAR CITAS PAGINADAS
   ========================================= */
 
-  getHorarios(
+  getCitas(
     pageNumber: number = 1,
     pageSize: number = 10
-  ): Observable<PagedResult<HorarioMedico>> {
+  ): Observable<PagedResult<Cita>> {
 
     return this.getPaged(
       pageNumber,
       pageSize
     );
-
   }
 
 
   /* =========================================
-     OBTENER HORARIO POR ID
+     OBTENER CITA POR ID
   ========================================= */
 
-  getHorarioById(
-    idHorario: number
-  ): Observable<HorarioMedico> {
+  getCitaById(
+    idCita: number
+  ): Observable<Cita> {
 
     return this.getById(
-      idHorario
+      idCita
     );
-
   }
 
 
   /* =========================================
-     AGREGAR HORARIO
+     AGREGAR CITA
   ========================================= */
 
-  addHorario(
-    horario: HorarioMedico
+  addCita(
+    cita: Cita
   ): Observable<boolean> {
 
     return this.add(
-      horario
+      cita
     );
-
   }
 
 
   /* =========================================
-     ACTUALIZAR HORARIO
+     ACTUALIZAR CITA
   ========================================= */
 
-  updateHorario(
-    horario: HorarioMedico
+  updateCita(
+    cita: Cita
   ): Observable<boolean> {
 
     return this.update(
-      horario.idHorario,
-      horario
+      cita.idCita,
+      cita
     );
-
   }
 
 
   /* =========================================
-     ELIMINAR HORARIO
+     ELIMINAR CITA
   ========================================= */
 
-  deleteHorario(
-    idHorario: number
+  deleteCita(
+    idCita: number
   ): Observable<boolean> {
 
     return this.delete(
-      idHorario
+      idCita
     );
-
   }
-
 }

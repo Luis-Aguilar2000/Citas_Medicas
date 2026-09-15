@@ -6,6 +6,7 @@ import { Inicio } from './inicio/inicio';
 import { Pacientes } from './features/MicroPacientesAgendas/pacientes/pacientes';
 import { Consultorios } from './features/MicroPacientesAgendas/consultorios/consultorios';
 import { HorarioMedico } from './features/MicroPacientesAgendas/horario-medico/horario-medico';
+import { AgendaCitas } from './features/MicroPacientesAgendas/agenda-citas/agenda-citas';
 
 export const routes: Routes = [
 
@@ -33,6 +34,10 @@ export const routes: Routes = [
       {
         path: 'horarios-medicos',
         component: HorarioMedico
+      },
+      {
+        path: 'agenda-citas',
+        component: AgendaCitas
       },
 
       {

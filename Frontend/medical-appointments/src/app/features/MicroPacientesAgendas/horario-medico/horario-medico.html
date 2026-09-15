@@ -1,155 +1,607 @@
-<!-- MODAL -->
+<!-- =========================================
+     MODAL HORARIO MÉDICO
+========================================= -->
+
 <div class="overlay" *ngIf="mostrarFormulario">
+
   <div class="modal-horario">
+
     <div class="modal-header">
+
       <div class="modal-marca">
+
         <span class="mini-logo">
           <i class="bi bi-clock"></i>
         </span>
+
         <strong>Horarios Médicos</strong>
+
       </div>
-      <button type="button" class="btn-cerrar" (click)="cerrarFormulario()">
+
+      <button
+        type="button"
+        class="btn-cerrar"
+        (click)="cerrarFormulario()">
+
         <i class="bi bi-x-lg"></i>
+
       </button>
+
     </div>
 
-    <h2 *ngIf="modoFormulario === 'nuevo'">Registrar horario médico</h2>
-    <h2 *ngIf="modoFormulario === 'ver'">Información del horario</h2>
-    <h2 *ngIf="modoFormulario === 'editar'">Editar horario médico</h2>
 
-    <p class="subtitulo" *ngIf="modoFormulario === 'nuevo'">Complete la información del horario médico.</p>
-    <p class="subtitulo" *ngIf="modoFormulario === 'ver'">Consulte la información registrada.</p>
-    <p class="subtitulo" *ngIf="modoFormulario === 'editar'">Modifique la información necesaria.</p>
+    <!-- TÍTULO -->
+
+    <h2 *ngIf="modoFormulario === 'nuevo'">
+      Registrar horario médico
+    </h2>
+
+    <h2 *ngIf="modoFormulario === 'ver'">
+      Información del horario
+    </h2>
+
+    <h2 *ngIf="modoFormulario === 'editar'">
+      Editar horario médico
+    </h2>
+
+
+    <!-- SUBTÍTULO -->
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'nuevo'">
+      Complete la información del horario médico.
+    </p>
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'ver'">
+      Consulte la información registrada.
+    </p>
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'editar'">
+      Modifique la información necesaria.
+    </p>
+
+
+    <!-- =========================================
+         FORMULARIO
+    ========================================= -->
 
     <div class="form-grid">
+
+
+      <!-- MÉDICO -->
+
       <div class="campo">
+
         <label>ID Médico</label>
-        <input type="number" min="1" placeholder="Ej. 1" [(ngModel)]="nuevoHorario.idMedico" [disabled]="modoFormulario === 'ver'">
+
+        <input
+          type="number"
+          min="1"
+          placeholder="Ej. 1"
+          [(ngModel)]="nuevoHorario.idMedico"
+          [disabled]="modoFormulario === 'ver'">
+
       </div>
 
+
+      <!-- CONSULTORIO -->
+
       <div class="campo">
+
         <label>Consultorio</label>
-        <select [(ngModel)]="nuevoHorario.idConsultorio" [disabled]="modoFormulario === 'ver'">
-          <option [ngValue]="0">Seleccione un consultorio</option>
-          <option *ngFor="let consultorio of consultorios()" [ngValue]="consultorio.idConsultorio">
+
+        <select
+          [(ngModel)]="nuevoHorario.idConsultorio"
+          [disabled]="modoFormulario === 'ver'">
+
+          <option [ngValue]="0">
+            Seleccione un consultorio
+          </option>
+
+          <option
+            *ngFor="let consultorio of consultorios()"
+            [ngValue]="consultorio.idConsultorio">
+
             {{ consultorio.nombre }}
-            <ng-container *ngIf="consultorio.numeroConsultorio">
+
+            <ng-container
+              *ngIf="consultorio.numeroConsultorio">
+
               - {{ consultorio.numeroConsultorio }}
+
             </ng-container>
+
           </option>
+
         </select>
+
       </div>
 
+
+      <!-- DÍA -->
+
       <div class="campo">
+
         <label>Día de la semana</label>
-        <select [(ngModel)]="nuevoHorario.diaSemana" [disabled]="modoFormulario === 'ver'">
-          <option value="">Seleccione un día</option>
-          <option *ngFor="let dia of diasSemana" [value]="dia">
-            {{ dia }}
+
+        <select
+          [(ngModel)]="nuevoHorario.diaSemana"
+          [disabled]="modoFormulario === 'ver'">
+
+          <option value="">
+            Seleccione un día
           </option>
+
+          <option
+            *ngFor="let dia of diasSemana"
+            [value]="dia">
+
+            {{ dia }}
+
+          </option>
+
         </select>
+
       </div>
 
+
+      <!-- ESTADO -->
+
       <div class="campo">
+
         <label>Estado</label>
-        <select [(ngModel)]="nuevoHorario.estado" [disabled]="modoFormulario === 'ver'">
-          <option [ngValue]="true">Activo</option>
-          <option [ngValue]="false">Inactivo</option>
+
+        <select
+          [(ngModel)]="nuevoHorario.estado"
+          [disabled]="modoFormulario === 'ver'">
+
+          <option [ngValue]="true">
+            Activo
+          </option>
+
+          <option [ngValue]="false">
+            Inactivo
+          </option>
+
         </select>
+
       </div>
 
+
+      <!-- HORA INICIO -->
+
       <div class="campo">
+
         <label>Hora de inicio</label>
-        <input type="time" [(ngModel)]="nuevoHorario.horaInicio" [disabled]="modoFormulario === 'ver'">
+
+        <input
+          type="time"
+          [(ngModel)]="nuevoHorario.horaInicio"
+          [disabled]="modoFormulario === 'ver'">
+
       </div>
 
+
+      <!-- HORA FIN -->
+
       <div class="campo">
+
         <label>Hora de fin</label>
-        <input type="time" [(ngModel)]="nuevoHorario.horaFin" [disabled]="modoFormulario === 'ver'">
+
+        <input
+          type="time"
+          [(ngModel)]="nuevoHorario.horaFin"
+          [disabled]="modoFormulario === 'ver'">
+
       </div>
+
     </div>
+
+
+    <!-- =========================================
+         ACCIONES DEL MODAL
+    ========================================= -->
 
     <div class="acciones">
-      <button *ngIf="modoFormulario === 'ver'" type="button" class="btn-cancelar" (click)="cerrarFormulario()">
+
+      <button
+        *ngIf="modoFormulario === 'ver'"
+        type="button"
+        class="btn-cancelar"
+        (click)="cerrarFormulario()">
+
         Cerrar
+
       </button>
 
-      <ng-container *ngIf="modoFormulario !== 'ver'">
-        <button type="button" class="btn-cancelar" (click)="cerrarFormulario()">
+
+      <ng-container
+        *ngIf="modoFormulario !== 'ver'">
+
+        <button
+          type="button"
+          class="btn-cancelar"
+          (click)="cerrarFormulario()">
+
           Cancelar
+
         </button>
-        <button type="button" class="btn-guardar" (click)="guardarHorario()">
+
+
+        <button
+          type="button"
+          class="btn-guardar"
+          (click)="guardarHorario()">
+
           <i class="bi bi-check-lg"></i>
-          {{ modoFormulario === 'nuevo' ? 'Guardar' : 'Guardar cambios' }}
+
+          {{
+            modoFormulario === 'nuevo'
+              ? 'Guardar'
+              : 'Guardar cambios'
+          }}
+
         </button>
+
       </ng-container>
+
     </div>
+
   </div>
+
 </div>
 
-<!-- TABLA -->
+
+
+<!-- =========================================
+     TABLA HORARIOS MÉDICOS
+========================================= -->
+
 <div class="tabla-contenedor">
+
+
+  <!-- HEADER -->
+
   <div class="tabla-header">
+
     <div>
-      <h2>Horarios Médicos</h2>
-      <p>{{ horarios().length }} {{ horarios().length === 1 ? 'horario registrado' : 'horarios registrados' }}</p>
+
+      <h2>
+        Horarios Médicos
+      </h2>
+
+      <p>
+
+        {{ totalRegistros }}
+
+        {{
+          totalRegistros === 1
+            ? 'horario registrado'
+            : 'horarios registrados'
+        }}
+
+      </p>
+
     </div>
-    <button type="button" class="btn-nuevo" (click)="abrirNuevoHorario()">
+
+
+    <button
+      type="button"
+      class="btn-nuevo"
+      (click)="abrirNuevoHorario()">
+
       <i class="bi bi-plus-lg"></i>
+
       Nuevo horario
+
     </button>
+
   </div>
+
+
+  <!-- =========================================
+       TABLA
+  ========================================= -->
 
   <div class="tabla-responsive">
+
     <table class="tabla-horarios">
+
       <thead>
+
         <tr>
+
           <th>ID</th>
+
           <th>Médico</th>
+
           <th>Consultorio</th>
+
           <th>Día</th>
+
           <th>Hora Inicio</th>
+
           <th>Hora Fin</th>
+
           <th>Estado</th>
-          <th class="columna-acciones">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let horario of horarios()">
-          <td>
-            <span class="id-horario">{{ horario.idHorario }}</span>
-          </td>
-          <td>
-            <span class="referencia">Médico #{{ horario.idMedico }}</span>
-          </td>
-          <td>
-            <strong class="consultorio-nombre">{{ obtenerNombreConsultorio(horario.idConsultorio) }}</strong>
-          </td>
-          <td>
-            <strong class="dia">{{ horario.diaSemana }}</strong>
-          </td>
-          <td>{{ formatearHora(horario.horaInicio) }}</td>
-          <td>{{ formatearHora(horario.horaFin) }}</td>
-          <td>
-            <span class="estado" [class.estado-activo]="horario.estado" [class.estado-inactivo]="!horario.estado">
-              {{ horario.estado ? 'Activo' : 'Inactivo' }}
-            </span>
-          </td>
-          <td class="columna-acciones">
-            <app-botones-acciones
-              (ver)="verHorario(horario)"
-              (editar)="editarHorario(horario)"
-              (eliminar)="eliminarHorario(horario)">
-            </app-botones-acciones>
-          </td>
+
+          <th class="columna-acciones">
+            Acciones
+          </th>
+
         </tr>
 
-        <tr *ngIf="horarios().length === 0">
-          <td colspan="8" class="sin-datos">
-            No hay horarios médicos registrados
+      </thead>
+
+
+      <tbody>
+
+
+        <tr
+          *ngFor="let horario of horarios()">
+
+
+          <!-- ID -->
+
+          <td>
+
+            <span class="id-horario">
+              {{ horario.idHorario }}
+            </span>
+
           </td>
+
+
+          <!-- MÉDICO -->
+
+          <td>
+
+            <span class="referencia">
+
+              Médico #{{ horario.idMedico }}
+
+            </span>
+
+          </td>
+
+
+          <!-- CONSULTORIO -->
+
+          <td>
+
+            <strong class="consultorio-nombre">
+
+              {{
+                obtenerNombreConsultorio(
+                  horario.idConsultorio
+                )
+              }}
+
+            </strong>
+
+          </td>
+
+
+          <!-- DÍA -->
+
+          <td>
+
+            <strong class="dia">
+
+              {{ horario.diaSemana }}
+
+            </strong>
+
+          </td>
+
+
+          <!-- HORA INICIO -->
+
+          <td>
+
+            {{
+              formatearHora(
+                horario.horaInicio
+              )
+            }}
+
+          </td>
+
+
+          <!-- HORA FIN -->
+
+          <td>
+
+            {{
+              formatearHora(
+                horario.horaFin
+              )
+            }}
+
+          </td>
+
+
+          <!-- ESTADO -->
+
+          <td>
+
+            <span
+              class="estado"
+              [class.estado-activo]="horario.estado"
+              [class.estado-inactivo]="!horario.estado">
+
+              {{
+                horario.estado
+                  ? 'Activo'
+                  : 'Inactivo'
+              }}
+
+            </span>
+
+          </td>
+
+
+          <!-- ACCIONES -->
+
+          <td class="columna-acciones">
+
+            <app-botones-acciones
+
+              (ver)="verHorario(horario)"
+
+              (editar)="editarHorario(horario)"
+
+              (eliminar)="eliminarHorario(horario)">
+
+            </app-botones-acciones>
+
+          </td>
+
         </tr>
+
+
+        <!-- SIN DATOS -->
+
+        <tr
+          *ngIf="horarios().length === 0">
+
+          <td
+            colspan="8"
+            class="sin-datos">
+
+            No hay horarios médicos registrados
+
+          </td>
+
+        </tr>
+
       </tbody>
+
     </table>
+
   </div>
+
+
+  <!-- =========================================
+       PAGINACIÓN
+  ========================================= -->
+
+  <div
+    class="paginacion-contenedor"
+    *ngIf="totalRegistros > 0">
+
+
+    <!-- INFORMACIÓN -->
+
+    <div class="paginacion-info">
+
+      Mostrando
+
+      <strong>
+        {{ obtenerRegistroInicial() }}
+      </strong>
+
+      -
+
+      <strong>
+        {{ obtenerRegistroFinal() }}
+      </strong>
+
+      de
+
+      <strong>
+        {{ totalRegistros }}
+      </strong>
+
+      horarios
+
+    </div>
+
+
+    <!-- TAMAÑO DE PÁGINA -->
+
+    <div class="paginacion-tamano">
+
+      <label>
+        Mostrar
+      </label>
+
+      <select
+        [(ngModel)]="tamanoPagina"
+        (change)="cambiarTamanoPagina()">
+
+        <option [ngValue]="5">
+          5
+        </option>
+
+        <option [ngValue]="10">
+          10
+        </option>
+
+        <option [ngValue]="20">
+          20
+        </option>
+
+        <option [ngValue]="50">
+          50
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- CONTROLES -->
+
+    <div class="paginacion-controles">
+
+
+      <!-- ANTERIOR -->
+
+      <button
+        type="button"
+        class="btn-pagina btn-navegacion"
+        [disabled]="paginaActual === 1"
+        (click)="paginaAnterior()">
+
+        <i class="bi bi-chevron-left"></i>
+
+      </button>
+
+
+      <!-- PÁGINAS -->
+
+      <button
+        *ngFor="let pagina of obtenerPaginas()"
+        type="button"
+        class="btn-pagina"
+        [class.activa]="pagina === paginaActual"
+        (click)="cambiarPagina(pagina)">
+
+        {{ pagina }}
+
+      </button>
+
+
+      <!-- SIGUIENTE -->
+
+      <button
+        type="button"
+        class="btn-pagina btn-navegacion"
+        [disabled]="paginaActual === totalPaginas"
+        (click)="paginaSiguiente()">
+
+        <i class="bi bi-chevron-right"></i>
+
+      </button>
+
+    </div>
+
+  </div>
+
 </div>

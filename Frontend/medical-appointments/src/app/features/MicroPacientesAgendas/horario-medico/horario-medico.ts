@@ -1,9 +1,21 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HorarioMedicoService, HorarioMedico as HorarioMedicoModel } from '../../../core/services/horario-medico';
-import { ConsultoriosService, Consultorio } from '../../../core/services/consultorios';
-import { BotonesAcciones } from '../../../shared/components/botones-acciones/botones-acciones';
+
+import {
+  HorarioMedicoService,
+  HorarioMedico as HorarioMedicoModel
+} from '../../../core/services/horario-medico';
+
+import {
+  ConsultoriosService,
+  Consultorio
+} from '../../../core/services/consultorios';
+
+import {
+  BotonesAcciones
+} from '../../../shared/components/botones-acciones/botones-acciones';
+
 
 @Component({
   selector: 'app-horario-medico',
@@ -18,13 +30,47 @@ import { BotonesAcciones } from '../../../shared/components/botones-acciones/bot
 })
 export class HorarioMedico implements OnInit {
 
+  /* =========================================
+     DATOS
+  ========================================= */
+
   horarios = signal<HorarioMedicoModel[]>([]);
+
   consultorios = signal<Consultorio[]>([]);
 
+
+  /* =========================================
+     PAGINACIÓN
+  ========================================= */
+
+  paginaActual = 1;
+
+  tamanoPagina = 10;
+
+  totalRegistros = 0;
+
+  totalPaginas = 0;
+
+
+  /* =========================================
+     FORMULARIO
+  ========================================= */
+
   mostrarFormulario = false;
-  modoFormulario: 'nuevo' | 'ver' | 'editar' = 'nuevo';
-  horarioSeleccionado: HorarioMedicoModel | null = null;
-  nuevoHorario: HorarioMedicoModel = this.crearHorarioVacio();
+
+  modoFormulario:
+    'nuevo' | 'ver' | 'editar' = 'nuevo';
+
+  horarioSeleccionado:
+    HorarioMedicoModel | null = null;
+
+  nuevoHorario:
+    HorarioMedicoModel = this.crearHorarioVacio();
+
+
+  /* =========================================
+     DÍAS DE LA SEMANA
+  ========================================= */
 
   diasSemana: string[] = [
     'Lunes',
@@ -36,110 +82,489 @@ export class HorarioMedico implements OnInit {
     'Domingo'
   ];
 
+
+  /* =========================================
+     CONSTRUCTOR
+  ========================================= */
+
   constructor(
     private horarioService: HorarioMedicoService,
     private consultoriosService: ConsultoriosService
   ) {}
 
+
+  /* =========================================
+     INIT
+  ========================================= */
+
   ngOnInit(): void {
+
     this.cargarHorarios();
+
     this.cargarConsultorios();
+
   }
+
+
+  /* =========================================
+     CARGAR HORARIOS PAGINADOS
+  ========================================= */
 
   cargarHorarios(): void {
-    this.horarioService.getHorarios().subscribe({
-      next: (data) => {
-        console.log('HORARIOS RECIBIDOS:', data);
-        this.horarios.set(data);
-      },
-      error: (error) => {
-        console.error('Error cargando horarios:', error);
-      }
-    });
+
+    this.horarioService
+      .getHorarios(
+        this.paginaActual,
+        this.tamanoPagina
+      )
+      .subscribe({
+
+        next: (resultado) => {
+
+          console.log(
+            'HORARIOS RECIBIDOS:',
+            resultado
+          );
+
+          this.horarios.set(
+            resultado.data
+          );
+
+          this.totalRegistros =
+            resultado.totalRecords;
+
+          this.totalPaginas =
+            resultado.totalPages;
+
+          this.paginaActual =
+            resultado.currentPage;
+
+          this.tamanoPagina =
+            resultado.pageSize;
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error cargando horarios:',
+            error
+          );
+
+        }
+
+      });
+
   }
+
+
+  /* =========================================
+     CARGAR CONSULTORIOS
+  ========================================= */
 
   cargarConsultorios(): void {
-    this.consultoriosService.getConsultorios().subscribe({
-      next: (data) => {
-        console.log('CONSULTORIOS RECIBIDOS:', data);
-        this.consultorios.set(data);
-      },
-      error: (error) => {
-        console.error('Error cargando consultorios:', error);
-      }
-    });
+
+    /*
+     * Consultorios ahora también utiliza
+     * paginación.
+     *
+     * Para el selector necesitamos cargar
+     * todos los consultorios disponibles.
+     *
+     * Por ahora solicitamos hasta 1000.
+     * Posteriormente podemos crear un endpoint
+     * específico de catálogo.
+     */
+
+    this.consultoriosService
+      .getConsultorios(
+        1,
+        1000
+      )
+      .subscribe({
+
+        next: (resultado) => {
+
+          console.log(
+            'CONSULTORIOS PARA HORARIOS:',
+            resultado
+          );
+
+          this.consultorios.set(
+            resultado.data
+          );
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error cargando consultorios:',
+            error
+          );
+
+        }
+
+      });
+
   }
 
-  obtenerNombreConsultorio(idConsultorio: number): string {
-    const consultorio = this.consultorios().find(c => c.idConsultorio === idConsultorio);
+
+  /* =========================================
+     NOMBRE DEL CONSULTORIO
+  ========================================= */
+
+  obtenerNombreConsultorio(
+    idConsultorio: number
+  ): string {
+
+    const consultorio =
+      this.consultorios()
+        .find(
+          c =>
+            c.idConsultorio ===
+            idConsultorio
+        );
+
     if (!consultorio) {
+
       return `Consultorio #${idConsultorio}`;
+
     }
+
     return consultorio.nombre;
+
   }
+
+
+  /* =========================================
+     CAMBIAR PÁGINA
+  ========================================= */
+
+  cambiarPagina(
+    pagina: number
+  ): void {
+
+    if (
+      pagina < 1 ||
+      pagina > this.totalPaginas ||
+      pagina === this.paginaActual
+    ) {
+      return;
+    }
+
+    this.paginaActual = pagina;
+
+    this.cargarHorarios();
+
+  }
+
+
+  /* =========================================
+     PÁGINA ANTERIOR
+  ========================================= */
+
+  paginaAnterior(): void {
+
+    if (
+      this.paginaActual > 1
+    ) {
+
+      this.cambiarPagina(
+        this.paginaActual - 1
+      );
+
+    }
+
+  }
+
+
+  /* =========================================
+     PÁGINA SIGUIENTE
+  ========================================= */
+
+  paginaSiguiente(): void {
+
+    if (
+      this.paginaActual <
+      this.totalPaginas
+    ) {
+
+      this.cambiarPagina(
+        this.paginaActual + 1
+      );
+
+    }
+
+  }
+
+
+  /* =========================================
+     OBTENER PÁGINAS
+  ========================================= */
+
+  obtenerPaginas(): number[] {
+
+    return Array.from(
+      {
+        length: this.totalPaginas
+      },
+      (_, index) => index + 1
+    );
+
+  }
+
+
+  /* =========================================
+     CAMBIAR TAMAÑO DE PÁGINA
+  ========================================= */
+
+  cambiarTamanoPagina(): void {
+
+    this.paginaActual = 1;
+
+    this.cargarHorarios();
+
+  }
+
+
+  /* =========================================
+     REGISTRO INICIAL
+  ========================================= */
+
+  obtenerRegistroInicial(): number {
+
+    if (
+      this.totalRegistros === 0
+    ) {
+      return 0;
+    }
+
+    return (
+      (this.paginaActual - 1) *
+      this.tamanoPagina
+    ) + 1;
+
+  }
+
+
+  /* =========================================
+     REGISTRO FINAL
+  ========================================= */
+
+  obtenerRegistroFinal(): number {
+
+    const final =
+      this.paginaActual *
+      this.tamanoPagina;
+
+    return Math.min(
+      final,
+      this.totalRegistros
+    );
+
+  }
+
+
+  /* =========================================
+     NUEVO HORARIO
+  ========================================= */
 
   abrirNuevoHorario(): void {
+
     this.modoFormulario = 'nuevo';
+
     this.horarioSeleccionado = null;
-    this.nuevoHorario = this.crearHorarioVacio();
+
+    this.nuevoHorario =
+      this.crearHorarioVacio();
+
     this.mostrarFormulario = true;
+
   }
 
-  verHorario(horario: HorarioMedicoModel): void {
-    this.horarioService.getHorarioById(horario.idHorario).subscribe({
-      next: (data) => {
-        this.modoFormulario = 'ver';
-        this.horarioSeleccionado = data;
-        this.nuevoHorario = {
-          ...data,
-          horaInicio: this.formatearHora(data.horaInicio),
-          horaFin: this.formatearHora(data.horaFin)
-        };
-        this.mostrarFormulario = true;
-      },
-      error: (error) => {
-        console.error('Error obteniendo horario:', error);
-      }
-    });
+
+  /* =========================================
+     VER HORARIO
+  ========================================= */
+
+  verHorario(
+    horario: HorarioMedicoModel
+  ): void {
+
+    this.horarioService
+      .getHorarioById(
+        horario.idHorario
+      )
+      .subscribe({
+
+        next: (data) => {
+
+          this.modoFormulario = 'ver';
+
+          this.horarioSeleccionado =
+            data;
+
+          this.nuevoHorario = {
+
+            ...data,
+
+            horaInicio:
+              this.formatearHora(
+                data.horaInicio
+              ),
+
+            horaFin:
+              this.formatearHora(
+                data.horaFin
+              )
+
+          };
+
+          this.mostrarFormulario = true;
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error obteniendo horario:',
+            error
+          );
+
+        }
+
+      });
+
   }
 
-  editarHorario(horario: HorarioMedicoModel): void {
-    this.horarioService.getHorarioById(horario.idHorario).subscribe({
-      next: (data) => {
-        this.modoFormulario = 'editar';
-        this.horarioSeleccionado = data;
-        this.nuevoHorario = {
-          ...data,
-          horaInicio: this.formatearHora(data.horaInicio),
-          horaFin: this.formatearHora(data.horaFin)
-        };
-        this.mostrarFormulario = true;
-      },
-      error: (error) => {
-        console.error('Error obteniendo horario:', error);
-      }
-    });
+
+  /* =========================================
+     EDITAR HORARIO
+  ========================================= */
+
+  editarHorario(
+    horario: HorarioMedicoModel
+  ): void {
+
+    this.horarioService
+      .getHorarioById(
+        horario.idHorario
+      )
+      .subscribe({
+
+        next: (data) => {
+
+          this.modoFormulario = 'editar';
+
+          this.horarioSeleccionado =
+            data;
+
+          this.nuevoHorario = {
+
+            ...data,
+
+            horaInicio:
+              this.formatearHora(
+                data.horaInicio
+              ),
+
+            horaFin:
+              this.formatearHora(
+                data.horaFin
+              )
+
+          };
+
+          this.mostrarFormulario = true;
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error obteniendo horario:',
+            error
+          );
+
+        }
+
+      });
+
   }
 
-  eliminarHorario(horario: HorarioMedicoModel): void {
-    const consultorio = this.obtenerNombreConsultorio(horario.idConsultorio);
-    const confirmar = confirm(`¿Desea eliminar el horario del ${horario.diaSemana} en ${consultorio}?`);
+
+  /* =========================================
+     ELIMINAR HORARIO
+  ========================================= */
+
+  eliminarHorario(
+    horario: HorarioMedicoModel
+  ): void {
+
+    const consultorio =
+      this.obtenerNombreConsultorio(
+        horario.idConsultorio
+      );
+
+    const confirmar = confirm(
+      `¿Desea eliminar el horario del ${horario.diaSemana} en ${consultorio}?`
+    );
+
     if (!confirmar) {
       return;
     }
 
-    this.horarioService.deleteHorario(horario.idHorario).subscribe({
-      next: () => {
-        console.log('Horario eliminado correctamente');
-        this.cargarHorarios();
-      },
-      error: (error) => {
-        console.error('Error eliminando horario:', error);
-      }
-    });
+    this.horarioService
+      .deleteHorario(
+        horario.idHorario
+      )
+      .subscribe({
+
+        next: () => {
+
+          console.log(
+            'Horario eliminado correctamente'
+          );
+
+          /*
+           * Si eliminamos el último registro
+           * de una página, retrocedemos.
+           */
+
+          if (
+            this.horarios().length === 1 &&
+            this.paginaActual > 1
+          ) {
+
+            this.paginaActual--;
+
+          }
+
+          this.cargarHorarios();
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error eliminando horario:',
+            error
+          );
+
+        }
+
+      });
+
   }
 
+
+  /* =========================================
+     GUARDAR HORARIO
+  ========================================= */
+
   guardarHorario(): void {
+
     if (
       this.nuevoHorario.idMedico <= 0 ||
       this.nuevoHorario.idConsultorio <= 0 ||
@@ -147,97 +572,259 @@ export class HorarioMedico implements OnInit {
       !this.nuevoHorario.horaInicio ||
       !this.nuevoHorario.horaFin
     ) {
-      alert('Complete todos los campos del horario.');
+
+      alert(
+        'Complete todos los campos del horario.'
+      );
+
       return;
+
     }
 
-    if (this.nuevoHorario.horaInicio >= this.nuevoHorario.horaFin) {
-      alert('La hora de inicio debe ser menor que la hora de fin.');
+
+    if (
+      this.nuevoHorario.horaInicio >=
+      this.nuevoHorario.horaFin
+    ) {
+
+      alert(
+        'La hora de inicio debe ser menor que la hora de fin.'
+      );
+
       return;
+
     }
 
-    if (this.modoFormulario === 'nuevo') {
+
+    if (
+      this.modoFormulario === 'nuevo'
+    ) {
+
       this.agregarHorario();
+
       return;
+
     }
 
-    if (this.modoFormulario === 'editar') {
+
+    if (
+      this.modoFormulario === 'editar'
+    ) {
+
       this.actualizarHorario();
+
     }
+
   }
+
+
+  /* =========================================
+     AGREGAR HORARIO
+  ========================================= */
 
   agregarHorario(): void {
-    const horario = this.prepararHorarioParaApi(this.nuevoHorario);
 
-    this.horarioService.addHorario(horario).subscribe({
-      next: () => {
-        console.log('Horario agregado correctamente');
-        this.cerrarFormulario();
-        this.cargarHorarios();
-      },
-      error: (error) => {
-        console.error('Error agregando horario:', error);
-      }
-    });
+    const horario =
+      this.prepararHorarioParaApi(
+        this.nuevoHorario
+      );
+
+    this.horarioService
+      .addHorario(
+        horario
+      )
+      .subscribe({
+
+        next: () => {
+
+          console.log(
+            'Horario agregado correctamente'
+          );
+
+          this.cerrarFormulario();
+
+          this.paginaActual = 1;
+
+          this.cargarHorarios();
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error agregando horario:',
+            error
+          );
+
+        }
+
+      });
+
   }
+
+
+  /* =========================================
+     ACTUALIZAR HORARIO
+  ========================================= */
 
   actualizarHorario(): void {
-    const horario = this.prepararHorarioParaApi(this.nuevoHorario);
 
-    this.horarioService.updateHorario(horario).subscribe({
-      next: () => {
-        console.log('Horario actualizado correctamente');
-        this.cerrarFormulario();
-        this.cargarHorarios();
-      },
-      error: (error) => {
-        console.error('Error actualizando horario:', error);
-      }
-    });
+    const horario =
+      this.prepararHorarioParaApi(
+        this.nuevoHorario
+      );
+
+    this.horarioService
+      .updateHorario(
+        horario
+      )
+      .subscribe({
+
+        next: () => {
+
+          console.log(
+            'Horario actualizado correctamente'
+          );
+
+          this.cerrarFormulario();
+
+          this.cargarHorarios();
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Error actualizando horario:',
+            error
+          );
+
+        }
+
+      });
+
   }
+
+
+  /* =========================================
+     CERRAR FORMULARIO
+  ========================================= */
 
   cerrarFormulario(): void {
+
     this.mostrarFormulario = false;
+
     this.modoFormulario = 'nuevo';
+
     this.horarioSeleccionado = null;
-    this.nuevoHorario = this.crearHorarioVacio();
+
+    this.nuevoHorario =
+      this.crearHorarioVacio();
+
   }
 
-  private prepararHorarioParaApi(horario: HorarioMedicoModel): HorarioMedicoModel {
+
+  /* =========================================
+     PREPARAR HORARIO PARA API
+  ========================================= */
+
+  private prepararHorarioParaApi(
+    horario: HorarioMedicoModel
+  ): HorarioMedicoModel {
+
     return {
+
       ...horario,
-      horaInicio: this.convertirHoraParaApi(horario.horaInicio),
-      horaFin: this.convertirHoraParaApi(horario.horaFin)
+
+      horaInicio:
+        this.convertirHoraParaApi(
+          horario.horaInicio
+        ),
+
+      horaFin:
+        this.convertirHoraParaApi(
+          horario.horaFin
+        )
+
     };
+
   }
 
-  private convertirHoraParaApi(hora: string): string {
+
+  /* =========================================
+     CONVERTIR HORA PARA API
+  ========================================= */
+
+  private convertirHoraParaApi(
+    hora: string
+  ): string {
+
     if (!hora) {
+
       return '00:00:00';
+
     }
-    if (hora.length === 5) {
+
+    if (
+      hora.length === 5
+    ) {
+
       return `${hora}:00`;
+
     }
+
     return hora;
+
   }
 
-  formatearHora(hora: string): string {
+
+  /* =========================================
+     FORMATEAR HORA
+  ========================================= */
+
+  formatearHora(
+    hora: string
+  ): string {
+
     if (!hora) {
+
       return '';
+
     }
-    return hora.substring(0, 5);
+
+    return hora.substring(
+      0,
+      5
+    );
+
   }
 
-  private crearHorarioVacio(): HorarioMedicoModel {
+
+  /* =========================================
+     HORARIO VACÍO
+  ========================================= */
+
+  private crearHorarioVacio():
+    HorarioMedicoModel {
+
     return {
+
       idHorario: 0,
+
       idMedico: 0,
+
       idConsultorio: 0,
+
       diaSemana: '',
+
       horaInicio: '',
+
       horaFin: '',
+
       estado: true
+
     };
+
   }
 
 }

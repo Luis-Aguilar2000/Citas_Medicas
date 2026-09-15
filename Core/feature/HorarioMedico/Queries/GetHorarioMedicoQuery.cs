@@ -1,17 +1,20 @@
 ﻿using Generics.Interfaces;
+using Generics.Models;
 using Domain.Models;
 using MediatR;
 
 namespace Core.feature.HorarioMedico.Queries
 {
     public class GetHorarioMedicoQuery
-        : IRequest<List<HorariosMedico>>
+        : IRequest<PagedResult<HorariosMedico>>
     {
-        public int TotalRegistros { get; set; }
+        public int PageNumber { get; set; } = 1;
+
+        public int PageSize { get; set; } = 10;
     }
 
     public class GetHorarioMedicoQueryHandler
-        : IRequestHandler<GetHorarioMedicoQuery, List<HorariosMedico>>
+        : IRequestHandler<GetHorarioMedicoQuery, PagedResult<HorariosMedico>>
     {
         private readonly IGenericRepository<HorariosMedico> _repository;
 
@@ -21,20 +24,15 @@ namespace Core.feature.HorarioMedico.Queries
             _repository = repository;
         }
 
-        public async Task<List<HorariosMedico>> Handle(
+        public async Task<PagedResult<HorariosMedico>> Handle(
             GetHorarioMedicoQuery request,
             CancellationToken cancellationToken)
         {
-            var horarios = await _repository.GetAllAsync();
-
-            if (request.TotalRegistros > 0)
-            {
-                return horarios
-                    .Take(request.TotalRegistros)
-                    .ToList();
-            }
-
-            return horarios.ToList();
+            return await _repository.GetPagedAsync(
+                pageNumber: request.PageNumber,
+                pageSize: request.PageSize,
+                cancellationToken: cancellationToken
+            );
         }
     }
 }

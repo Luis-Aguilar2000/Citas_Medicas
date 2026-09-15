@@ -1,16 +1,19 @@
 ﻿using Generics.Interfaces;
+using Generics.Models;
 using Domain.Models;
 using MediatR;
 
 namespace Core.feature.Paciente.Queries
 {
-    public class GetPacienteQuery : IRequest<List<Pacientes>>
+    public class GetPacienteQuery : IRequest<PagedResult<Pacientes>>
     {
-        public int TotalRegistros { get; set; }
+        public int PageNumber { get; set; } = 1;
+
+        public int PageSize { get; set; } = 10;
     }
 
     public class GetPacienteQueryHandler
-        : IRequestHandler<GetPacienteQuery, List<Pacientes>>
+        : IRequestHandler<GetPacienteQuery, PagedResult<Pacientes>>
     {
         private readonly IGenericRepository<Pacientes> _repository;
 
@@ -20,20 +23,15 @@ namespace Core.feature.Paciente.Queries
             _repository = repository;
         }
 
-        public async Task<List<Pacientes>> Handle(
+        public async Task<PagedResult<Pacientes>> Handle(
             GetPacienteQuery request,
             CancellationToken cancellationToken)
         {
-            var pacientes = await _repository.GetAllAsync();
-
-            if (request.TotalRegistros > 0)
-            {
-                return pacientes
-                    .Take(request.TotalRegistros)
-                    .ToList();
-            }
-
-            return pacientes.ToList();
+            return await _repository.GetPagedAsync(
+                pageNumber: request.PageNumber,
+                pageSize: request.PageSize,
+                cancellationToken: cancellationToken
+            );
         }
     }
 }

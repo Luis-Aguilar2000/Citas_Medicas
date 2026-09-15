@@ -1,4 +1,7 @@
-/* BOTÓN NUEVO */
+/* =========================================
+   BOTÓN NUEVO
+========================================= */
+
 .btn-nuevo {
   display: inline-flex;
   align-items: center;
@@ -28,7 +31,11 @@
   transform: scale(0.98);
 }
 
-/* OVERLAY */
+
+/* =========================================
+   OVERLAY
+========================================= */
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -39,7 +46,11 @@
   z-index: 1000;
 }
 
-/* MODAL */
+
+/* =========================================
+   MODAL
+========================================= */
+
 .modal-horario {
   width: 580px;
   max-width: 90%;
@@ -94,7 +105,11 @@
   font-size: 13px;
 }
 
-/* FORMULARIO */
+
+/* =========================================
+   FORMULARIO
+========================================= */
+
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -138,7 +153,11 @@
   cursor: default;
 }
 
-/* ACCIONES MODAL */
+
+/* =========================================
+   ACCIONES MODAL
+========================================= */
+
 .acciones {
   display: flex;
   justify-content: flex-end;
@@ -174,7 +193,11 @@
   background: #5b4cc4;
 }
 
-/* CONTENEDOR TABLA */
+
+/* =========================================
+   CONTENEDOR TABLA
+========================================= */
+
 .tabla-contenedor {
   margin-top: 20px;
   background: white;
@@ -213,7 +236,11 @@
   overflow-x: auto;
 }
 
-/* TABLA */
+
+/* =========================================
+   TABLA
+========================================= */
+
 .tabla-horarios {
   width: 100%;
   border-collapse: collapse;
@@ -254,7 +281,11 @@
   border-bottom: none;
 }
 
-/* DATOS */
+
+/* =========================================
+   DATOS
+========================================= */
+
 .id-horario {
   color: #6c5ce7;
   font-weight: 600;
@@ -276,7 +307,11 @@
   white-space: nowrap;
 }
 
-/* ESTADO */
+
+/* =========================================
+   ESTADO
+========================================= */
+
 .estado {
   display: inline-block;
   padding: 5px 10px;
@@ -296,7 +331,11 @@
   color: #b91c1c;
 }
 
-/* ACCIONES Y OTROS */
+
+/* =========================================
+   ACCIONES Y OTROS
+========================================= */
+
 .columna-acciones {
   text-align: center !important;
   white-space: nowrap;
@@ -308,28 +347,206 @@
   color: #999 !important;
 }
 
-/* RESPONSIVE */
+
+/* =========================================
+   PAGINACIÓN
+========================================= */
+
+.paginacion-contenedor {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px 24px;
+  border-top: 1px solid #e5e7eb;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+
+/* INFORMACIÓN */
+
+.paginacion-info {
+  color: #777;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.paginacion-info strong {
+  color: #333;
+  font-weight: 600;
+}
+
+
+/* TAMAÑO DE PÁGINA */
+
+.paginacion-tamano {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  font-size: 13px;
+}
+
+.paginacion-tamano select {
+  height: 34px;
+  padding: 0 28px 0 10px;
+  border: 1px solid #dcdfe4;
+  border-radius: 6px;
+  background: white;
+  color: #444;
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.paginacion-tamano select:focus {
+  border-color: #6c5ce7;
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.08);
+}
+
+
+/* CONTROLES */
+
+.paginacion-controles {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-pagina {
+  min-width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 9px;
+  border: 1px solid #e1e1e8;
+  border-radius: 6px;
+  background: white;
+  color: #555;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.btn-pagina:hover:not(:disabled):not(.activa) {
+  background: #f5f3ff;
+  color: #6c5ce7;
+  border-color: #cfc8ff;
+}
+
+.btn-pagina:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+
+/* PÁGINA ACTUAL */
+
+.btn-pagina.activa {
+  background: #6c5ce7;
+  color: white;
+  border-color: #6c5ce7;
+  cursor: default;
+}
+
+
+/* ANTERIOR / SIGUIENTE */
+
+.btn-navegacion {
+  color: #6c5ce7;
+}
+
+.btn-pagina:disabled {
+  background: #f8f8fa;
+  color: #bbb;
+  border-color: #eeeeee;
+  cursor: not-allowed;
+}
+
+.btn-pagina i {
+  font-size: 12px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
 @media (max-width: 650px) {
+
   .form-grid {
     grid-template-columns: 1fr;
   }
+
   .modal-horario {
     padding: 22px 20px;
   }
+
 }
 
+
 @media (max-width: 700px) {
+
   .tabla-header {
     align-items: flex-start;
     flex-direction: column;
   }
+
   .btn-nuevo {
     width: 100%;
   }
+
 }
 
+
 @media (max-width: 1000px) {
+
   .tabla-horarios {
     min-width: 900px;
   }
+
+  .paginacion-contenedor {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .paginacion-info {
+    width: 100%;
+    text-align: center;
+  }
+
+}
+
+
+@media (max-width: 550px) {
+
+  .paginacion-contenedor {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .paginacion-tamano {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .paginacion-controles {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
 }

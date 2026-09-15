@@ -1,6 +1,7 @@
 using Core.feature.EstadosCitas.Commands;
 using Core.feature.EstadosCitas.Queires;
 using Domain.Models;
+using Generics.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,31 +18,107 @@ namespace API.Controllers
             _mediator = mediator;
         }
 
+
+        // =========================================
+        // GET - LISTAR ESTADOS PAGINADOS
+        // =========================================
+
         [HttpGet]
-        public async Task<List<EstadoCitas>> Get(
-            [FromQuery] int totalRegistros = 0)
+        public async Task<ActionResult<PagedResult<EstadoCitas>>> Get(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
         {
-            return await _mediator.Send(new GetEstadosCitasQuery
-            {
-                TotalRegistros = totalRegistros
-            });
+            var resultado = await _mediator.Send(
+                new GetEstadosCitasQuery
+                {
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
+                }
+            );
+
+            return Ok(resultado);
         }
 
+
+        // =========================================
+        // GET - ESTADO POR ID
+        // =========================================
+
         [HttpGet("{id}")]
-        public async Task<EstadoCitas?> GetById(int id)
+        public async Task<ActionResult<EstadoCitas>> GetById(int id)
         {
-            return await _mediator.Send(
+            var estado = await _mediator.Send(
                 new GetEstadosCitasByIdQuery
                 {
                     IdEstadoCitas = id
-                });
+                }
+            );
+
+            if (estado == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(estado);
         }
 
+
+        // =========================================
+        // POST - CREAR ESTADO
+        // =========================================
+
         [HttpPost]
-        public async Task<bool> Post(
+        public async Task<ActionResult<bool>> Post(
             [FromBody] AddEstadosCitasCommand command)
         {
-            return await _mediator.Send(command);
+            var resultado = await _mediator.Send(command);
+
+            return Ok(resultado);
+        }
+
+
+        // =========================================
+        // PUT - ACTUALIZAR ESTADO
+        // =========================================
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<bool>> Put(
+            int id,
+            [FromBody] UpdateEstadoCitasCommand command)
+        {
+            command.IdEstadoCita = id;
+
+            var resultado = await _mediator.Send(command);
+
+            if (!resultado)
+            {
+                return NotFound();
+            }
+
+            return Ok(true);
+        }
+
+
+        // =========================================
+        // DELETE - ELIMINAR ESTADO
+        // =========================================
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<bool>> Delete(int id)
+        {
+            var resultado = await _mediator.Send(
+                new DeleteEstadoCitasCommand
+                {
+                    IdEstadoCita = id
+                }
+            );
+
+            if (!resultado)
+            {
+                return NotFound();
+            }
+
+            return Ok(true);
         }
     }
 }

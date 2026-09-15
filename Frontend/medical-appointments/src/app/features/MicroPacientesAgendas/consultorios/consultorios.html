@@ -1,142 +1,589 @@
-<!-- MODAL CONSULTORIO -->
+<!-- =========================================
+     MODAL CONSULTORIO
+========================================= -->
+
 <div class="overlay" *ngIf="mostrarFormulario">
+
   <div class="modal-consultorio">
+
     <div class="modal-header">
+
       <div class="modal-marca">
+
         <span class="mini-logo">
           <i class="bi bi-building"></i>
         </span>
+
         <strong>Consultorios</strong>
+
       </div>
-      <button type="button" class="btn-cerrar" (click)="cerrarFormulario()">
+
+      <button
+        type="button"
+        class="btn-cerrar"
+        (click)="cerrarFormulario()">
+
         <i class="bi bi-x-lg"></i>
+
       </button>
+
     </div>
 
-    <h2 *ngIf="modoFormulario === 'nuevo'">Registrar nuevo consultorio</h2>
-    <h2 *ngIf="modoFormulario === 'ver'">Información del consultorio</h2>
-    <h2 *ngIf="modoFormulario === 'editar'">Editar consultorio</h2>
 
-    <p class="subtitulo" *ngIf="modoFormulario === 'nuevo'">Complete la información del consultorio</p>
-    <p class="subtitulo" *ngIf="modoFormulario === 'ver'">Consulte la información registrada</p>
-    <p class="subtitulo" *ngIf="modoFormulario === 'editar'">Modifique la información necesaria</p>
+    <!-- TÍTULO -->
+
+    <h2 *ngIf="modoFormulario === 'nuevo'">
+      Registrar nuevo consultorio
+    </h2>
+
+    <h2 *ngIf="modoFormulario === 'ver'">
+      Información del consultorio
+    </h2>
+
+    <h2 *ngIf="modoFormulario === 'editar'">
+      Editar consultorio
+    </h2>
+
+
+    <!-- SUBTÍTULO -->
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'nuevo'">
+      Complete la información del consultorio
+    </p>
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'ver'">
+      Consulte la información registrada
+    </p>
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'editar'">
+      Modifique la información necesaria
+    </p>
+
+
+    <!-- FORMULARIO -->
 
     <div class="form-grid">
+
+
+      <!-- NOMBRE -->
+
       <div class="campo">
+
         <label>Nombre</label>
-        <input type="text" placeholder="Ej. Consultorio General" [(ngModel)]="nuevoConsultorio.nombre" [disabled]="modoFormulario === 'ver'">
+
+        <input
+          type="text"
+          placeholder="Ej. Consultorio General"
+          [(ngModel)]="nuevoConsultorio.nombre"
+          [disabled]="modoFormulario === 'ver'">
+
       </div>
 
+
+      <!-- NÚMERO -->
+
       <div class="campo">
+
         <label>Número de consultorio</label>
-        <input type="text" placeholder="Ej. 101" [(ngModel)]="nuevoConsultorio.numeroConsultorio" [disabled]="modoFormulario === 'ver'">
+
+        <input
+          type="text"
+          placeholder="Ej. 101"
+          [(ngModel)]="nuevoConsultorio.numeroConsultorio"
+          [disabled]="modoFormulario === 'ver'">
+
       </div>
 
+
+      <!-- PISO -->
+
       <div class="campo">
+
         <label>Piso</label>
-        <input type="text" placeholder="Ej. Primer piso" [(ngModel)]="nuevoConsultorio.piso" [disabled]="modoFormulario === 'ver'">
+
+        <input
+          type="text"
+          placeholder="Ej. Primer piso"
+          [(ngModel)]="nuevoConsultorio.piso"
+          [disabled]="modoFormulario === 'ver'">
+
       </div>
+
+
+      <!-- ESTADO -->
 
       <div class="campo">
+
         <label>Estado</label>
-        <select [(ngModel)]="nuevoConsultorio.estado" [disabled]="modoFormulario === 'ver'">
-          <option [ngValue]="true">Activo</option>
-          <option [ngValue]="false">Inactivo</option>
+
+        <select
+          [(ngModel)]="nuevoConsultorio.estado"
+          [disabled]="modoFormulario === 'ver'">
+
+          <option [ngValue]="true">
+            Activo
+          </option>
+
+          <option [ngValue]="false">
+            Inactivo
+          </option>
+
         </select>
+
       </div>
 
+
+      <!-- UBICACIÓN -->
+
       <div class="campo campo-completo">
+
         <label>Ubicación</label>
-        <input type="text" placeholder="Ej. Área de consulta externa" [(ngModel)]="nuevoConsultorio.ubicacion" [disabled]="modoFormulario === 'ver'">
+
+        <input
+          type="text"
+          placeholder="Ej. Área de consulta externa"
+          [(ngModel)]="nuevoConsultorio.ubicacion"
+          [disabled]="modoFormulario === 'ver'">
+
       </div>
 
+
+      <!-- DESCRIPCIÓN -->
+
       <div class="campo campo-completo">
+
         <label>Descripción</label>
-        <textarea rows="3" placeholder="Descripción del consultorio" [(ngModel)]="nuevoConsultorio.descripcion" [disabled]="modoFormulario === 'ver'"></textarea>
+
+        <textarea
+          rows="3"
+          placeholder="Descripción del consultorio"
+          [(ngModel)]="nuevoConsultorio.descripcion"
+          [disabled]="modoFormulario === 'ver'">
+        </textarea>
+
       </div>
+
     </div>
+
+
+    <!-- ACCIONES MODAL -->
 
     <div class="acciones">
-      <button *ngIf="modoFormulario === 'ver'" type="button" class="btn-cancelar" (click)="cerrarFormulario()">
+
+      <button
+        *ngIf="modoFormulario === 'ver'"
+        type="button"
+        class="btn-cancelar"
+        (click)="cerrarFormulario()">
+
         Cerrar
+
       </button>
 
+
       <ng-container *ngIf="modoFormulario !== 'ver'">
-        <button type="button" class="btn-cancelar" (click)="cerrarFormulario()">
+
+        <button
+          type="button"
+          class="btn-cancelar"
+          (click)="cerrarFormulario()">
+
           Cancelar
+
         </button>
-        <button type="button" class="btn-guardar" (click)="guardarConsultorio()">
+
+        <button
+          type="button"
+          class="btn-guardar"
+          (click)="guardarConsultorio()">
+
           <i class="bi bi-check-lg"></i>
-          {{ modoFormulario === 'nuevo' ? 'Guardar' : 'Guardar cambios' }}
+
+          {{
+            modoFormulario === 'nuevo'
+              ? 'Guardar'
+              : 'Guardar cambios'
+          }}
+
         </button>
+
       </ng-container>
+
     </div>
+
   </div>
+
 </div>
 
-<!-- TABLA CONSULTORIOS -->
+
+
+<!-- =========================================
+     TABLA CONSULTORIOS
+========================================= -->
+
 <div class="tabla-contenedor">
+
+
+  <!-- HEADER -->
+
   <div class="tabla-header">
+
     <div>
-      <h2>Consultorios</h2>
-      <p>{{ consultorios().length }} {{ consultorios().length === 1 ? 'consultorio registrado' : 'consultorios registrados' }}</p>
+
+      <h2>
+        Consultorios
+      </h2>
+
+      <p>
+
+        {{ totalRegistros }}
+
+        {{
+          totalRegistros === 1
+            ? 'consultorio registrado'
+            : 'consultorios registrados'
+        }}
+
+      </p>
+
     </div>
-    <button type="button" class="btn-nuevo" (click)="abrirNuevoConsultorio()">
+
+
+    <button
+      type="button"
+      class="btn-nuevo"
+      (click)="abrirNuevoConsultorio()">
+
       <i class="bi bi-plus-lg"></i>
+
       Nuevo consultorio
+
     </button>
+
   </div>
+
+
+
+  <!-- =========================================
+       TABLA
+  ========================================= -->
 
   <div class="tabla-responsive">
+
     <table class="tabla-consultorios">
+
       <thead>
+
         <tr>
+
           <th>ID</th>
+
           <th>Consultorio</th>
+
           <th>Número</th>
+
           <th>Piso</th>
+
           <th>Ubicación</th>
+
           <th>Descripción</th>
+
           <th>Estado</th>
+
           <th>Fecha registro</th>
-          <th class="columna-acciones">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let consultorio of consultorios()">
-          <td>
-            <span class="id-consultorio">{{ consultorio.idConsultorio }}</span>
-          </td>
-          <td>
-            <div class="consultorio-info">
-              <strong>{{ consultorio.nombre }}</strong>
-            </div>
-          </td>
-          <td>{{ consultorio.numeroConsultorio || '-' }}</td>
-          <td>{{ consultorio.piso || '-' }}</td>
-          <td>{{ consultorio.ubicacion || '-' }}</td>
-          <td>{{ consultorio.descripcion || '-' }}</td>
-          <td>
-            <span class="estado" [class.estado-activo]="consultorio.estado" [class.estado-inactivo]="!consultorio.estado">
-              {{ consultorio.estado ? 'Activo' : 'Inactivo' }}
-            </span>
-          </td>
-          <td>{{ consultorio.fechaRegistro | date:'dd/MM/yyyy' }}</td>
-          <td class="columna-acciones">
-            <app-botones-acciones
-              (ver)="verConsultorio(consultorio)"
-              (editar)="editarConsultorio(consultorio)"
-              (eliminar)="eliminarConsultorio(consultorio)">
-            </app-botones-acciones>
-          </td>
+
+          <th class="columna-acciones">
+            Acciones
+          </th>
+
         </tr>
 
-        <tr *ngIf="consultorios().length === 0">
-          <td colspan="9" class="sin-datos">
-            No hay consultorios registrados
+      </thead>
+
+
+      <tbody>
+
+
+        <tr
+          *ngFor="let consultorio of consultorios()">
+
+
+          <!-- ID -->
+
+          <td>
+
+            <span class="id-consultorio">
+
+              {{ consultorio.idConsultorio }}
+
+            </span>
+
           </td>
+
+
+          <!-- NOMBRE -->
+
+          <td>
+
+            <div class="consultorio-info">
+
+              <strong>
+
+                {{ consultorio.nombre }}
+
+              </strong>
+
+            </div>
+
+          </td>
+
+
+          <!-- NÚMERO -->
+
+          <td>
+
+            {{
+              consultorio.numeroConsultorio || '-'
+            }}
+
+          </td>
+
+
+          <!-- PISO -->
+
+          <td>
+
+            {{
+              consultorio.piso || '-'
+            }}
+
+          </td>
+
+
+          <!-- UBICACIÓN -->
+
+          <td>
+
+            {{
+              consultorio.ubicacion || '-'
+            }}
+
+          </td>
+
+
+          <!-- DESCRIPCIÓN -->
+
+          <td>
+
+            {{
+              consultorio.descripcion || '-'
+            }}
+
+          </td>
+
+
+          <!-- ESTADO -->
+
+          <td>
+
+            <span
+              class="estado"
+              [class.estado-activo]="consultorio.estado"
+              [class.estado-inactivo]="!consultorio.estado">
+
+              {{
+                consultorio.estado
+                  ? 'Activo'
+                  : 'Inactivo'
+              }}
+
+            </span>
+
+          </td>
+
+
+          <!-- FECHA -->
+
+          <td>
+
+            {{
+              consultorio.fechaRegistro
+                | date:'dd/MM/yyyy'
+            }}
+
+          </td>
+
+
+          <!-- ACCIONES -->
+
+          <td class="columna-acciones">
+
+            <app-botones-acciones
+
+              (ver)="verConsultorio(consultorio)"
+
+              (editar)="editarConsultorio(consultorio)"
+
+              (eliminar)="eliminarConsultorio(consultorio)">
+
+            </app-botones-acciones>
+
+          </td>
+
         </tr>
+
+
+
+        <!-- SIN DATOS -->
+
+        <tr
+          *ngIf="consultorios().length === 0">
+
+          <td
+            colspan="9"
+            class="sin-datos">
+
+            No hay consultorios registrados
+
+          </td>
+
+        </tr>
+
+
       </tbody>
+
     </table>
+
   </div>
+
+
+
+  <!-- =========================================
+       PAGINACIÓN
+  ========================================= -->
+
+  <div
+    class="paginacion-contenedor"
+    *ngIf="totalRegistros > 0">
+
+
+    <!-- INFORMACIÓN -->
+
+    <div class="paginacion-info">
+
+      Mostrando
+
+      <strong>
+        {{ obtenerRegistroInicial() }}
+      </strong>
+
+      -
+
+      <strong>
+        {{ obtenerRegistroFinal() }}
+      </strong>
+
+      de
+
+      <strong>
+        {{ totalRegistros }}
+      </strong>
+
+      consultorios
+
+    </div>
+
+
+
+    <!-- TAMAÑO DE PÁGINA -->
+
+    <div class="paginacion-tamano">
+
+      <label>
+        Mostrar
+      </label>
+
+      <select
+        [(ngModel)]="tamanoPagina"
+        (change)="cambiarTamanoPagina()">
+
+        <option [ngValue]="5">
+          5
+        </option>
+
+        <option [ngValue]="10">
+          10
+        </option>
+
+        <option [ngValue]="20">
+          20
+        </option>
+
+        <option [ngValue]="50">
+          50
+        </option>
+
+      </select>
+
+    </div>
+
+
+
+    <!-- CONTROLES -->
+
+    <div class="paginacion-controles">
+
+
+      <!-- ANTERIOR -->
+
+      <button
+        type="button"
+        class="btn-pagina btn-navegacion"
+        [disabled]="paginaActual === 1"
+        (click)="paginaAnterior()">
+
+        <i class="bi bi-chevron-left"></i>
+
+      </button>
+
+
+
+      <!-- NÚMEROS -->
+
+      <button
+        *ngFor="let pagina of obtenerPaginas()"
+        type="button"
+        class="btn-pagina"
+        [class.activa]="pagina === paginaActual"
+        (click)="cambiarPagina(pagina)">
+
+        {{ pagina }}
+
+      </button>
+
+
+
+      <!-- SIGUIENTE -->
+
+      <button
+        type="button"
+        class="btn-pagina btn-navegacion"
+        [disabled]="paginaActual === totalPaginas"
+        (click)="paginaSiguiente()">
+
+        <i class="bi bi-chevron-right"></i>
+
+      </button>
+
+
+    </div>
+
+  </div>
+
 </div>
