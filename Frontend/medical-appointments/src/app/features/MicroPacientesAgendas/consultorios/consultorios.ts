@@ -13,6 +13,10 @@ import {
 } from '../../../core/services/consultorios';
 
 import {
+  BusquedaService
+} from '../../../core/services/busqueda';
+
+import {
   BotonesAcciones
 } from '../../../shared/components/botones-acciones/botones-acciones';
 
@@ -81,7 +85,8 @@ export class Consultorios implements OnInit {
   // =========================================
 
   constructor(
-    private consultoriosService: ConsultoriosService
+    private consultoriosService: ConsultoriosService,
+    private busquedaService: BusquedaService
   ) {}
 
 
@@ -90,6 +95,16 @@ export class Consultorios implements OnInit {
   // =========================================
 
   ngOnInit(): void {
+
+    // Configurar buscador global
+    // para Consultorios
+
+    this.busquedaService.configurar(
+      'Buscar consultorios...'
+    );
+
+
+    // Cargar consultorios
 
     this.cargarConsultorios();
 

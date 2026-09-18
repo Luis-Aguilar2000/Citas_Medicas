@@ -13,6 +13,10 @@ import {
 } from '../../../core/services/pacientes';
 
 import {
+  BusquedaService
+} from '../../../core/services/busqueda';
+
+import {
   BotonesAcciones
 } from '../../../shared/components/botones-acciones/botones-acciones';
 
@@ -81,7 +85,8 @@ export class Pacientes implements OnInit {
   // =========================================
 
   constructor(
-    private pacientesService: PacientesService
+    private pacientesService: PacientesService,
+    private busquedaService: BusquedaService
   ) {}
 
 
@@ -90,6 +95,15 @@ export class Pacientes implements OnInit {
   // =========================================
 
   ngOnInit(): void {
+
+    // Configura el buscador global
+
+    this.busquedaService.configurar(
+      'Buscar pacientes...'
+    );
+
+
+    // Carga inicial.
 
     this.cargarPacientes();
 

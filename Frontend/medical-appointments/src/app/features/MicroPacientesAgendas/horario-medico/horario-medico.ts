@@ -18,6 +18,10 @@ import {
 } from '../../../core/services/consultorios';
 
 import {
+  BusquedaService
+} from '../../../core/services/busqueda';
+
+import {
   BotonesAcciones
 } from '../../../shared/components/botones-acciones/botones-acciones';
 
@@ -104,7 +108,8 @@ export class HorarioMedico implements OnInit {
 
   constructor(
     private horarioService: HorarioMedicoService,
-    private consultoriosService: ConsultoriosService
+    private consultoriosService: ConsultoriosService,
+    private busquedaService: BusquedaService
   ) {}
 
 
@@ -114,7 +119,20 @@ export class HorarioMedico implements OnInit {
 
   ngOnInit(): void {
 
+    // Configurar buscador global
+    // para Horarios Médicos
+
+    this.busquedaService.configurar(
+      'Buscar horarios médicos...'
+    );
+
+
+    // Cargar horarios
+
     this.cargarHorarios();
+
+
+    // Cargar catálogo de consultorios
 
     this.cargarConsultorios();
 

@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 import { MainLayout } from './layout/main-layout/main-layout';
 
-import { Inicio } from './inicio/inicio';
+import { Inicio } from './layout/inicio/inicio';
 import { Pacientes } from './features/MicroPacientesAgendas/pacientes/pacientes';
 import { Consultorios } from './features/MicroPacientesAgendas/consultorios/consultorios';
 import { HorarioMedico } from './features/MicroPacientesAgendas/horario-medico/horario-medico';

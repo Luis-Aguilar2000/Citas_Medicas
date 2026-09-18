@@ -35,6 +35,10 @@ import {
   Paginacion
 } from '../../../shared/components/paginacion/paginacion';
 
+import {
+  BusquedaService
+} from '../../../core/services/busqueda';
+
 
 @Component({
   selector: 'app-agenda-citas',
@@ -105,7 +109,8 @@ export class AgendaCitas implements OnInit {
     private citasService: CitasService,
     private pacientesService: PacientesService,
     private consultoriosService: ConsultoriosService,
-    private estadoCitasService: EstadoCitasService
+    private estadoCitasService: EstadoCitasService,
+    private busquedaService: BusquedaService
   ) {}
 
 
@@ -115,7 +120,20 @@ export class AgendaCitas implements OnInit {
 
   ngOnInit(): void {
 
+    // Configurar buscador global
+    // para Agenda y Citas
+
+    this.busquedaService.configurar(
+      'Buscar citas...'
+    );
+
+
+    // Cargar citas
+
     this.cargarCitas();
+
+
+    // Cargar catálogos
 
     this.cargarPacientes();
 

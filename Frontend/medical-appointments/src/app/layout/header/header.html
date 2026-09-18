@@ -2,10 +2,15 @@
   class="header"
   [class.sidebar-colapsado]="sidebarColapsado">
 
-  <!-- IZQUIERDA -->
+
+  <!-- =========================================
+       IZQUIERDA
+  ========================================= -->
+
   <div class="header-left">
 
     <div class="header-logo">
+
       <div class="logo-icon">
         CM
       </div>
@@ -13,12 +18,16 @@
       <span class="logo-text">
         Citas Médicas
       </span>
+
     </div>
 
   </div>
 
 
-  <!-- CENTRO -->
+  <!-- =========================================
+       CENTRO - BUSCADOR
+  ========================================= -->
+
   <div class="header-center">
 
     <div class="search-box">
@@ -27,15 +36,21 @@
 
       <input
         type="text"
-        placeholder="Buscar">
+        [value]="busquedaService.texto()"
+        [placeholder]="busquedaService.placeholder()"
+        (input)="onBuscar($event)">
 
     </div>
 
   </div>
 
 
-  <!-- DERECHA -->
+  <!-- =========================================
+       DERECHA
+  ========================================= -->
+
   <div class="header-right">
+
 
     <button
       type="button"
@@ -52,7 +67,8 @@
 
       <i class="bi bi-bell"></i>
 
-      <span class="notification-dot"></span>
+      <span class="notification-dot">
+      </span>
 
     </button>
 
@@ -65,12 +81,23 @@
         LA
       </div>
 
+
       <div class="user-info">
-        <strong>Usuario</strong>
-        <span>Administrador</span>
+
+        <strong>
+          Usuario
+        </strong>
+
+        <span>
+          Administrador
+        </span>
+
       </div>
 
-      <i class="bi bi-chevron-down user-arrow"></i>
+
+      <i
+        class="bi bi-chevron-down user-arrow">
+      </i>
 
     </button>
 
