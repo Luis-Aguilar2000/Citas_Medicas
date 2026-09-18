@@ -5,7 +5,9 @@ using System.Linq.Expressions;
 
 namespace Generics.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T>
+        : IGenericRepository<T>
+        where T : class
     {
         private readonly DbContext _context;
         private readonly DbSet<T> _dbSet;
@@ -16,60 +18,94 @@ namespace Generics.Repositories
             _dbSet = context.Set<T>();
         }
 
+
         // =========================================
-        // OBTENER TODOS
+        // CONSULTA BASE
         // =========================================
+
+        private IQueryable<T> Query(
+            bool asNoTracking = true)
+        {
+            IQueryable<T> query = _dbSet;
+
+            if (asNoTracking)
+            {
+                query = query.AsNoTracking();
+            }
+
+            return query;
+        }
+
+
+        // =========================================
+        // GET ALL
+        // =========================================
+
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
         }
 
+
         // =========================================
-        // OBTENER POR ID
+        // GET BY ID
         // =========================================
+
         public async Task<T?> GetByIdAsync(int id)
         {
             return await _dbSet.FindAsync(id);
         }
 
+
         // =========================================
-        // AGREGAR
+        // ADD
         // =========================================
+
         public async Task<T> AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
+
             await _context.SaveChangesAsync();
 
             return entity;
         }
 
+
         // =========================================
-        // ACTUALIZAR
+        // UPDATE
         // =========================================
+
         public async Task UpdateAsync(T entity)
         {
             _dbSet.Update(entity);
+
             await _context.SaveChangesAsync();
         }
 
+
         // =========================================
-        // ELIMINAR
+        // DELETE
         // =========================================
+
         public async Task DeleteAsync(T entity)
         {
             _dbSet.Remove(entity);
+
             await _context.SaveChangesAsync();
         }
 
+
         // =========================================
-        // OBTENER PAGINADO
+        // PAGINACION GENERICA
         // =========================================
+
         public async Task<PagedResult<T>> GetPagedAsync(
             int pageNumber,
             int pageSize,
             Expression<Func<T, bool>>? filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
             bool asNoTracking = true,
+            bool splitQuery = false,
             CancellationToken cancellationToken = default,
             params Expression<Func<T, object>>[] includes)
         {
@@ -87,54 +123,59 @@ namespace Generics.Repositories
                     "pageSize debe ser mayor o igual a 1.");
             }
 
-            IQueryable<T> query = _dbSet;
+            var query =
+                ApplyIncludes(
+                    Query(asNoTracking),
+                    includes);
 
-            // Solo lectura: mejora el rendimiento
-            if (asNoTracking)
-            {
-                query = query.AsNoTracking();
-            }
-
-            // Incluir relaciones
-            query = ApplyIncludes(query, includes);
-
-            // Aplicar filtro
             if (filter != null)
             {
                 query = query.Where(filter);
             }
 
-            // Contar todos los registros que cumplen el filtro
-            int totalRecords =
-                await query.CountAsync(cancellationToken);
+            if (splitQuery)
+            {
+                query = query.AsSplitQuery();
+            }
 
-            // Aplicar ordenamiento
+            int totalRecords =
+                await query.CountAsync(
+                    cancellationToken);
+
             if (orderBy != null)
             {
                 query = orderBy(query);
             }
 
-            // Aplicar paginación
             query = query
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize);
 
-            // Ejecutar consulta
             var data =
-                await query.ToListAsync(cancellationToken);
+                await query.ToListAsync(
+                    cancellationToken);
 
             return new PagedResult<T>
             {
                 Data = data,
+
                 TotalRecords = totalRecords,
+
+                TotalPages =
+                    (int)Math.Ceiling(
+                        (double)totalRecords / pageSize),
+
                 PageSize = pageSize,
+
                 CurrentPage = pageNumber
             };
         }
 
+
         // =========================================
-        // APLICAR RELACIONES
+        // INCLUDES
         // =========================================
+
         private static IQueryable<T> ApplyIncludes(
             IQueryable<T> query,
             Expression<Func<T, object>>[] includes)

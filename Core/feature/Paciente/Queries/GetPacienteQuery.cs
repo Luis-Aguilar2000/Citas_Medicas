@@ -1,18 +1,23 @@
-﻿using Generics.Interfaces;
+﻿using Domain.Models;
+using Generics.Helpers;
+using Generics.Interfaces;
 using Generics.Models;
-using Domain.Models;
 using MediatR;
 using Generics.Filter;
 
 namespace Core.feature.Paciente.Queries
 {
-    public class GetPacienteQuery : IRequest<PagedResult<Pacientes>>
+    public class GetPacienteQuery
+        : RequestParametersGets,
+          IRequest<PagedResult<Pacientes>>
     {
+
         public int PageNumber { get; set; } = 1;
 
         public int PageSize { get; set; } = 10;
 
         public string? Filter { get; set; }
+
     }
 
     public class GetPacienteQueryHandler
@@ -30,8 +35,11 @@ namespace Core.feature.Paciente.Queries
             GetPacienteQuery request,
             CancellationToken cancellationToken)
         {
+
             var filter = !string.IsNullOrEmpty(request.Filter)
-                ? Filter.FromStringExpression<Pacientes>(request.Filter) : null;
+                ? Generics.Filter.Filter.FromStringExpression<Pacientes>(request.Filter) : null;
+        
+            
 
             return await _repository.GetPagedAsync(
                 pageNumber: request.PageNumber,

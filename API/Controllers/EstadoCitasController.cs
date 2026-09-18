@@ -25,16 +25,9 @@ namespace API.Controllers
 
         [HttpGet]
         public async Task<ActionResult<PagedResult<EstadoCitas>>> Get(
-            [FromQuery] int pageNumber = 1,
-            [FromQuery] int pageSize = 10)
+            [FromQuery] GetEstadosCitasQuery query)
         {
-            var resultado = await _mediator.Send(
-                new GetEstadosCitasQuery
-                {
-                    PageNumber = pageNumber,
-                    PageSize = pageSize
-                }
-            );
+            var resultado = await _mediator.Send(query);
 
             return Ok(resultado);
         }

@@ -21,6 +21,7 @@ namespace Generics.Interfaces
             Expression<Func<T, bool>>? filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
             bool asNoTracking = true,
+            bool splitQuery = false,
             CancellationToken cancellationToken = default,
             params Expression<Func<T, object>>[] includes);
 
