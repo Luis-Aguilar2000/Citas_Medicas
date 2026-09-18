@@ -2,9 +2,14 @@
      MODAL HORARIO MÉDICO
 ========================================= -->
 
-<div class="overlay" *ngIf="mostrarFormulario">
+<div
+  class="overlay"
+  *ngIf="mostrarFormulario">
 
   <div class="modal-horario">
+
+
+    <!-- HEADER MODAL -->
 
     <div class="modal-header">
 
@@ -14,9 +19,12 @@
           <i class="bi bi-clock"></i>
         </span>
 
-        <strong>Horarios Médicos</strong>
+        <strong>
+          Horarios Médicos
+        </strong>
 
       </div>
+
 
       <button
         type="button"
@@ -50,19 +58,27 @@
     <p
       class="subtitulo"
       *ngIf="modoFormulario === 'nuevo'">
+
       Complete la información del horario médico.
+
     </p>
+
 
     <p
       class="subtitulo"
       *ngIf="modoFormulario === 'ver'">
+
       Consulte la información registrada.
+
     </p>
+
 
     <p
       class="subtitulo"
       *ngIf="modoFormulario === 'editar'">
+
       Modifique la información necesaria.
+
     </p>
 
 
@@ -77,7 +93,9 @@
 
       <div class="campo">
 
-        <label>ID Médico</label>
+        <label>
+          ID Médico
+        </label>
 
         <input
           type="number"
@@ -93,7 +111,9 @@
 
       <div class="campo">
 
-        <label>Consultorio</label>
+        <label>
+          Consultorio
+        </label>
 
         <select
           [(ngModel)]="nuevoHorario.idConsultorio"
@@ -102,6 +122,7 @@
           <option [ngValue]="0">
             Seleccione un consultorio
           </option>
+
 
           <option
             *ngFor="let consultorio of consultorios()"
@@ -127,7 +148,9 @@
 
       <div class="campo">
 
-        <label>Día de la semana</label>
+        <label>
+          Día de la semana
+        </label>
 
         <select
           [(ngModel)]="nuevoHorario.diaSemana"
@@ -136,6 +159,7 @@
           <option value="">
             Seleccione un día
           </option>
+
 
           <option
             *ngFor="let dia of diasSemana"
@@ -154,7 +178,9 @@
 
       <div class="campo">
 
-        <label>Estado</label>
+        <label>
+          Estado
+        </label>
 
         <select
           [(ngModel)]="nuevoHorario.estado"
@@ -177,7 +203,9 @@
 
       <div class="campo">
 
-        <label>Hora de inicio</label>
+        <label>
+          Hora de inicio
+        </label>
 
         <input
           type="time"
@@ -191,7 +219,9 @@
 
       <div class="campo">
 
-        <label>Hora de fin</label>
+        <label>
+          Hora de fin
+        </label>
 
         <input
           type="time"
@@ -204,10 +234,13 @@
 
 
     <!-- =========================================
-         ACCIONES DEL MODAL
+         ACCIONES MODAL
     ========================================= -->
 
     <div class="acciones">
+
+
+      <!-- VER -->
 
       <button
         *ngIf="modoFormulario === 'ver'"
@@ -219,6 +252,8 @@
 
       </button>
 
+
+      <!-- NUEVO / EDITAR -->
 
       <ng-container
         *ngIf="modoFormulario !== 'ver'">
@@ -316,19 +351,33 @@
 
         <tr>
 
-          <th>ID</th>
+          <th>
+            ID
+          </th>
 
-          <th>Médico</th>
+          <th>
+            Médico
+          </th>
 
-          <th>Consultorio</th>
+          <th>
+            Consultorio
+          </th>
 
-          <th>Día</th>
+          <th>
+            Día
+          </th>
 
-          <th>Hora Inicio</th>
+          <th>
+            Hora Inicio
+          </th>
 
-          <th>Hora Fin</th>
+          <th>
+            Hora Fin
+          </th>
 
-          <th>Estado</th>
+          <th>
+            Estado
+          </th>
 
           <th class="columna-acciones">
             Acciones
@@ -342,6 +391,8 @@
       <tbody>
 
 
+        <!-- HORARIOS -->
+
         <tr
           *ngFor="let horario of horarios()">
 
@@ -351,7 +402,9 @@
           <td>
 
             <span class="id-horario">
+
               {{ horario.idHorario }}
+
             </span>
 
           </td>
@@ -451,13 +504,9 @@
           <td class="columna-acciones">
 
             <app-botones-acciones
-
               (ver)="verHorario(horario)"
-
               (editar)="editarHorario(horario)"
-
               (eliminar)="eliminarHorario(horario)">
-
             </app-botones-acciones>
 
           </td>
@@ -488,120 +537,18 @@
 
 
   <!-- =========================================
-       PAGINACIÓN
+       PAGINACIÓN GENÉRICA
   ========================================= -->
 
-  <div
-    class="paginacion-contenedor"
-    *ngIf="totalRegistros > 0">
+  <app-paginacion
+    [paginaActual]="paginaActual"
+    [tamanoPagina]="tamanoPagina"
+    [totalRegistros]="totalRegistros"
+    [totalPaginas]="totalPaginas"
+    nombreRegistros="horarios"
+    (paginaCambiada)="cambiarPagina($event)"
+    (tamanoPaginaCambiado)="cambiarTamanoPagina($event)">
+  </app-paginacion>
 
-
-    <!-- INFORMACIÓN -->
-
-    <div class="paginacion-info">
-
-      Mostrando
-
-      <strong>
-        {{ obtenerRegistroInicial() }}
-      </strong>
-
-      -
-
-      <strong>
-        {{ obtenerRegistroFinal() }}
-      </strong>
-
-      de
-
-      <strong>
-        {{ totalRegistros }}
-      </strong>
-
-      horarios
-
-    </div>
-
-
-    <!-- TAMAÑO DE PÁGINA -->
-
-    <div class="paginacion-tamano">
-
-      <label>
-        Mostrar
-      </label>
-
-      <select
-        [(ngModel)]="tamanoPagina"
-        (change)="cambiarTamanoPagina()">
-
-        <option [ngValue]="5">
-          5
-        </option>
-
-        <option [ngValue]="10">
-          10
-        </option>
-
-        <option [ngValue]="20">
-          20
-        </option>
-
-        <option [ngValue]="50">
-          50
-        </option>
-
-      </select>
-
-    </div>
-
-
-    <!-- CONTROLES -->
-
-    <div class="paginacion-controles">
-
-
-      <!-- ANTERIOR -->
-
-      <button
-        type="button"
-        class="btn-pagina btn-navegacion"
-        [disabled]="paginaActual === 1"
-        (click)="paginaAnterior()">
-
-        <i class="bi bi-chevron-left"></i>
-
-      </button>
-
-
-      <!-- PÁGINAS -->
-
-      <button
-        *ngFor="let pagina of obtenerPaginas()"
-        type="button"
-        class="btn-pagina"
-        [class.activa]="pagina === paginaActual"
-        (click)="cambiarPagina(pagina)">
-
-        {{ pagina }}
-
-      </button>
-
-
-      <!-- SIGUIENTE -->
-
-      <button
-        type="button"
-        class="btn-pagina btn-navegacion"
-        [disabled]="paginaActual === totalPaginas"
-        (click)="paginaSiguiente()">
-
-        <i class="bi bi-chevron-right"></i>
-
-      </button>
-
-    </div>
-
-  </div>
 
 </div>

@@ -1,151 +1,469 @@
-<!-- MODAL PACIENTE -->
-<div class="overlay" *ngIf="mostrarFormulario">
+<!-- =========================================
+     MODAL PACIENTE
+========================================= -->
+
+<div
+  class="overlay"
+  *ngIf="mostrarFormulario">
+
   <div class="modal-paciente">
+
+
+    <!-- HEADER MODAL -->
+
     <div class="modal-header">
+
       <div class="modal-marca">
+
         <span class="mini-logo">
           <i class="bi bi-person"></i>
         </span>
+
         <strong>Paciente</strong>
+
       </div>
-      <button type="button" class="btn-cerrar" (click)="cerrarFormulario()">
+
+
+      <button
+        type="button"
+        class="btn-cerrar"
+        (click)="cerrarFormulario()">
+
         <i class="bi bi-x-lg"></i>
+
       </button>
+
     </div>
 
-    <h2 *ngIf="modoFormulario === 'nuevo'">Registrar nuevo paciente</h2>
-    <h2 *ngIf="modoFormulario === 'ver'">Información del paciente</h2>
-    <h2 *ngIf="modoFormulario === 'editar'">Editar paciente</h2>
 
-    <p class="subtitulo" *ngIf="modoFormulario === 'nuevo'">Complete la información del paciente</p>
-    <p class="subtitulo" *ngIf="modoFormulario === 'ver'">Consulte la información registrada</p>
-    <p class="subtitulo" *ngIf="modoFormulario === 'editar'">Modifique la información necesaria</p>
+    <!-- TÍTULO -->
+
+    <h2 *ngIf="modoFormulario === 'nuevo'">
+      Registrar nuevo paciente
+    </h2>
+
+    <h2 *ngIf="modoFormulario === 'ver'">
+      Información del paciente
+    </h2>
+
+    <h2 *ngIf="modoFormulario === 'editar'">
+      Editar paciente
+    </h2>
+
+
+    <!-- SUBTÍTULO -->
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'nuevo'">
+
+      Complete la información del paciente
+
+    </p>
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'ver'">
+
+      Consulte la información registrada
+
+    </p>
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'editar'">
+
+      Modifique la información necesaria
+
+    </p>
+
+
+    <!-- FORMULARIO -->
 
     <div class="form-grid">
+
+
+      <!-- NOMBRES -->
+
       <div class="campo">
+
         <label>Nombres</label>
-        <input type="text" placeholder="Ingrese los nombres" [(ngModel)]="nuevoPaciente.nombres" [disabled]="modoFormulario === 'ver'">
+
+        <input
+          type="text"
+          placeholder="Ingrese los nombres"
+          [(ngModel)]="nuevoPaciente.nombres"
+          [disabled]="modoFormulario === 'ver'">
+
       </div>
 
+
+      <!-- APELLIDOS -->
+
       <div class="campo">
+
         <label>Apellidos</label>
-        <input type="text" placeholder="Ingrese los apellidos" [(ngModel)]="nuevoPaciente.apellidos" [disabled]="modoFormulario === 'ver'">
+
+        <input
+          type="text"
+          placeholder="Ingrese los apellidos"
+          [(ngModel)]="nuevoPaciente.apellidos"
+          [disabled]="modoFormulario === 'ver'">
+
       </div>
 
+
+      <!-- FECHA NACIMIENTO -->
+
       <div class="campo">
+
         <label>Fecha de nacimiento</label>
-        <input type="date" [(ngModel)]="nuevoPaciente.fechaNacimiento" [disabled]="modoFormulario === 'ver'">
+
+        <input
+          type="date"
+          [(ngModel)]="nuevoPaciente.fechaNacimiento"
+          [disabled]="modoFormulario === 'ver'">
+
       </div>
 
+
+      <!-- SEXO -->
+
       <div class="campo">
+
         <label>Sexo</label>
-        <select [(ngModel)]="nuevoPaciente.sexo" [disabled]="modoFormulario === 'ver'">
-          <option value="">Seleccione</option>
-          <option value="Masculino">Masculino</option>
-          <option value="Femenino">Femenino</option>
+
+        <select
+          [(ngModel)]="nuevoPaciente.sexo"
+          [disabled]="modoFormulario === 'ver'">
+
+          <option value="">
+            Seleccione
+          </option>
+
+          <option value="Masculino">
+            Masculino
+          </option>
+
+          <option value="Femenino">
+            Femenino
+          </option>
+
         </select>
+
       </div>
 
+
+      <!-- DUI -->
+
       <div class="campo">
+
         <label>DUI</label>
-        <input type="text" placeholder="00000000-0" [(ngModel)]="nuevoPaciente.dui" [disabled]="modoFormulario === 'ver'">
+
+        <input
+          type="text"
+          placeholder="00000000-0"
+          [(ngModel)]="nuevoPaciente.dui"
+          [disabled]="modoFormulario === 'ver'">
+
       </div>
+
+
+      <!-- TELÉFONO -->
 
       <div class="campo">
+
         <label>Teléfono</label>
-        <input type="text" placeholder="7000-0000" [(ngModel)]="nuevoPaciente.telefono" [disabled]="modoFormulario === 'ver'">
+
+        <input
+          type="text"
+          placeholder="7000-0000"
+          [(ngModel)]="nuevoPaciente.telefono"
+          [disabled]="modoFormulario === 'ver'">
+
       </div>
 
+
+      <!-- CORREO -->
+
       <div class="campo campo-completo">
+
         <label>Correo</label>
-        <input type="email" placeholder="correo@ejemplo.com" [(ngModel)]="nuevoPaciente.correo" [disabled]="modoFormulario === 'ver'">
+
+        <input
+          type="email"
+          placeholder="correo@ejemplo.com"
+          [(ngModel)]="nuevoPaciente.correo"
+          [disabled]="modoFormulario === 'ver'">
+
       </div>
 
+
+      <!-- DIRECCIÓN -->
+
       <div class="campo campo-completo">
+
         <label>Dirección</label>
-        <textarea rows="3" placeholder="Ingrese la dirección" [(ngModel)]="nuevoPaciente.direccion" [disabled]="modoFormulario === 'ver'"></textarea>
+
+        <textarea
+          rows="3"
+          placeholder="Ingrese la dirección"
+          [(ngModel)]="nuevoPaciente.direccion"
+          [disabled]="modoFormulario === 'ver'">
+        </textarea>
+
       </div>
+
     </div>
+
+
+    <!-- ACCIONES MODAL -->
 
     <div class="acciones">
-      <button *ngIf="modoFormulario === 'ver'" type="button" class="btn-cancelar" (click)="cerrarFormulario()">
+
+      <button
+        *ngIf="modoFormulario === 'ver'"
+        type="button"
+        class="btn-cancelar"
+        (click)="cerrarFormulario()">
+
         Cerrar
+
       </button>
 
-      <ng-container *ngIf="modoFormulario !== 'ver'">
-        <button type="button" class="btn-cancelar" (click)="cerrarFormulario()">
+
+      <ng-container
+        *ngIf="modoFormulario !== 'ver'">
+
+        <button
+          type="button"
+          class="btn-cancelar"
+          (click)="cerrarFormulario()">
+
           Cancelar
+
         </button>
-        <button type="button" class="btn-guardar" (click)="guardarPaciente()">
+
+
+        <button
+          type="button"
+          class="btn-guardar"
+          (click)="guardarPaciente()">
+
           <i class="bi bi-check-lg"></i>
-          {{ modoFormulario === 'nuevo' ? 'Guardar' : 'Guardar cambios' }}
+
+          {{
+            modoFormulario === 'nuevo'
+              ? 'Guardar'
+              : 'Guardar cambios'
+          }}
+
         </button>
+
       </ng-container>
+
     </div>
+
   </div>
+
 </div>
 
-<!-- TABLA PACIENTES -->
+
+<!-- =========================================
+     TABLA PACIENTES
+========================================= -->
+
 <div class="tabla-contenedor">
+
+
+  <!-- HEADER -->
+
   <div class="tabla-header">
+
     <div>
+
       <h2>Pacientes</h2>
-      <p>{{ pacientes().length }} {{ pacientes().length === 1 ? 'paciente registrado' : 'pacientes registrados' }}</p>
+
+      <p>
+        {{ totalRegistros }}
+        {{
+          totalRegistros === 1
+            ? 'paciente registrado'
+            : 'pacientes registrados'
+        }}
+      </p>
+
     </div>
-    <button type="button" class="btn-nuevo" (click)="abrirNuevoPaciente()">
+
+
+    <button
+      type="button"
+      class="btn-nuevo"
+      (click)="abrirNuevoPaciente()">
+
       <i class="bi bi-person-plus"></i>
+
       Nuevo paciente
+
     </button>
+
   </div>
+
+
+  <!-- TABLA -->
 
   <div class="tabla-responsive">
+
     <table class="tabla-pacientes">
+
       <thead>
+
         <tr>
+
           <th>ID</th>
+
           <th>Paciente</th>
+
           <th>Fecha nacimiento</th>
+
           <th>Sexo</th>
+
           <th>DUI</th>
+
           <th>Teléfono</th>
+
           <th>Correo</th>
+
           <th>Dirección</th>
-          <th class="columna-acciones">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let paciente of pacientes()">
-          <td>
-            <span class="id-paciente">{{ paciente.idPaciente }}</span>
-          </td>
-          <td>
-            <div class="paciente-info">
-              <strong>{{ paciente.nombres }} {{ paciente.apellidos }}</strong>
-            </div>
-          </td>
-          <td>{{ paciente.fechaNacimiento | date:'dd/MM/yyyy' }}</td>
-          <td>
-            <span class="sexo">{{ paciente.sexo }}</span>
-          </td>
-          <td>{{ paciente.dui }}</td>
-          <td>{{ paciente.telefono }}</td>
-          <td>{{ paciente.correo }}</td>
-          <td>{{ paciente.direccion }}</td>
-          <td class="columna-acciones">
-            <app-botones-acciones
-              (ver)="verPaciente(paciente)"
-              (editar)="editarPaciente(paciente)"
-              (eliminar)="eliminarPaciente(paciente)">
-            </app-botones-acciones>
-          </td>
+
+          <th class="columna-acciones">
+            Acciones
+          </th>
+
         </tr>
 
-        <tr *ngIf="pacientes().length === 0">
-          <td colspan="9" class="sin-datos">
-            No hay pacientes registrados
+      </thead>
+
+
+      <tbody>
+
+
+        <!-- PACIENTES -->
+
+        <tr
+          *ngFor="let paciente of pacientes()">
+
+          <td>
+
+            <span class="id-paciente">
+              {{ paciente.idPaciente }}
+            </span>
+
           </td>
+
+
+          <td>
+
+            <div class="paciente-info">
+
+              <strong>
+                {{ paciente.nombres }}
+                {{ paciente.apellidos }}
+              </strong>
+
+            </div>
+
+          </td>
+
+
+          <td>
+            {{
+              paciente.fechaNacimiento
+                | date:'dd/MM/yyyy'
+            }}
+          </td>
+
+
+          <td>
+
+            <span class="sexo">
+              {{ paciente.sexo }}
+            </span>
+
+          </td>
+
+
+          <td>
+            {{ paciente.dui }}
+          </td>
+
+
+          <td>
+            {{ paciente.telefono }}
+          </td>
+
+
+          <td>
+            {{ paciente.correo }}
+          </td>
+
+
+          <td>
+            {{ paciente.direccion }}
+          </td>
+
+
+          <td class="columna-acciones">
+
+            <app-botones-acciones
+
+              (ver)="verPaciente(paciente)"
+
+              (editar)="editarPaciente(paciente)"
+
+              (eliminar)="eliminarPaciente(paciente)">
+
+            </app-botones-acciones>
+
+          </td>
+
         </tr>
+
+
+        <!-- SIN DATOS -->
+
+        <tr
+          *ngIf="pacientes().length === 0">
+
+          <td
+            colspan="9"
+            class="sin-datos">
+
+            No hay pacientes registrados
+
+          </td>
+
+        </tr>
+
       </tbody>
+
     </table>
+
   </div>
+
+
+  <!-- =========================================
+       PAGINACIÓN GENÉRICA
+  ========================================= -->
+
+  <app-paginacion
+    [paginaActual]="paginaActual"
+    [tamanoPagina]="tamanoPagina"
+    [totalRegistros]="totalRegistros"
+    [totalPaginas]="totalPaginas"
+    nombreRegistros="pacientes"
+    (paginaCambiada)="cambiarPagina($event)"
+    (tamanoPaginaCambiado)="cambiarTamanoPagina($event)">
+  </app-paginacion>
+
 </div>

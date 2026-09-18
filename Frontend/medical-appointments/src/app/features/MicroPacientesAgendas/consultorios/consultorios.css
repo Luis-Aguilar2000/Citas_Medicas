@@ -7,25 +7,38 @@
   align-items: center;
   justify-content: center;
   gap: 7px;
+
   background: #6c5ce7;
   color: white;
+
   border: none;
+
   padding: 10px 18px;
+
   border-radius: 7px;
+
   cursor: pointer;
+
   font-size: 14px;
   font-weight: 500;
+
   white-space: nowrap;
-  transition: background 0.2s ease, transform 0.15s ease;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
 }
 
+
 .btn-nuevo i {
-  font-size: 15px;
+  font-size: 16px;
 }
+
 
 .btn-nuevo:hover {
   background: #5b4cc4;
 }
+
 
 .btn-nuevo:active {
   transform: scale(0.98);
@@ -33,75 +46,148 @@
 
 
 /* =========================================
-   OVERLAY
+   MODAL Y FONDO
 ========================================= */
 
 .overlay {
   position: fixed;
+
   inset: 0;
+
   background: rgba(0, 0, 0, 0.55);
+
   display: flex;
+
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+
+  z-index: 2000;
+}
+
+
+.modal-consultorio {
+  width: 580px;
+
+  max-width: 90%;
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  background: white;
+
+  border-radius: 14px;
+
+  padding: 26px 30px;
+
+  box-shadow:
+    0 15px 45px
+    rgba(0, 0, 0, 0.3);
+
+  box-sizing: border-box;
 }
 
 
 /* =========================================
-   MODAL
+   HEADER MODAL
 ========================================= */
-
-.modal-consultorio {
-  width: 580px;
-  max-width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
-  background: white;
-  border-radius: 14px;
-  padding: 26px 30px;
-  box-sizing: border-box;
-  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
-}
 
 .modal-header {
   display: flex;
+
   justify-content: space-between;
   align-items: center;
 }
 
+
 .modal-marca {
   display: flex;
+
   align-items: center;
 }
+
 
 .mini-logo {
   width: 28px;
   height: 28px;
+
   display: inline-flex;
+
   justify-content: center;
   align-items: center;
+
   margin-right: 8px;
+
   background: #6c5ce7;
+
   color: white;
+
   border-radius: 7px;
 }
 
-.btn-cerrar {
-  border: none;
-  background: transparent;
-  color: #777;
-  font-size: 25px;
-  cursor: pointer;
+
+.mini-logo i {
+  font-size: 14px;
 }
+
+
+/* =========================================
+   BOTÓN CERRAR
+========================================= */
+
+.btn-cerrar {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  border-radius: 7px;
+
+  background: transparent;
+
+  color: #777;
+
+  font-size: 17px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+
+.btn-cerrar:hover {
+  background: #f3f4f6;
+
+  color: #333;
+}
+
+
+/* =========================================
+   TÍTULO MODAL
+========================================= */
 
 .modal-consultorio h2 {
   margin-top: 24px;
+
   margin-bottom: 5px;
+
+  color: #222;
 }
+
 
 .subtitulo {
   margin-top: 0;
+
+  margin-bottom: 22px;
+
   color: #888;
+
   font-size: 13px;
 }
 
@@ -112,85 +198,162 @@
 
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+
+  grid-template-columns:
+    1fr 1fr;
+
   gap: 18px;
 }
 
+
 .campo {
   display: flex;
+
   flex-direction: column;
 }
+
 
 .campo-completo {
   grid-column: 1 / -1;
 }
 
+
 .campo label {
   margin-bottom: 6px;
+
   color: #555;
+
   font-size: 13px;
+  font-weight: 500;
 }
+
+
+/* =========================================
+   INPUTS
+========================================= */
 
 .campo input,
 .campo select,
 .campo textarea {
+  width: 100%;
+
   padding: 11px 12px;
-  border: 1px solid #d0d0d0;
+
+  border:
+    1px solid #d0d0d0;
+
   border-radius: 6px;
+
+  background: white;
+
+  color: #333;
+
   font-size: 14px;
+  font-family: inherit;
+
   outline: none;
+
   box-sizing: border-box;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
+
 
 .campo textarea {
   resize: vertical;
 }
 
+
 .campo input:focus,
 .campo select:focus,
 .campo textarea:focus {
   border-color: #6c5ce7;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(108, 92, 231, 0.08);
 }
+
 
 .campo input:disabled,
 .campo select:disabled,
 .campo textarea:disabled {
-  background: #f8f8f8;
+  background: #f8f9fa;
+
+  border-color: #e5e7eb;
+
   color: #555;
+
   cursor: default;
+
+  opacity: 1;
 }
 
 
 /* =========================================
-   ACCIONES DEL MODAL
+   ACCIONES MODAL
 ========================================= */
 
 .acciones {
   display: flex;
+
   justify-content: flex-end;
+  align-items: center;
+
   gap: 10px;
+
   margin-top: 25px;
 }
 
+
 .btn-cancelar {
   background: white;
-  border: 1px solid #ccc;
+
+  color: #555;
+
+  border:
+    1px solid #ccc;
+
   padding: 10px 18px;
+
   border-radius: 6px;
+
   cursor: pointer;
+
+  font-size: 14px;
 }
+
+
+.btn-cancelar:hover {
+  background: #f8f8f8;
+}
+
 
 .btn-guardar {
   display: inline-flex;
+
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+
+  gap: 7px;
+
   background: #6c5ce7;
+
   color: white;
+
   border: none;
+
   padding: 10px 20px;
+
   border-radius: 6px;
+
   cursor: pointer;
+
+  font-size: 14px;
 }
+
 
 .btn-guardar:hover {
   background: #5b4cc4;
@@ -198,100 +361,163 @@
 
 
 /* =========================================
-   TABLA Y CONTENEDOR
+   TABLA DE CONSULTORIOS
 ========================================= */
 
 .tabla-contenedor {
   margin-top: 20px;
+
   background: white;
-  border: 1px solid #e5e7eb;
+
+  border:
+    1px solid #e5e7eb;
+
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+
+  box-shadow:
+    0 4px 15px
+    rgba(0, 0, 0, 0.06);
+
   overflow: hidden;
 }
 
+
 .tabla-header {
   min-height: 72px;
+
   display: flex;
+
   align-items: center;
   justify-content: space-between;
+
   gap: 20px;
+
   padding: 18px 24px;
-  border-bottom: 1px solid #e5e7eb;
+
+  border-bottom:
+    1px solid #e5e7eb;
+
   box-sizing: border-box;
 }
 
+
 .tabla-header h2 {
   margin: 0;
+
   color: #222;
+
   font-size: 22px;
   font-weight: 600;
 }
 
+
 .tabla-header p {
   margin: 5px 0 0;
+
   color: #888;
+
   font-size: 13px;
 }
 
+
+/* =========================================
+   TABLA RESPONSIVE
+========================================= */
+
 .tabla-responsive {
   width: 100%;
+
   overflow-x: auto;
 }
 
+
+/* =========================================
+   TABLA
+========================================= */
+
 .tabla-consultorios {
   width: 100%;
+
   border-collapse: collapse;
+
   font-size: 14px;
 }
+
 
 .tabla-consultorios thead {
   background: #6c5ce7;
 }
 
+
 .tabla-consultorios th {
   padding: 14px 16px;
+
   text-align: left;
+
   color: white;
+
   font-size: 12px;
   font-weight: 600;
+
   text-transform: uppercase;
+
   letter-spacing: 0.4px;
+
   white-space: nowrap;
 }
 
+
 .tabla-consultorios td {
   padding: 14px 16px;
-  border-bottom: 1px solid #eeeeee;
+
+  border-bottom:
+    1px solid #eeeeee;
+
   color: #555;
+
   vertical-align: middle;
 }
 
+
 .tabla-consultorios tbody tr {
-  transition: background 0.2s ease;
+  transition:
+    background 0.2s ease;
 }
+
 
 .tabla-consultorios tbody tr:hover {
   background: #f8f7fd;
 }
 
+
 .tabla-consultorios tbody tr:last-child td {
   border-bottom: none;
 }
 
+
+/* =========================================
+   INFORMACIÓN CONSULTORIO
+========================================= */
+
 .id-consultorio {
   color: #6c5ce7;
+
   font-weight: 600;
 }
 
+
 .consultorio-info {
   display: flex;
+
   align-items: center;
+
   gap: 10px;
 }
 
+
 .consultorio-info strong {
   color: #333;
+
   white-space: nowrap;
 }
 
@@ -302,195 +528,58 @@
 
 .estado {
   display: inline-block;
+
   padding: 5px 10px;
+
   border-radius: 20px;
+
   font-size: 12px;
   font-weight: 500;
+
   white-space: nowrap;
 }
 
+
 .estado-activo {
   background: #dcfce7;
+
   color: #15803d;
 }
 
+
 .estado-inactivo {
   background: #fee2e2;
+
   color: #b91c1c;
 }
 
 
 /* =========================================
-   ACCIONES
+   ACCIONES TABLA
 ========================================= */
 
 .columna-acciones {
   text-align: center !important;
+
   white-space: nowrap;
 }
 
+
+/* =========================================
+   SIN DATOS
+========================================= */
+
 .sin-datos {
   text-align: center;
+
   padding: 35px !important;
+
   color: #999 !important;
 }
 
 
 /* =========================================
-   PAGINACIÓN
-========================================= */
-
-.paginacion-contenedor {
-  min-height: 64px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 20px;
-
-  padding: 14px 24px;
-
-  border-top: 1px solid #e5e7eb;
-
-  background: #ffffff;
-
-  box-sizing: border-box;
-}
-
-
-/* INFORMACIÓN */
-
-.paginacion-info {
-  color: #777;
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-.paginacion-info strong {
-  color: #333;
-  font-weight: 600;
-}
-
-
-/* TAMAÑO DE PÁGINA */
-
-.paginacion-tamano {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  color: #666;
-  font-size: 13px;
-}
-
-.paginacion-tamano select {
-  height: 34px;
-
-  padding: 0 28px 0 10px;
-
-  border: 1px solid #dcdfe4;
-  border-radius: 6px;
-
-  background: white;
-  color: #444;
-
-  font-size: 13px;
-
-  cursor: pointer;
-  outline: none;
-
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
-}
-
-.paginacion-tamano select:focus {
-  border-color: #6c5ce7;
-
-  box-shadow:
-    0 0 0 3px
-    rgba(108, 92, 231, 0.08);
-}
-
-
-/* CONTROLES */
-
-.paginacion-controles {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.btn-pagina {
-  min-width: 34px;
-  height: 34px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0 9px;
-
-  border: 1px solid #e1e1e8;
-  border-radius: 6px;
-
-  background: white;
-  color: #555;
-
-  font-size: 13px;
-  font-weight: 500;
-
-  cursor: pointer;
-
-  transition:
-    background 0.15s ease,
-    color 0.15s ease,
-    border-color 0.15s ease,
-    transform 0.15s ease;
-}
-
-.btn-pagina:hover:not(:disabled):not(.activa) {
-  background: #f5f3ff;
-  color: #6c5ce7;
-  border-color: #cfc8ff;
-}
-
-.btn-pagina:active:not(:disabled) {
-  transform: scale(0.95);
-}
-
-
-/* PÁGINA ACTUAL */
-
-.btn-pagina.activa {
-  background: #6c5ce7;
-  color: white;
-  border-color: #6c5ce7;
-  cursor: default;
-}
-
-
-/* ANTERIOR / SIGUIENTE */
-
-.btn-navegacion {
-  color: #6c5ce7;
-}
-
-.btn-pagina:disabled {
-  background: #f8f8fa;
-  color: #bbb;
-  border-color: #eeeeee;
-  cursor: not-allowed;
-}
-
-.btn-pagina i {
-  font-size: 12px;
-}
-
-
-/* =========================================
-   RESPONSIVE
+   RESPONSIVE MODAL
 ========================================= */
 
 @media (max-width: 650px) {
@@ -499,9 +588,11 @@
     grid-template-columns: 1fr;
   }
 
+
   .campo-completo {
     grid-column: auto;
   }
+
 
   .modal-consultorio {
     padding: 22px 20px;
@@ -510,12 +601,18 @@
 }
 
 
+/* =========================================
+   RESPONSIVE HEADER
+========================================= */
+
 @media (max-width: 700px) {
 
   .tabla-header {
     align-items: flex-start;
+
     flex-direction: column;
   }
+
 
   .btn-nuevo {
     width: 100%;
@@ -524,42 +621,14 @@
 }
 
 
-@media (max-width: 1000px) {
+/* =========================================
+   RESPONSIVE TABLA
+========================================= */
+
+@media (max-width: 900px) {
 
   .tabla-consultorios {
     min-width: 1150px;
-  }
-
-  .paginacion-contenedor {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .paginacion-info {
-    width: 100%;
-    text-align: center;
-  }
-
-}
-
-
-@media (max-width: 550px) {
-
-  .paginacion-contenedor {
-    flex-direction: column;
-    gap: 12px;
-    padding: 16px;
-  }
-
-  .paginacion-tamano {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .paginacion-controles {
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
   }
 
 }

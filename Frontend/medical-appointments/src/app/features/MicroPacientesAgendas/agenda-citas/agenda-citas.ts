@@ -31,6 +31,10 @@ import {
   BotonesAcciones
 } from '../../../shared/components/botones-acciones/botones-acciones';
 
+import {
+  Paginacion
+} from '../../../shared/components/paginacion/paginacion';
+
 
 @Component({
   selector: 'app-agenda-citas',
@@ -39,7 +43,8 @@ import {
   imports: [
     CommonModule,
     FormsModule,
-    BotonesAcciones
+    BotonesAcciones,
+    Paginacion
   ],
 
   templateUrl: './agenda-citas.html',
@@ -782,132 +787,18 @@ export class AgendaCitas implements OnInit {
 
 
   // =========================================
-  // ANTERIOR
+  // CAMBIAR TAMAÑO DE PÁGINA
   // =========================================
 
-  paginaAnterior(): void {
+  cambiarTamanoPagina(
+    tamano: number
+  ): void {
 
-    if (
-      this.paginaActual <= 1
-    ) {
-
-      return;
-
-    }
-
-    this.paginaActual--;
-
-    this.cargarCitas();
-
-  }
-
-
-  // =========================================
-  // SIGUIENTE
-  // =========================================
-
-  paginaSiguiente(): void {
-
-    if (
-      this.paginaActual >=
-      this.totalPaginas
-    ) {
-
-      return;
-
-    }
-
-    this.paginaActual++;
-
-    this.cargarCitas();
-
-  }
-
-
-  // =========================================
-  // OBTENER PÁGINAS
-  // =========================================
-
-  obtenerPaginas(): number[] {
-
-    if (
-      this.totalPaginas <= 0
-    ) {
-
-      return [];
-
-    }
-
-    return Array.from(
-      {
-        length:
-          this.totalPaginas
-      },
-
-      (_, indice) =>
-        indice + 1
-    );
-
-  }
-
-
-  // =========================================
-  // CAMBIAR TAMAÑO
-  // =========================================
-
-  cambiarTamanoPagina(): void {
+    this.tamanoPagina = tamano;
 
     this.paginaActual = 1;
 
     this.cargarCitas();
-
-  }
-
-
-  // =========================================
-  // REGISTRO INICIAL
-  // =========================================
-
-  obtenerRegistroInicial(): number {
-
-    if (
-      this.totalRegistros === 0
-    ) {
-
-      return 0;
-
-    }
-
-    return (
-      (this.paginaActual - 1) *
-      this.tamanoPagina
-    ) + 1;
-
-  }
-
-
-  // =========================================
-  // REGISTRO FINAL
-  // =========================================
-
-  obtenerRegistroFinal(): number {
-
-    if (
-      this.totalRegistros === 0
-    ) {
-
-      return 0;
-
-    }
-
-    return Math.min(
-
-      this.paginaActual *
-      this.tamanoPagina,
-
-      this.totalRegistros
-
-    );
 
   }
 

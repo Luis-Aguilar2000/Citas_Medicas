@@ -1,0 +1,207 @@
+/* =========================================
+   PAGINACIÓN
+========================================= */
+
+.paginacion-contenedor {
+  min-height: 64px;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr auto 1fr;
+
+  align-items: center;
+
+  gap: 20px;
+
+  padding: 12px 20px;
+
+  border-top:
+    1px solid #eeeeee;
+
+  background: #ffffff;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   INFORMACIÓN
+========================================= */
+
+.paginacion-info {
+  color: #777;
+
+  font-size: 13px;
+}
+
+
+.paginacion-info strong {
+  color: #444;
+
+  font-weight: 600;
+}
+
+
+/* =========================================
+   CONTROLES
+========================================= */
+
+.paginacion-controles {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+}
+
+
+.btn-pagina {
+  min-width: 34px;
+  height: 34px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 8px;
+
+  border:
+    1px solid #e5e7eb;
+
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #555;
+
+  font-size: 13px;
+  font-family: inherit;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+
+.btn-pagina:hover:not(:disabled):not(.activa) {
+  background: #f5f3ff;
+
+  border-color: #c4b5fd;
+
+  color: #6c5ce7;
+}
+
+
+.btn-pagina.activa {
+  background: #6c5ce7;
+
+  border-color: #6c5ce7;
+
+  color: white;
+
+  font-weight: 600;
+}
+
+
+.btn-pagina:disabled {
+  opacity: 0.4;
+
+  cursor: not-allowed;
+}
+
+
+.btn-flecha {
+  font-size: 12px;
+}
+
+
+/* =========================================
+   TAMAÑO DE PÁGINA
+========================================= */
+
+.tamano-pagina {
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 8px;
+
+  color: #777;
+
+  font-size: 13px;
+}
+
+
+.tamano-pagina select {
+  height: 34px;
+
+  padding: 0 9px;
+
+  border:
+    1px solid #e5e7eb;
+
+  border-radius: 6px;
+
+  background: white;
+
+  color: #555;
+
+  font-family: inherit;
+  font-size: 13px;
+
+  outline: none;
+
+  cursor: pointer;
+}
+
+
+.tamano-pagina select:focus {
+  border-color: #6c5ce7;
+
+  box-shadow:
+    0 0 0 2px
+    rgba(108, 92, 231, 0.08);
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 850px) {
+
+  .paginacion-contenedor {
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    padding: 16px;
+  }
+
+
+  .paginacion-info {
+    text-align: center;
+  }
+
+
+  .paginacion-controles {
+    flex-wrap: wrap;
+  }
+
+
+  .tamano-pagina {
+    justify-content: center;
+  }
+
+}

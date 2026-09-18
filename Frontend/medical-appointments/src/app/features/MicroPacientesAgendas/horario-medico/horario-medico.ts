@@ -1,4 +1,9 @@
-import { Component, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  signal
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -16,32 +21,40 @@ import {
   BotonesAcciones
 } from '../../../shared/components/botones-acciones/botones-acciones';
 
+import {
+  Paginacion
+} from '../../../shared/components/paginacion/paginacion';
+
 
 @Component({
   selector: 'app-horario-medico',
   standalone: true,
+
   imports: [
     CommonModule,
     FormsModule,
-    BotonesAcciones
+    BotonesAcciones,
+    Paginacion
   ],
+
   templateUrl: './horario-medico.html',
   styleUrl: './horario-medico.css'
 })
 export class HorarioMedico implements OnInit {
 
-  /* =========================================
-     DATOS
-  ========================================= */
+
+  // =========================================
+  // DATOS
+  // =========================================
 
   horarios = signal<HorarioMedicoModel[]>([]);
 
   consultorios = signal<Consultorio[]>([]);
 
 
-  /* =========================================
-     PAGINACIÓN
-  ========================================= */
+  // =========================================
+  // PAGINACIÓN
+  // =========================================
 
   paginaActual = 1;
 
@@ -52,14 +65,16 @@ export class HorarioMedico implements OnInit {
   totalPaginas = 0;
 
 
-  /* =========================================
-     FORMULARIO
-  ========================================= */
+  // =========================================
+  // FORMULARIO
+  // =========================================
 
   mostrarFormulario = false;
 
   modoFormulario:
-    'nuevo' | 'ver' | 'editar' = 'nuevo';
+    'nuevo' |
+    'ver' |
+    'editar' = 'nuevo';
 
   horarioSeleccionado:
     HorarioMedicoModel | null = null;
@@ -68,9 +83,9 @@ export class HorarioMedico implements OnInit {
     HorarioMedicoModel = this.crearHorarioVacio();
 
 
-  /* =========================================
-     DÍAS DE LA SEMANA
-  ========================================= */
+  // =========================================
+  // DÍAS DE LA SEMANA
+  // =========================================
 
   diasSemana: string[] = [
     'Lunes',
@@ -83,9 +98,9 @@ export class HorarioMedico implements OnInit {
   ];
 
 
-  /* =========================================
-     CONSTRUCTOR
-  ========================================= */
+  // =========================================
+  // CONSTRUCTOR
+  // =========================================
 
   constructor(
     private horarioService: HorarioMedicoService,
@@ -93,9 +108,9 @@ export class HorarioMedico implements OnInit {
   ) {}
 
 
-  /* =========================================
-     INIT
-  ========================================= */
+  // =========================================
+  // INIT
+  // =========================================
 
   ngOnInit(): void {
 
@@ -106,9 +121,9 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     CARGAR HORARIOS PAGINADOS
-  ========================================= */
+  // =========================================
+  // CARGAR HORARIOS PAGINADOS
+  // =========================================
 
   cargarHorarios(): void {
 
@@ -158,22 +173,18 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     CARGAR CONSULTORIOS
-  ========================================= */
+  // =========================================
+  // CARGAR CONSULTORIOS
+  // =========================================
 
   cargarConsultorios(): void {
 
     /*
-     * Consultorios ahora también utiliza
-     * paginación.
+     * Temporalmente solicitamos hasta 1000
+     * consultorios para utilizarlos como catálogo.
      *
-     * Para el selector necesitamos cargar
-     * todos los consultorios disponibles.
-     *
-     * Por ahora solicitamos hasta 1000.
-     * Posteriormente podemos crear un endpoint
-     * específico de catálogo.
+     * Posteriormente podemos reemplazar esto
+     * por un endpoint específico de catálogo.
      */
 
     this.consultoriosService
@@ -210,9 +221,9 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     NOMBRE DEL CONSULTORIO
-  ========================================= */
+  // =========================================
+  // NOMBRE DEL CONSULTORIO
+  // =========================================
 
   obtenerNombreConsultorio(
     idConsultorio: number
@@ -237,9 +248,9 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     CAMBIAR PÁGINA
-  ========================================= */
+  // =========================================
+  // CAMBIAR PÁGINA
+  // =========================================
 
   cambiarPagina(
     pagina: number
@@ -250,7 +261,9 @@ export class HorarioMedico implements OnInit {
       pagina > this.totalPaginas ||
       pagina === this.paginaActual
     ) {
+
       return;
+
     }
 
     this.paginaActual = pagina;
@@ -260,66 +273,15 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     PÁGINA ANTERIOR
-  ========================================= */
+  // =========================================
+  // CAMBIAR TAMAÑO DE PÁGINA
+  // =========================================
 
-  paginaAnterior(): void {
+  cambiarTamanoPagina(
+    tamano: number
+  ): void {
 
-    if (
-      this.paginaActual > 1
-    ) {
-
-      this.cambiarPagina(
-        this.paginaActual - 1
-      );
-
-    }
-
-  }
-
-
-  /* =========================================
-     PÁGINA SIGUIENTE
-  ========================================= */
-
-  paginaSiguiente(): void {
-
-    if (
-      this.paginaActual <
-      this.totalPaginas
-    ) {
-
-      this.cambiarPagina(
-        this.paginaActual + 1
-      );
-
-    }
-
-  }
-
-
-  /* =========================================
-     OBTENER PÁGINAS
-  ========================================= */
-
-  obtenerPaginas(): number[] {
-
-    return Array.from(
-      {
-        length: this.totalPaginas
-      },
-      (_, index) => index + 1
-    );
-
-  }
-
-
-  /* =========================================
-     CAMBIAR TAMAÑO DE PÁGINA
-  ========================================= */
-
-  cambiarTamanoPagina(): void {
+    this.tamanoPagina = tamano;
 
     this.paginaActual = 1;
 
@@ -328,47 +290,9 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     REGISTRO INICIAL
-  ========================================= */
-
-  obtenerRegistroInicial(): number {
-
-    if (
-      this.totalRegistros === 0
-    ) {
-      return 0;
-    }
-
-    return (
-      (this.paginaActual - 1) *
-      this.tamanoPagina
-    ) + 1;
-
-  }
-
-
-  /* =========================================
-     REGISTRO FINAL
-  ========================================= */
-
-  obtenerRegistroFinal(): number {
-
-    const final =
-      this.paginaActual *
-      this.tamanoPagina;
-
-    return Math.min(
-      final,
-      this.totalRegistros
-    );
-
-  }
-
-
-  /* =========================================
-     NUEVO HORARIO
-  ========================================= */
+  // =========================================
+  // NUEVO HORARIO
+  // =========================================
 
   abrirNuevoHorario(): void {
 
@@ -384,9 +308,9 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     VER HORARIO
-  ========================================= */
+  // =========================================
+  // VER HORARIO
+  // =========================================
 
   verHorario(
     horario: HorarioMedicoModel
@@ -439,9 +363,9 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     EDITAR HORARIO
-  ========================================= */
+  // =========================================
+  // EDITAR HORARIO
+  // =========================================
 
   editarHorario(
     horario: HorarioMedicoModel
@@ -494,9 +418,9 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     ELIMINAR HORARIO
-  ========================================= */
+  // =========================================
+  // ELIMINAR HORARIO
+  // =========================================
 
   eliminarHorario(
     horario: HorarioMedicoModel
@@ -512,7 +436,9 @@ export class HorarioMedico implements OnInit {
     );
 
     if (!confirmar) {
+
       return;
+
     }
 
     this.horarioService
@@ -526,11 +452,6 @@ export class HorarioMedico implements OnInit {
           console.log(
             'Horario eliminado correctamente'
           );
-
-          /*
-           * Si eliminamos el último registro
-           * de una página, retrocedemos.
-           */
 
           if (
             this.horarios().length === 1 &&
@@ -559,9 +480,9 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     GUARDAR HORARIO
-  ========================================= */
+  // =========================================
+  // GUARDAR HORARIO
+  // =========================================
 
   guardarHorario(): void {
 
@@ -618,9 +539,9 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     AGREGAR HORARIO
-  ========================================= */
+  // =========================================
+  // AGREGAR HORARIO
+  // =========================================
 
   agregarHorario(): void {
 
@@ -663,9 +584,9 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     ACTUALIZAR HORARIO
-  ========================================= */
+  // =========================================
+  // ACTUALIZAR HORARIO
+  // =========================================
 
   actualizarHorario(): void {
 
@@ -706,9 +627,9 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     CERRAR FORMULARIO
-  ========================================= */
+  // =========================================
+  // CERRAR FORMULARIO
+  // =========================================
 
   cerrarFormulario(): void {
 
@@ -724,9 +645,9 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     PREPARAR HORARIO PARA API
-  ========================================= */
+  // =========================================
+  // PREPARAR HORARIO PARA API
+  // =========================================
 
   private prepararHorarioParaApi(
     horario: HorarioMedicoModel
@@ -751,9 +672,9 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     CONVERTIR HORA PARA API
-  ========================================= */
+  // =========================================
+  // CONVERTIR HORA PARA API
+  // =========================================
 
   private convertirHoraParaApi(
     hora: string
@@ -764,6 +685,7 @@ export class HorarioMedico implements OnInit {
       return '00:00:00';
 
     }
+
 
     if (
       hora.length === 5
@@ -778,9 +700,9 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     FORMATEAR HORA
-  ========================================= */
+  // =========================================
+  // FORMATEAR HORA
+  // =========================================
 
   formatearHora(
     hora: string
@@ -800,9 +722,9 @@ export class HorarioMedico implements OnInit {
   }
 
 
-  /* =========================================
-     HORARIO VACÍO
-  ========================================= */
+  // =========================================
+  // HORARIO VACÍO
+  // =========================================
 
   private crearHorarioVacio():
     HorarioMedicoModel {

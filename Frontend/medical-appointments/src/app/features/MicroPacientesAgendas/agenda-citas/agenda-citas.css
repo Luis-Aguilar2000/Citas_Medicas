@@ -6,7 +6,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   gap: 7px;
 
   background: #6c5ce7;
@@ -32,7 +31,7 @@
 
 
 .btn-nuevo i {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 
@@ -46,30 +45,22 @@
 }
 
 
-
 /* =========================================
    OVERLAY
 ========================================= */
 
 .overlay {
   position: fixed;
-
   inset: 0;
 
   background: rgba(0, 0, 0, 0.55);
 
   display: flex;
-
   justify-content: center;
   align-items: center;
 
-  padding: 20px;
-
-  box-sizing: border-box;
-
   z-index: 2000;
 }
-
 
 
 /* =========================================
@@ -80,7 +71,6 @@
   width: 650px;
 
   max-width: 90%;
-
   max-height: 90vh;
 
   overflow-y: auto;
@@ -91,13 +81,12 @@
 
   padding: 26px 30px;
 
+  box-sizing: border-box;
+
   box-shadow:
     0 15px 45px
     rgba(0, 0, 0, 0.3);
-
-  box-sizing: border-box;
 }
-
 
 
 /* =========================================
@@ -143,7 +132,6 @@
 }
 
 
-
 /* =========================================
    BOTÓN CERRAR
 ========================================= */
@@ -182,7 +170,6 @@
 }
 
 
-
 /* =========================================
    TÍTULO MODAL
 ========================================= */
@@ -205,7 +192,6 @@
 
   font-size: 13px;
 }
-
 
 
 /* =========================================
@@ -242,7 +228,6 @@
   font-size: 13px;
   font-weight: 500;
 }
-
 
 
 /* =========================================
@@ -319,7 +304,6 @@
 }
 
 
-
 /* =========================================
    HORARIO
 ========================================= */
@@ -350,9 +334,8 @@
 }
 
 
-
 /* =========================================
-   ACCIONES MODAL
+   ACCIONES DEL MODAL
 ========================================= */
 
 .acciones {
@@ -419,9 +402,8 @@
 }
 
 
-
 /* =========================================
-   CONTENEDOR TABLA
+   TABLA Y CONTENEDOR
 ========================================= */
 
 .tabla-contenedor {
@@ -440,7 +422,6 @@
 
   overflow: hidden;
 }
-
 
 
 /* =========================================
@@ -485,7 +466,6 @@
 }
 
 
-
 /* =========================================
    TABLA RESPONSIVE
 ========================================= */
@@ -495,7 +475,6 @@
 
   overflow-x: auto;
 }
-
 
 
 /* =========================================
@@ -562,9 +541,8 @@
 }
 
 
-
 /* =========================================
-   ID
+   ID CITA
 ========================================= */
 
 .id-cita {
@@ -572,7 +550,6 @@
 
   font-weight: 600;
 }
-
 
 
 /* =========================================
@@ -588,7 +565,6 @@
 }
 
 
-
 /* =========================================
    CONSULTORIO
 ========================================= */
@@ -600,7 +576,6 @@
 
   white-space: nowrap;
 }
-
 
 
 /* =========================================
@@ -625,7 +600,6 @@
 }
 
 
-
 /* =========================================
    MOTIVO
 ========================================= */
@@ -643,7 +617,6 @@
 }
 
 
-
 /* =========================================
    ACCIONES
 ========================================= */
@@ -653,7 +626,6 @@
 
   white-space: nowrap;
 }
-
 
 
 /* =========================================
@@ -669,197 +641,6 @@
 }
 
 
-
-/* =========================================
-   PAGINACIÓN
-========================================= */
-
-.paginacion-contenedor {
-  min-height: 64px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 20px;
-
-  padding: 14px 24px;
-
-  border-top:
-    1px solid #e5e7eb;
-
-  background: #ffffff;
-
-  box-sizing: border-box;
-}
-
-
-
-/* =========================================
-   INFO PAGINACIÓN
-========================================= */
-
-.paginacion-info {
-  color: #777;
-
-  font-size: 13px;
-
-  white-space: nowrap;
-}
-
-
-.paginacion-info strong {
-  color: #333;
-
-  font-weight: 600;
-}
-
-
-
-/* =========================================
-   TAMAÑO PÁGINA
-========================================= */
-
-.paginacion-tamano {
-  display: flex;
-
-  align-items: center;
-
-  gap: 8px;
-
-  color: #666;
-
-  font-size: 13px;
-}
-
-
-.paginacion-tamano select {
-  height: 34px;
-
-  padding:
-    0 28px 0 10px;
-
-  border:
-    1px solid #dcdfe4;
-
-  border-radius: 6px;
-
-  background: white;
-
-  color: #444;
-
-  font-size: 13px;
-
-  cursor: pointer;
-
-  outline: none;
-}
-
-
-.paginacion-tamano select:focus {
-  border-color: #6c5ce7;
-
-  box-shadow:
-    0 0 0 3px
-    rgba(108, 92, 231, 0.08);
-}
-
-
-
-/* =========================================
-   CONTROLES PAGINACIÓN
-========================================= */
-
-.paginacion-controles {
-  display: flex;
-
-  align-items: center;
-
-  gap: 5px;
-}
-
-
-.btn-pagina {
-  min-width: 34px;
-  height: 34px;
-
-  display: inline-flex;
-
-  align-items: center;
-  justify-content: center;
-
-  padding: 0 9px;
-
-  border:
-    1px solid #e1e1e8;
-
-  border-radius: 6px;
-
-  background: white;
-
-  color: #555;
-
-  font-size: 13px;
-  font-weight: 500;
-
-  cursor: pointer;
-
-  transition:
-    background 0.15s ease,
-    color 0.15s ease,
-    border-color 0.15s ease,
-    transform 0.15s ease;
-}
-
-
-.btn-pagina:hover:not(:disabled):not(.activa) {
-  background: #f5f3ff;
-
-  color: #6c5ce7;
-
-  border-color: #cfc8ff;
-}
-
-
-.btn-pagina:active:not(:disabled) {
-  transform: scale(0.95);
-}
-
-
-.btn-pagina.activa {
-  background: #6c5ce7;
-
-  color: white;
-
-  border-color: #6c5ce7;
-
-  cursor: default;
-}
-
-
-.btn-navegacion {
-  color: #6c5ce7;
-}
-
-
-.btn-pagina:disabled {
-  background: #f8f8fa;
-
-  color: #bbb;
-
-  border-color: #eeeeee;
-
-  cursor: not-allowed;
-}
-
-
-.btn-pagina i {
-  font-size: 12px;
-}
-
-
-
 /* =========================================
    RESPONSIVE TABLA
 ========================================= */
@@ -871,7 +652,6 @@
   }
 
 }
-
 
 
 /* =========================================
@@ -892,7 +672,6 @@
   }
 
 }
-
 
 
 /* =========================================
@@ -918,58 +697,6 @@
 
   .horario-form {
     grid-template-columns: 1fr;
-  }
-
-}
-
-
-
-/* =========================================
-   RESPONSIVE PAGINACIÓN
-========================================= */
-
-@media (max-width: 900px) {
-
-  .paginacion-contenedor {
-    flex-wrap: wrap;
-
-    justify-content: center;
-  }
-
-
-  .paginacion-info {
-    width: 100%;
-
-    text-align: center;
-  }
-
-}
-
-
-@media (max-width: 550px) {
-
-  .paginacion-contenedor {
-    flex-direction: column;
-
-    gap: 12px;
-
-    padding: 16px;
-  }
-
-
-  .paginacion-tamano {
-    width: 100%;
-
-    justify-content: center;
-  }
-
-
-  .paginacion-controles {
-    width: 100%;
-
-    justify-content: center;
-
-    flex-wrap: wrap;
   }
 
 }

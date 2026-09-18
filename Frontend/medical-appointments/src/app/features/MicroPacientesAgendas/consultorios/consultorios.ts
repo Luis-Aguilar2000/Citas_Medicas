@@ -1,4 +1,9 @@
-import { Component, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  signal
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -11,31 +16,38 @@ import {
   BotonesAcciones
 } from '../../../shared/components/botones-acciones/botones-acciones';
 
+import {
+  Paginacion
+} from '../../../shared/components/paginacion/paginacion';
+
 
 @Component({
   selector: 'app-consultorios',
   standalone: true,
+
   imports: [
     CommonModule,
     FormsModule,
-    BotonesAcciones
+    BotonesAcciones,
+    Paginacion
   ],
+
   templateUrl: './consultorios.html',
   styleUrl: './consultorios.css'
 })
 export class Consultorios implements OnInit {
 
 
-  /* =========================================
-     LISTA DE CONSULTORIOS
-  ========================================= */
+  // =========================================
+  // LISTA DE CONSULTORIOS
+  // =========================================
 
   consultorios = signal<Consultorio[]>([]);
 
 
-  /* =========================================
-     PAGINACIÓN
-  ========================================= */
+  // =========================================
+  // PAGINACIÓN
+  // =========================================
 
   paginaActual = 1;
 
@@ -46,14 +58,16 @@ export class Consultorios implements OnInit {
   totalPaginas = 0;
 
 
-  /* =========================================
-     FORMULARIO
-  ========================================= */
+  // =========================================
+  // FORMULARIO
+  // =========================================
 
   mostrarFormulario = false;
 
   modoFormulario:
-    'nuevo' | 'ver' | 'editar' = 'nuevo';
+    'nuevo' |
+    'ver' |
+    'editar' = 'nuevo';
 
   consultorioSeleccionado:
     Consultorio | null = null;
@@ -62,18 +76,18 @@ export class Consultorios implements OnInit {
     Consultorio = this.crearConsultorioVacio();
 
 
-  /* =========================================
-     CONSTRUCTOR
-  ========================================= */
+  // =========================================
+  // CONSTRUCTOR
+  // =========================================
 
   constructor(
     private consultoriosService: ConsultoriosService
   ) {}
 
 
-  /* =========================================
-     INIT
-  ========================================= */
+  // =========================================
+  // INIT
+  // =========================================
 
   ngOnInit(): void {
 
@@ -82,9 +96,9 @@ export class Consultorios implements OnInit {
   }
 
 
-  /* =========================================
-     CARGAR CONSULTORIOS PAGINADOS
-  ========================================= */
+  // =========================================
+  // CARGAR CONSULTORIOS PAGINADOS
+  // =========================================
 
   cargarConsultorios(): void {
 
@@ -134,9 +148,9 @@ export class Consultorios implements OnInit {
   }
 
 
-  /* =========================================
-     CAMBIAR PÁGINA
-  ========================================= */
+  // =========================================
+  // CAMBIAR PÁGINA
+  // =========================================
 
   cambiarPagina(
     pagina: number
@@ -157,66 +171,15 @@ export class Consultorios implements OnInit {
   }
 
 
-  /* =========================================
-     PÁGINA ANTERIOR
-  ========================================= */
+  // =========================================
+  // CAMBIAR TAMAÑO DE PÁGINA
+  // =========================================
 
-  paginaAnterior(): void {
+  cambiarTamanoPagina(
+    tamano: number
+  ): void {
 
-    if (
-      this.paginaActual > 1
-    ) {
-
-      this.cambiarPagina(
-        this.paginaActual - 1
-      );
-
-    }
-
-  }
-
-
-  /* =========================================
-     PÁGINA SIGUIENTE
-  ========================================= */
-
-  paginaSiguiente(): void {
-
-    if (
-      this.paginaActual <
-      this.totalPaginas
-    ) {
-
-      this.cambiarPagina(
-        this.paginaActual + 1
-      );
-
-    }
-
-  }
-
-
-  /* =========================================
-     NÚMEROS DE PÁGINA
-  ========================================= */
-
-  obtenerPaginas(): number[] {
-
-    return Array.from(
-      {
-        length: this.totalPaginas
-      },
-      (_, index) => index + 1
-    );
-
-  }
-
-
-  /* =========================================
-     CAMBIAR TAMAÑO DE PÁGINA
-  ========================================= */
-
-  cambiarTamanoPagina(): void {
+    this.tamanoPagina = tamano;
 
     this.paginaActual = 1;
 
@@ -225,47 +188,9 @@ export class Consultorios implements OnInit {
   }
 
 
-  /* =========================================
-     REGISTRO INICIAL MOSTRADO
-  ========================================= */
-
-  obtenerRegistroInicial(): number {
-
-    if (
-      this.totalRegistros === 0
-    ) {
-      return 0;
-    }
-
-    return (
-      (this.paginaActual - 1) *
-      this.tamanoPagina
-    ) + 1;
-
-  }
-
-
-  /* =========================================
-     REGISTRO FINAL MOSTRADO
-  ========================================= */
-
-  obtenerRegistroFinal(): number {
-
-    const final =
-      this.paginaActual *
-      this.tamanoPagina;
-
-    return Math.min(
-      final,
-      this.totalRegistros
-    );
-
-  }
-
-
-  /* =========================================
-     NUEVO CONSULTORIO
-  ========================================= */
+  // =========================================
+  // NUEVO CONSULTORIO
+  // =========================================
 
   abrirNuevoConsultorio(): void {
 
@@ -281,9 +206,9 @@ export class Consultorios implements OnInit {
   }
 
 
-  /* =========================================
-     VER CONSULTORIO
-  ========================================= */
+  // =========================================
+  // VER CONSULTORIO
+  // =========================================
 
   verConsultorio(
     consultorio: Consultorio
@@ -324,9 +249,9 @@ export class Consultorios implements OnInit {
   }
 
 
-  /* =========================================
-     EDITAR CONSULTORIO
-  ========================================= */
+  // =========================================
+  // EDITAR CONSULTORIO
+  // =========================================
 
   editarConsultorio(
     consultorio: Consultorio
@@ -367,9 +292,9 @@ export class Consultorios implements OnInit {
   }
 
 
-  /* =========================================
-     ELIMINAR CONSULTORIO
-  ========================================= */
+  // =========================================
+  // ELIMINAR CONSULTORIO
+  // =========================================
 
   eliminarConsultorio(
     consultorio: Consultorio
@@ -383,6 +308,7 @@ export class Consultorios implements OnInit {
       return;
     }
 
+
     this.consultoriosService
       .deleteConsultorio(
         consultorio.idConsultorio
@@ -394,12 +320,6 @@ export class Consultorios implements OnInit {
           console.log(
             'Consultorio eliminado correctamente'
           );
-
-          /*
-           * Si eliminamos el único registro
-           * de una página distinta de la primera,
-           * retrocedemos una página.
-           */
 
           if (
             this.consultorios().length === 1 &&
@@ -428,9 +348,9 @@ export class Consultorios implements OnInit {
   }
 
 
-  /* =========================================
-     GUARDAR CONSULTORIO
-  ========================================= */
+  // =========================================
+  // GUARDAR CONSULTORIO
+  // =========================================
 
   guardarConsultorio(): void {
 
@@ -444,6 +364,7 @@ export class Consultorios implements OnInit {
 
     }
 
+
     if (
       this.modoFormulario === 'editar'
     ) {
@@ -455,9 +376,9 @@ export class Consultorios implements OnInit {
   }
 
 
-  /* =========================================
-     AGREGAR CONSULTORIO
-  ========================================= */
+  // =========================================
+  // AGREGAR CONSULTORIO
+  // =========================================
 
   agregarConsultorio(): void {
 
@@ -474,11 +395,6 @@ export class Consultorios implements OnInit {
           );
 
           this.cerrarFormulario();
-
-          /*
-           * Al registrar uno nuevo
-           * regresamos a la primera página.
-           */
 
           this.paginaActual = 1;
 
@@ -500,9 +416,9 @@ export class Consultorios implements OnInit {
   }
 
 
-  /* =========================================
-     ACTUALIZAR CONSULTORIO
-  ========================================= */
+  // =========================================
+  // ACTUALIZAR CONSULTORIO
+  // =========================================
 
   actualizarConsultorio(): void {
 
@@ -519,10 +435,6 @@ export class Consultorios implements OnInit {
           );
 
           this.cerrarFormulario();
-
-          /*
-           * Conservamos la página actual.
-           */
 
           this.cargarConsultorios();
 
@@ -542,9 +454,9 @@ export class Consultorios implements OnInit {
   }
 
 
-  /* =========================================
-     CERRAR FORMULARIO
-  ========================================= */
+  // =========================================
+  // CERRAR FORMULARIO
+  // =========================================
 
   cerrarFormulario(): void {
 
@@ -559,9 +471,9 @@ export class Consultorios implements OnInit {
   }
 
 
-  /* =========================================
-     LIMPIAR FORMULARIO
-  ========================================= */
+  // =========================================
+  // LIMPIAR FORMULARIO
+  // =========================================
 
   limpiarFormulario(): void {
 
@@ -571,9 +483,9 @@ export class Consultorios implements OnInit {
   }
 
 
-  /* =========================================
-     CONSULTORIO VACÍO
-  ========================================= */
+  // =========================================
+  // CONSULTORIO VACÍO
+  // =========================================
 
   private crearConsultorioVacio():
     Consultorio {

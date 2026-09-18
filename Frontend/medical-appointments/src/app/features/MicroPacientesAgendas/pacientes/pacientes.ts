@@ -16,6 +16,10 @@ import {
   BotonesAcciones
 } from '../../../shared/components/botones-acciones/botones-acciones';
 
+import {
+  Paginacion
+} from '../../../shared/components/paginacion/paginacion';
+
 
 @Component({
   selector: 'app-pacientes',
@@ -24,7 +28,8 @@ import {
   imports: [
     CommonModule,
     FormsModule,
-    BotonesAcciones
+    BotonesAcciones,
+    Paginacion
   ],
 
   templateUrl: './pacientes.html',
@@ -225,12 +230,6 @@ export class Pacientes implements OnInit {
 
         next: () => {
 
-          /*
-           Si eliminamos el único registro
-           de una página distinta de la primera,
-           retrocedemos una página.
-          */
-
           if (
             this.pacientes().length === 1 &&
             this.paginaActual > 1
@@ -302,11 +301,6 @@ export class Pacientes implements OnInit {
 
           this.cerrarFormulario();
 
-          /*
-           Al registrar uno nuevo volvemos
-           a la primera página.
-          */
-
           this.paginaActual = 1;
 
           this.cargarPacientes();
@@ -342,11 +336,6 @@ export class Pacientes implements OnInit {
         next: () => {
 
           this.cerrarFormulario();
-
-          /*
-           En edición conservamos
-           la página actual.
-          */
 
           this.cargarPacientes();
 
@@ -408,9 +397,7 @@ export class Pacientes implements OnInit {
       pagina > this.totalPaginas ||
       pagina === this.paginaActual
     ) {
-
       return;
-
     }
 
     this.paginaActual = pagina;
@@ -421,137 +408,18 @@ export class Pacientes implements OnInit {
 
 
   // =========================================
-  // PÁGINA ANTERIOR
-  // =========================================
-
-  paginaAnterior(): void {
-
-    if (
-      this.paginaActual <= 1
-    ) {
-
-      return;
-
-    }
-
-    this.paginaActual--;
-
-    this.cargarPacientes();
-
-  }
-
-
-  // =========================================
-  // PÁGINA SIGUIENTE
-  // =========================================
-
-  paginaSiguiente(): void {
-
-    if (
-      this.paginaActual >=
-      this.totalPaginas
-    ) {
-
-      return;
-
-    }
-
-    this.paginaActual++;
-
-    this.cargarPacientes();
-
-  }
-
-
-  // =========================================
-  // OBTENER PÁGINAS
-  // =========================================
-
-  obtenerPaginas(): number[] {
-
-    if (
-      this.totalPaginas <= 0
-    ) {
-
-      return [];
-
-    }
-
-    return Array.from(
-      {
-        length:
-          this.totalPaginas
-      },
-
-      (_, indice) =>
-        indice + 1
-    );
-
-  }
-
-
-  // =========================================
   // CAMBIAR TAMAÑO DE PÁGINA
   // =========================================
 
-  cambiarTamanoPagina(): void {
+  cambiarTamanoPagina(
+    tamano: number
+  ): void {
 
-    /*
-     Siempre regresamos a página 1
-     cuando cambia la cantidad.
-    */
+    this.tamanoPagina = tamano;
 
     this.paginaActual = 1;
 
     this.cargarPacientes();
-
-  }
-
-
-  // =========================================
-  // REGISTRO INICIAL
-  // =========================================
-
-  obtenerRegistroInicial(): number {
-
-    if (
-      this.totalRegistros === 0
-    ) {
-
-      return 0;
-
-    }
-
-    return (
-      (this.paginaActual - 1) *
-      this.tamanoPagina
-    ) + 1;
-
-  }
-
-
-  // =========================================
-  // REGISTRO FINAL
-  // =========================================
-
-  obtenerRegistroFinal(): number {
-
-    if (
-      this.totalRegistros === 0
-    ) {
-
-      return 0;
-
-    }
-
-    return Math.min(
-
-      this.paginaActual *
-      this.tamanoPagina,
-
-      this.totalRegistros
-
-    );
 
   }
 

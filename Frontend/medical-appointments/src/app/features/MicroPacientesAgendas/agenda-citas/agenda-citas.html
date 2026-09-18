@@ -9,9 +9,9 @@
   <div class="modal-cita">
 
 
-    <!-- =====================================
+    <!-- =========================================
          HEADER MODAL
-    ====================================== -->
+    ========================================= -->
 
     <div class="modal-header">
 
@@ -40,37 +40,26 @@
     </div>
 
 
-    <!-- =====================================
+    <!-- =========================================
          TÍTULO
-    ====================================== -->
+    ========================================= -->
 
-    <h2
-      *ngIf="modoFormulario === 'nuevo'">
-
+    <h2 *ngIf="modoFormulario === 'nuevo'">
       Registrar nueva cita
-
     </h2>
 
-
-    <h2
-      *ngIf="modoFormulario === 'ver'">
-
+    <h2 *ngIf="modoFormulario === 'ver'">
       Información de la cita
-
     </h2>
 
-
-    <h2
-      *ngIf="modoFormulario === 'editar'">
-
+    <h2 *ngIf="modoFormulario === 'editar'">
       Editar cita
-
     </h2>
 
 
-    <!-- =====================================
+    <!-- =========================================
          SUBTÍTULO
-    ====================================== -->
+    ========================================= -->
 
     <p
       class="subtitulo"
@@ -99,10 +88,9 @@
     </p>
 
 
-
-    <!-- =====================================
+    <!-- =========================================
          FORMULARIO
-    ====================================== -->
+    ========================================= -->
 
     <div class="form-grid">
 
@@ -123,7 +111,6 @@
             Seleccione un paciente
           </option>
 
-
           <option
             *ngFor="let paciente of pacientes()"
             [ngValue]="paciente.idPaciente">
@@ -136,7 +123,6 @@
         </select>
 
       </div>
-
 
 
       <!-- MÉDICO -->
@@ -161,7 +147,6 @@
       </div>
 
 
-
       <!-- CONSULTORIO -->
 
       <div class="campo">
@@ -178,7 +163,6 @@
             Seleccione un consultorio
           </option>
 
-
           <option
             *ngFor="let consultorio of consultorios()"
             [ngValue]="consultorio.idConsultorio">
@@ -190,7 +174,6 @@
         </select>
 
       </div>
-
 
 
       <!-- ESTADO -->
@@ -209,7 +192,6 @@
             Seleccione un estado
           </option>
 
-
           <option
             *ngFor="let estado of estadosCitas()"
             [ngValue]="estado.idEstadoCita">
@@ -221,7 +203,6 @@
         </select>
 
       </div>
-
 
 
       <!-- FECHA -->
@@ -240,7 +221,6 @@
       </div>
 
 
-
       <!-- HORARIO -->
 
       <div class="campo">
@@ -249,9 +229,10 @@
           Horario
         </label>
 
-
         <div class="horario-form">
 
+
+          <!-- HORA INICIO -->
 
           <div>
 
@@ -267,6 +248,8 @@
           </div>
 
 
+          <!-- HORA FIN -->
+
           <div>
 
             <span class="label-hora">
@@ -280,11 +263,9 @@
 
           </div>
 
-
         </div>
 
       </div>
-
 
 
       <!-- MOTIVO -->
@@ -303,7 +284,6 @@
         </textarea>
 
       </div>
-
 
 
       <!-- OBSERVACIONES -->
@@ -326,13 +306,14 @@
     </div>
 
 
-
-    <!-- =====================================
+    <!-- =========================================
          ACCIONES MODAL
-    ====================================== -->
+    ========================================= -->
 
     <div class="acciones">
 
+
+      <!-- MODO VER -->
 
       <button
         *ngIf="modoFormulario === 'ver'"
@@ -345,10 +326,10 @@
       </button>
 
 
+      <!-- NUEVO / EDITAR -->
 
       <ng-container
         *ngIf="modoFormulario !== 'ver'">
-
 
         <button
           type="button"
@@ -375,7 +356,6 @@
 
         </button>
 
-
       </ng-container>
 
     </div>
@@ -393,9 +373,9 @@
 <div class="tabla-contenedor">
 
 
-  <!-- =====================================
-       HEADER
-  ====================================== -->
+  <!-- =========================================
+       HEADER TABLA
+  ========================================= -->
 
   <div class="tabla-header">
 
@@ -435,13 +415,16 @@
 
 
 
-  <!-- =====================================
+  <!-- =========================================
        TABLA
-  ====================================== -->
+  ========================================= -->
 
   <div class="tabla-responsive">
 
     <table class="tabla-citas">
+
+
+      <!-- HEADER -->
 
       <thead>
 
@@ -492,8 +475,15 @@
       </thead>
 
 
+
+      <!-- =========================================
+           CUERPO TABLA
+      ========================================= -->
+
       <tbody>
 
+
+        <!-- CITAS -->
 
         <tr
           *ngFor="let cita of citas()">
@@ -504,13 +494,10 @@
           <td>
 
             <span class="id-cita">
-
               {{ cita.idCita }}
-
             </span>
 
           </td>
-
 
 
           <!-- PACIENTE -->
@@ -530,7 +517,6 @@
           </td>
 
 
-
           <!-- MÉDICO -->
 
           <td>
@@ -538,7 +524,6 @@
             Médico #{{ cita.idMedico }}
 
           </td>
-
 
 
           <!-- CONSULTORIO -->
@@ -558,7 +543,6 @@
           </td>
 
 
-
           <!-- FECHA -->
 
           <td>
@@ -569,7 +553,6 @@
             }}
 
           </td>
-
 
 
           <!-- HORA INICIO -->
@@ -585,7 +568,6 @@
           </td>
 
 
-
           <!-- HORA FIN -->
 
           <td>
@@ -597,7 +579,6 @@
             }}
 
           </td>
-
 
 
           <!-- ESTADO -->
@@ -615,7 +596,6 @@
             </span>
 
           </td>
-
 
 
           <!-- MOTIVO -->
@@ -636,19 +616,14 @@
           </td>
 
 
-
           <!-- ACCIONES -->
 
           <td class="columna-acciones">
 
             <app-botones-acciones
-
               (ver)="verCita(cita)"
-
               (editar)="editarCita(cita)"
-
               (eliminar)="eliminarCita(cita)">
-
             </app-botones-acciones>
 
           </td>
@@ -657,7 +632,9 @@
 
 
 
-        <!-- SIN DATOS -->
+        <!-- =========================================
+             SIN DATOS
+        ========================================= -->
 
         <tr
           *ngIf="citas().length === 0">
@@ -672,7 +649,6 @@
 
         </tr>
 
-
       </tbody>
 
     </table>
@@ -681,120 +657,19 @@
 
 
 
-  <!-- =====================================
-       PAGINACIÓN
-  ====================================== -->
+  <!-- =========================================
+       PAGINACIÓN GENÉRICA
+  ========================================= -->
 
-  <div
-    class="paginacion-contenedor"
-    *ngIf="totalRegistros > 0">
+  <app-paginacion
+    [paginaActual]="paginaActual"
+    [tamanoPagina]="tamanoPagina"
+    [totalRegistros]="totalRegistros"
+    [totalPaginas]="totalPaginas"
+    nombreRegistros="citas"
+    (paginaCambiada)="cambiarPagina($event)"
+    (tamanoPaginaCambiado)="cambiarTamanoPagina($event)">
+  </app-paginacion>
 
-
-    <!-- INFORMACIÓN -->
-
-    <div class="paginacion-info">
-
-      Mostrando
-
-      <strong>
-        {{ obtenerRegistroInicial() }}
-      </strong>
-
-      -
-
-      <strong>
-        {{ obtenerRegistroFinal() }}
-      </strong>
-
-      de
-
-      <strong>
-        {{ totalRegistros }}
-      </strong>
-
-      citas
-
-    </div>
-
-
-
-    <!-- TAMAÑO -->
-
-    <div class="paginacion-tamano">
-
-      <label>
-        Mostrar
-      </label>
-
-      <select
-        [(ngModel)]="tamanoPagina"
-        (change)="cambiarTamanoPagina()">
-
-        <option [ngValue]="5">
-          5
-        </option>
-
-        <option [ngValue]="10">
-          10
-        </option>
-
-        <option [ngValue]="20">
-          20
-        </option>
-
-        <option [ngValue]="50">
-          50
-        </option>
-
-      </select>
-
-    </div>
-
-
-
-    <!-- CONTROLES -->
-
-    <div class="paginacion-controles">
-
-
-      <button
-        type="button"
-        class="btn-pagina btn-navegacion"
-        [disabled]="paginaActual === 1"
-        (click)="paginaAnterior()">
-
-        <i class="bi bi-chevron-left"></i>
-
-      </button>
-
-
-
-      <button
-        *ngFor="let pagina of obtenerPaginas()"
-        type="button"
-        class="btn-pagina"
-        [class.activa]="pagina === paginaActual"
-        (click)="cambiarPagina(pagina)">
-
-        {{ pagina }}
-
-      </button>
-
-
-
-      <button
-        type="button"
-        class="btn-pagina btn-navegacion"
-        [disabled]="paginaActual === totalPaginas"
-        (click)="paginaSiguiente()">
-
-        <i class="bi bi-chevron-right"></i>
-
-      </button>
-
-
-    </div>
-
-  </div>
 
 </div>

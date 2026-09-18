@@ -2,9 +2,14 @@
      MODAL CONSULTORIO
 ========================================= -->
 
-<div class="overlay" *ngIf="mostrarFormulario">
+<div
+  class="overlay"
+  *ngIf="mostrarFormulario">
 
   <div class="modal-consultorio">
+
+
+    <!-- HEADER MODAL -->
 
     <div class="modal-header">
 
@@ -14,9 +19,12 @@
           <i class="bi bi-building"></i>
         </span>
 
-        <strong>Consultorios</strong>
+        <strong>
+          Consultorios
+        </strong>
 
       </div>
+
 
       <button
         type="button"
@@ -50,23 +58,31 @@
     <p
       class="subtitulo"
       *ngIf="modoFormulario === 'nuevo'">
+
       Complete la información del consultorio
+
     </p>
 
     <p
       class="subtitulo"
       *ngIf="modoFormulario === 'ver'">
+
       Consulte la información registrada
+
     </p>
 
     <p
       class="subtitulo"
       *ngIf="modoFormulario === 'editar'">
+
       Modifique la información necesaria
+
     </p>
 
 
-    <!-- FORMULARIO -->
+    <!-- =========================================
+         FORMULARIO
+    ========================================= -->
 
     <div class="form-grid">
 
@@ -75,7 +91,9 @@
 
       <div class="campo">
 
-        <label>Nombre</label>
+        <label>
+          Nombre
+        </label>
 
         <input
           type="text"
@@ -90,7 +108,9 @@
 
       <div class="campo">
 
-        <label>Número de consultorio</label>
+        <label>
+          Número de consultorio
+        </label>
 
         <input
           type="text"
@@ -105,7 +125,9 @@
 
       <div class="campo">
 
-        <label>Piso</label>
+        <label>
+          Piso
+        </label>
 
         <input
           type="text"
@@ -120,7 +142,9 @@
 
       <div class="campo">
 
-        <label>Estado</label>
+        <label>
+          Estado
+        </label>
 
         <select
           [(ngModel)]="nuevoConsultorio.estado"
@@ -143,7 +167,9 @@
 
       <div class="campo campo-completo">
 
-        <label>Ubicación</label>
+        <label>
+          Ubicación
+        </label>
 
         <input
           type="text"
@@ -158,7 +184,9 @@
 
       <div class="campo campo-completo">
 
-        <label>Descripción</label>
+        <label>
+          Descripción
+        </label>
 
         <textarea
           rows="3"
@@ -172,9 +200,14 @@
     </div>
 
 
-    <!-- ACCIONES MODAL -->
+    <!-- =========================================
+         ACCIONES MODAL
+    ========================================= -->
 
     <div class="acciones">
+
+
+      <!-- VER -->
 
       <button
         *ngIf="modoFormulario === 'ver'"
@@ -187,7 +220,10 @@
       </button>
 
 
-      <ng-container *ngIf="modoFormulario !== 'ver'">
+      <!-- NUEVO / EDITAR -->
+
+      <ng-container
+        *ngIf="modoFormulario !== 'ver'">
 
         <button
           type="button"
@@ -197,6 +233,7 @@
           Cancelar
 
         </button>
+
 
         <button
           type="button"
@@ -282,21 +319,37 @@
 
         <tr>
 
-          <th>ID</th>
+          <th>
+            ID
+          </th>
 
-          <th>Consultorio</th>
+          <th>
+            Consultorio
+          </th>
 
-          <th>Número</th>
+          <th>
+            Número
+          </th>
 
-          <th>Piso</th>
+          <th>
+            Piso
+          </th>
 
-          <th>Ubicación</th>
+          <th>
+            Ubicación
+          </th>
 
-          <th>Descripción</th>
+          <th>
+            Descripción
+          </th>
 
-          <th>Estado</th>
+          <th>
+            Estado
+          </th>
 
-          <th>Fecha registro</th>
+          <th>
+            Fecha registro
+          </th>
 
           <th class="columna-acciones">
             Acciones
@@ -309,6 +362,8 @@
 
       <tbody>
 
+
+        <!-- CONSULTORIOS -->
 
         <tr
           *ngFor="let consultorio of consultorios()">
@@ -349,7 +404,8 @@
           <td>
 
             {{
-              consultorio.numeroConsultorio || '-'
+              consultorio.numeroConsultorio
+                || '-'
             }}
 
           </td>
@@ -360,7 +416,8 @@
           <td>
 
             {{
-              consultorio.piso || '-'
+              consultorio.piso
+                || '-'
             }}
 
           </td>
@@ -371,7 +428,8 @@
           <td>
 
             {{
-              consultorio.ubicacion || '-'
+              consultorio.ubicacion
+                || '-'
             }}
 
           </td>
@@ -382,7 +440,8 @@
           <td>
 
             {{
-              consultorio.descripcion || '-'
+              consultorio.descripcion
+                || '-'
             }}
 
           </td>
@@ -408,7 +467,7 @@
           </td>
 
 
-          <!-- FECHA -->
+          <!-- FECHA REGISTRO -->
 
           <td>
 
@@ -425,19 +484,14 @@
           <td class="columna-acciones">
 
             <app-botones-acciones
-
               (ver)="verConsultorio(consultorio)"
-
               (editar)="editarConsultorio(consultorio)"
-
               (eliminar)="eliminarConsultorio(consultorio)">
-
             </app-botones-acciones>
 
           </td>
 
         </tr>
-
 
 
         <!-- SIN DATOS -->
@@ -455,7 +509,6 @@
 
         </tr>
 
-
       </tbody>
 
     </table>
@@ -465,125 +518,18 @@
 
 
   <!-- =========================================
-       PAGINACIÓN
+       PAGINACIÓN GENÉRICA
   ========================================= -->
 
-  <div
-    class="paginacion-contenedor"
-    *ngIf="totalRegistros > 0">
+  <app-paginacion
+    [paginaActual]="paginaActual"
+    [tamanoPagina]="tamanoPagina"
+    [totalRegistros]="totalRegistros"
+    [totalPaginas]="totalPaginas"
+    nombreRegistros="consultorios"
+    (paginaCambiada)="cambiarPagina($event)"
+    (tamanoPaginaCambiado)="cambiarTamanoPagina($event)">
+  </app-paginacion>
 
-
-    <!-- INFORMACIÓN -->
-
-    <div class="paginacion-info">
-
-      Mostrando
-
-      <strong>
-        {{ obtenerRegistroInicial() }}
-      </strong>
-
-      -
-
-      <strong>
-        {{ obtenerRegistroFinal() }}
-      </strong>
-
-      de
-
-      <strong>
-        {{ totalRegistros }}
-      </strong>
-
-      consultorios
-
-    </div>
-
-
-
-    <!-- TAMAÑO DE PÁGINA -->
-
-    <div class="paginacion-tamano">
-
-      <label>
-        Mostrar
-      </label>
-
-      <select
-        [(ngModel)]="tamanoPagina"
-        (change)="cambiarTamanoPagina()">
-
-        <option [ngValue]="5">
-          5
-        </option>
-
-        <option [ngValue]="10">
-          10
-        </option>
-
-        <option [ngValue]="20">
-          20
-        </option>
-
-        <option [ngValue]="50">
-          50
-        </option>
-
-      </select>
-
-    </div>
-
-
-
-    <!-- CONTROLES -->
-
-    <div class="paginacion-controles">
-
-
-      <!-- ANTERIOR -->
-
-      <button
-        type="button"
-        class="btn-pagina btn-navegacion"
-        [disabled]="paginaActual === 1"
-        (click)="paginaAnterior()">
-
-        <i class="bi bi-chevron-left"></i>
-
-      </button>
-
-
-
-      <!-- NÚMEROS -->
-
-      <button
-        *ngFor="let pagina of obtenerPaginas()"
-        type="button"
-        class="btn-pagina"
-        [class.activa]="pagina === paginaActual"
-        (click)="cambiarPagina(pagina)">
-
-        {{ pagina }}
-
-      </button>
-
-
-
-      <!-- SIGUIENTE -->
-
-      <button
-        type="button"
-        class="btn-pagina btn-navegacion"
-        [disabled]="paginaActual === totalPaginas"
-        (click)="paginaSiguiente()">
-
-        <i class="bi bi-chevron-right"></i>
-
-      </button>
-
-
-    </div>
-
-  </div>
 
 </div>

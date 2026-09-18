@@ -5,6 +5,10 @@ namespace Generics.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {
+        // =========================================
+        // CRUD
+        // =========================================
+
         Task<IEnumerable<T>> GetAllAsync();
 
         Task<T?> GetByIdAsync(int id);
@@ -15,6 +19,11 @@ namespace Generics.Interfaces
 
         Task DeleteAsync(T entity);
 
+
+        // =========================================
+        // PAGINACIÓN, FILTROS Y ORDENAMIENTO
+        // =========================================
+
         Task<PagedResult<T>> GetPagedAsync(
             int pageNumber,
             int pageSize,
@@ -23,9 +32,7 @@ namespace Generics.Interfaces
             bool asNoTracking = true,
             bool splitQuery = false,
             CancellationToken cancellationToken = default,
-            params Expression<Func<T, object>>[] includes);
-
-
-       
+            params Expression<Func<T, object>>[] includes
+        );
     }
 }

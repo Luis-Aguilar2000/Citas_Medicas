@@ -1,0 +1,108 @@
+<div
+  class="paginacion-contenedor"
+  *ngIf="totalRegistros > 0">
+
+
+  <!-- INFORMACIÓN -->
+
+  <div class="paginacion-info">
+
+    Mostrando
+
+    <strong>
+      {{ obtenerRegistroInicial() }}
+    </strong>
+
+    -
+
+    <strong>
+      {{ obtenerRegistroFinal() }}
+    </strong>
+
+    de
+
+    <strong>
+      {{ totalRegistros }}
+    </strong>
+
+    {{ nombreRegistros }}
+
+  </div>
+
+
+  <!-- CONTROLES -->
+
+  <div class="paginacion-controles">
+
+
+    <!-- ANTERIOR -->
+
+    <button
+      type="button"
+      class="btn-pagina btn-flecha"
+      [disabled]="paginaActual === 1"
+      (click)="paginaAnterior()">
+
+      <i class="bi bi-chevron-left"></i>
+
+    </button>
+
+
+    <!-- NÚMEROS -->
+
+    <button
+      type="button"
+      class="btn-pagina"
+      *ngFor="let pagina of obtenerPaginas()"
+      [class.activa]="pagina === paginaActual"
+      (click)="cambiarPagina(pagina)">
+
+      {{ pagina }}
+
+    </button>
+
+
+    <!-- SIGUIENTE -->
+
+    <button
+      type="button"
+      class="btn-pagina btn-flecha"
+      [disabled]="paginaActual === totalPaginas"
+      (click)="paginaSiguiente()">
+
+      <i class="bi bi-chevron-right"></i>
+
+    </button>
+
+  </div>
+
+
+  <!-- TAMAÑO DE PÁGINA -->
+
+  <div class="tamano-pagina">
+
+    <span>
+      Mostrar
+    </span>
+
+    <select
+      [ngModel]="tamanoPagina"
+      (ngModelChange)="cambiarTamanoPagina($event)">
+
+      <option
+        *ngFor="let opcion of opcionesTamano"
+        [ngValue]="opcion">
+
+        {{ opcion }}
+
+      </option>
+
+    </select>
+
+    <span>
+      por página
+    </span>
+
+  </div>
+
+</div>
