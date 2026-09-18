@@ -1,16 +1,15 @@
-﻿using Generics.Interfaces;
+﻿using Domain.Models;
+using Generics.Helpers;
+using Generics.Interfaces;
 using Generics.Models;
-using Domain.Models;
 using MediatR;
 
 namespace Core.feature.EstadosCitas.Queires
 {
     public class GetEstadosCitasQuery
-        : IRequest<PagedResult<EstadoCitas>>
+        : RequestParametersGets,
+          IRequest<PagedResult<EstadoCitas>>
     {
-        public int PageNumber { get; set; } = 1;
-
-        public int PageSize { get; set; } = 10;
     }
 
     public class GetEstadosCitasQueryHandler
@@ -28,9 +27,14 @@ namespace Core.feature.EstadosCitas.Queires
             GetEstadosCitasQuery request,
             CancellationToken cancellationToken)
         {
+            var filter = !string.IsNullOrWhiteSpace(request.Filter)
+                ? Filter.FromStringExpression<EstadoCitas>(request.Filter)
+                : null;
+
             return await _repository.GetPagedAsync(
                 pageNumber: request.PageNumber,
                 pageSize: request.PageSize,
+                filter: filter,
                 cancellationToken: cancellationToken
             );
         }

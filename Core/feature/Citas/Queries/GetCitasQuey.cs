@@ -1,15 +1,15 @@
-﻿using Generics.Interfaces;
+﻿using Domain.Models;
+using Generics.Helpers;
+using Generics.Interfaces;
 using Generics.Models;
-using Domain.Models;
 using MediatR;
 
 namespace Core.feature.Citas.Queries
 {
-    public class GetCitasQuery : IRequest<PagedResult<Cita>>
+    public class GetCitasQuery
+        : RequestParametersGets,
+          IRequest<PagedResult<Cita>>
     {
-        public int PageNumber { get; set; } = 1;
-
-        public int PageSize { get; set; } = 10;
     }
 
     public class GetCitasQueryHandler
@@ -27,9 +27,14 @@ namespace Core.feature.Citas.Queries
             GetCitasQuery request,
             CancellationToken cancellationToken)
         {
+            var filter = !string.IsNullOrWhiteSpace(request.Filter)
+                ? Filter.FromStringExpression<Cita>(request.Filter)
+                : null;
+
             return await _repository.GetPagedAsync(
                 pageNumber: request.PageNumber,
                 pageSize: request.PageSize,
+                filter: filter,
                 cancellationToken: cancellationToken
             );
         }

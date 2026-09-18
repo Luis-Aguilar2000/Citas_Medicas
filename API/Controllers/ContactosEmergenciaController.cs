@@ -25,21 +25,12 @@ namespace API.Controllers
 
         [HttpGet]
         public async Task<ActionResult<PagedResult<ContactoEmergencia>>> Get(
-            [FromQuery] int pageNumber = 1,
-            [FromQuery] int pageSize = 10)
+            [FromQuery] GetContactosQuery query)
         {
-            var resultado = await _mediator.Send(
-                new GetContactosQuery
-                {
-                    PageNumber = pageNumber,
-                    PageSize = pageSize
-                }
-            );
+            var resultado = await _mediator.Send(query);
 
             return Ok(resultado);
         }
-
-
         // =========================================
         // GET - CONTACTO POR ID
         // =========================================

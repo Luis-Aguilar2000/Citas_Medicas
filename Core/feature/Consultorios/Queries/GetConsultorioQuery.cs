@@ -1,15 +1,15 @@
-﻿using Generics.Interfaces;
+﻿using Domain.Models;
+using Generics.Helpers;
+using Generics.Interfaces;
 using Generics.Models;
-using Domain.Models;
 using MediatR;
 
 namespace Core.feature.Consultorios.Queries
 {
-    public class GetConsultorioQuery : IRequest<PagedResult<Consultorio>>
+    public class GetConsultorioQuery
+        : RequestParametersGets,
+          IRequest<PagedResult<Consultorio>>
     {
-        public int PageNumber { get; set; } = 1;
-
-        public int PageSize { get; set; } = 10;
     }
 
     public class GetConsultorioQueryHandler
@@ -27,9 +27,14 @@ namespace Core.feature.Consultorios.Queries
             GetConsultorioQuery request,
             CancellationToken cancellationToken)
         {
+            var filter = !string.IsNullOrWhiteSpace(request.Filter)
+                ? Filter.FromStringExpression<Consultorio>(request.Filter)
+                : null;
+
             return await _repository.GetPagedAsync(
                 pageNumber: request.PageNumber,
                 pageSize: request.PageSize,
+                filter: filter,
                 cancellationToken: cancellationToken
             );
         }

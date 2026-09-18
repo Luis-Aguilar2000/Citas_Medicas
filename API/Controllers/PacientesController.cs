@@ -25,20 +25,12 @@ namespace API.Controllers
 
         [HttpGet]
         public async Task<ActionResult<PagedResult<Pacientes>>> Get(
-            [FromQuery] int pageNumber = 1,
-            [FromQuery] int pageSize = 10)
+            [FromQuery] GetPacienteQuery query)
         {
-            var resultado = await _mediator.Send(
-                new GetPacienteQuery
-                {
-                    PageNumber = pageNumber,
-                    PageSize = pageSize
-                }
-            );
+            var resultado = await _mediator.Send(query);
 
             return Ok(resultado);
         }
-
 
         // =========================================
         // GET - PACIENTE POR ID
