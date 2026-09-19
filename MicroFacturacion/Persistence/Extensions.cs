@@ -22,18 +22,18 @@ namespace Persistence.Facturacion
                     .GetService<IConfiguration>(provider)!;
             }
 
-            // Base de datos
             services.AddDbContext<ApplicationDbContext>(
                 opt => opt.UseSqlServer(
-                    configuration["sql:cx"])
+                    configuration["sql:cx"],
+                    sqlOptions =>
+                        sqlOptions.MigrationsHistoryTable(
+                            "__EFMigrationsHistory_Facturacion")
+                )
             );
 
-            // Permite utilizar DbContext
-            // desde GenericRepository
             services.AddScoped<DbContext>(provider =>
                 provider.GetRequiredService<ApplicationDbContext>());
 
-            // Repositorio genérico
             services.AddScoped(
                 typeof(IGenericRepository<>),
                 typeof(GenericRepository<>)

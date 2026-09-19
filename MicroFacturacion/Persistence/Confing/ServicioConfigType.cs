@@ -11,6 +11,9 @@ namespace Persistence.Facturacion.Config
             EntityTypeBuilder<Servicio> builder)
         {
             builder.HasKey(x => x.IdServicio);
+
+            builder.Property(x => x.Precio)
+                .HasPrecision(18, 2);
         }
     }
 }

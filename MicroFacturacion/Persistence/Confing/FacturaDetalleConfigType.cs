@@ -11,6 +11,14 @@ namespace Persistence.Facturacion.Config
             EntityTypeBuilder<FacturaDetalle> builder)
         {
             builder.HasKey(x => x.IdDetalle);
+
+            builder.Property(x => x.PrecioUnitario)
+                .HasPrecision(18, 2);
+
+            builder.HasOne<Factura>()
+                .WithMany()
+                .HasForeignKey(x => x.IdFactura)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
