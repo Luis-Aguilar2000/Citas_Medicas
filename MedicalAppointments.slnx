@@ -45,7 +45,7 @@
     <Project Path="MicroFacturacion/Persistence/Persistence.csproj" Id="1d8f48ba-6c01-4296-901d-e67d3f111154" />
   </Folder>
   <Folder Name="/MicroFacturacion/D.Infraestructura/">
-    <Project Path="Infraestructura/Infraestructura.csproj" Id="253e0578-7acf-4e4f-8f27-c4c15860955c" />
+    <Project Path="MicroFacturacion/Infraestructura/Infraestructura.csproj" />
   </Folder>
   <Folder Name="/MicroFacturacion/E.Api/">
     <Project Path="MicroFacturacion/Api/Api.csproj" Id="7e17d361-76dc-4f7c-8d49-44d0576782bc" />

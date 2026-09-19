@@ -1,81 +1,38 @@
-﻿using Core.Facturacion.Features.FacturaDetalles.Commands;
-using Core.Facturacion.Features.FacturaDetalles.Queries;
-using Core.Features.FacturaDetalles.Queries;
-using Domain.Models;
-using Generics.Models;
+﻿using Domain.Models;
+using Generics.Interfaces;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace Core.Facturacion.Features.FacturaDetalles.Commands
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class FacturaDetallesController : ControllerBase
+    public class DeleteFacturaDetalleCommand : IRequest<bool>
     {
-        private readonly IMediator _mediator;
+        public int IdDetalle { get; set; }
+    }
 
-        public FacturaDetallesController(IMediator mediator)
+    public class DeleteFacturaDetalleCommandHandler
+        : IRequestHandler<DeleteFacturaDetalleCommand, bool>
+    {
+        private readonly IGenericRepository<FacturaDetalle> _repository;
+
+        public DeleteFacturaDetalleCommandHandler(
+            IGenericRepository<FacturaDetalle> repository)
         {
-            _mediator = mediator;
+            _repository = repository;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<PagedResult<FacturaDetalle>>> Get(
-            [FromQuery] GetFacturaDetallesQuery query)
+        public async Task<bool> Handle(
+            DeleteFacturaDetalleCommand request,
+            CancellationToken cancellationToken)
         {
-            return Ok(await _mediator.Send(query));
-        }
+            var facturaDetalle =
+                await _repository.GetByIdAsync(request.IdDetalle);
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<FacturaDetalle>> GetById(int id)
-        {
-            var resultado = await _mediator.Send(
-                new GetFacturaDetalleByIdQuery
-                {
-                    IdDetalle = id
-                });
+            if (facturaDetalle == null)
+                return false;
 
-            if (resultado == null)
-                return NotFound();
+            await _repository.DeleteAsync(facturaDetalle);
 
-            return Ok(resultado);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<FacturaDetalle>> Post(
-            AddFacturaDetalleCommand command)
-        {
-            return Ok(await _mediator.Send(command));
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(
-            int id,
-            UpdateFacturaDetalleCommand command)
-        {
-            command.IdDetalle = id;
-
-            var resultado = await _mediator.Send(command);
-
-            if (!resultado)
-                return NotFound();
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var resultado = await _mediator.Send(
-                new DeleteFacturaDetalleCommand
-                {
-                    IdDetalle = id
-                });
-
-            if (!resultado)
-                return NotFound();
-
-            return NoContent();
+            return true;
         }
     }
 }
