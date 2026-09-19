@@ -1,4 +1,4 @@
-﻿using Domain.Facturacion.Models;
+﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Facturacion.Config;
 

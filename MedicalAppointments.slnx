@@ -36,7 +36,7 @@
   </Folder>
   <Folder Name="/MicroFacturacion/" />
   <Folder Name="/MicroFacturacion/A.Domain/">
-    <Project Path="MicroFacturacion/Domain.Facturacion/Domain/Domain.csproj" Id="85f0283a-d136-4848-97d7-f23934e7a4ef" />
+    <Project Path="MicroFacturacion/Domain/Domain.csproj" />
   </Folder>
   <Folder Name="/MicroFacturacion/B.Core/">
     <Project Path="MicroFacturacion/Core/Core.csproj" Id="a8d9b313-bdbf-4bd5-bff1-4543930518fb" />

@@ -1,6 +1,6 @@
 ﻿using Core.Facturacion.Features.FormasPago.Commands;
 using Core.Facturacion.Features.FormasPago.Queries;
-using Domain.Facturacion.Models;
+using Domain.Models;
 using Generics.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

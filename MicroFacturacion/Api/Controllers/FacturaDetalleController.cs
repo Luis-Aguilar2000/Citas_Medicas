@@ -1,6 +1,7 @@
 ﻿using Core.Facturacion.Features.FacturaDetalles.Commands;
 using Core.Facturacion.Features.FacturaDetalles.Queries;
-using Domain.Facturacion.Models;
+using Core.Features.FacturaDetalles.Queries;
+using Domain.Models;
 using Generics.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
