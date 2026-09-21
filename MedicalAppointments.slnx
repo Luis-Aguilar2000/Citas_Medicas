@@ -82,4 +82,20 @@
   <Folder Name="/MicroPacientesAgendas/E.API/">
     <Project Path="API/API.csproj" />
   </Folder>
+  <Folder Name="/MicroTratamientos-Lab/" />
+  <Folder Name="/MicroTratamientos-Lab/A. Domain/">
+    <Project Path="MicroTratamientos-Lab/Domain/Domain.csproj" Id="e1a5f2e3-b46e-4d6f-aaa9-095a5683a891" />
+  </Folder>
+  <Folder Name="/MicroTratamientos-Lab/B. Core/">
+    <Project Path="MicroTratamientos-Lab/Core/Core.csproj" Id="e10030d7-eb2b-4328-b533-b9b727c9258f" />
+  </Folder>
+  <Folder Name="/MicroTratamientos-Lab/C. Persistence/">
+    <Project Path="MicroTratamientos-Lab/Persistence/Persistence.csproj" Id="237e6f0c-4c30-4790-ab89-976ec02c20b9" />
+  </Folder>
+  <Folder Name="/MicroTratamientos-Lab/D. Infraestructura/">
+    <Project Path="MicroTratamientos-Lab/Infraestructura/Infraestructura.csproj" Id="ad6d984e-59d0-453d-be94-8b1d7d4afa92" />
+  </Folder>
+  <Folder Name="/MicroTratamientos-Lab/E. API/">
+    <Project Path="MicroTratamientos-Lab/API/API.csproj" Id="1bcdd6b6-1553-4966-9d7f-90b793b0e4a3" />
+  </Folder>
 </Solution>

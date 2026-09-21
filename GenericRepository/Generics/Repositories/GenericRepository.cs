@@ -172,9 +172,6 @@ namespace Generics.Repositories
         }
 
 
-        // =========================================
-        // INCLUDES
-        // =========================================
 
         private static IQueryable<T> ApplyIncludes(
             IQueryable<T> query,
