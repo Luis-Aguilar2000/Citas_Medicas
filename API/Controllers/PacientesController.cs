@@ -55,6 +55,29 @@ namespace API.Controllers
             return Ok(paciente);
         }
 
+        // =========================================
+        // GET - PACIENTE POR DUI
+        // =========================================
+
+        [HttpGet("dui/{dui}")]
+        public async Task<ActionResult<Pacientes>> GetByDui(
+            string dui)
+        {
+            var paciente = await _mediator.Send(
+                new GetPacienteByDuiQuery
+                {
+                    DUI = dui
+                }
+            );
+
+            if (paciente == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(paciente);
+        }
+
 
         // =========================================
         // POST - CREAR PACIENTE

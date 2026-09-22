@@ -1,13 +1,11 @@
-﻿using Generics.Interfaces;
+﻿using System.Linq.Expressions;
+using Generics.Interfaces;
 using Generics.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace Generics.Repositories
 {
-    public class GenericRepository<T>
-        : IGenericRepository<T>
-        where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly DbContext _context;
         private readonly DbSet<T> _dbSet;
@@ -18,13 +16,7 @@ namespace Generics.Repositories
             _dbSet = context.Set<T>();
         }
 
-
-        // =========================================
-        // CONSULTA BASE
-        // =========================================
-
-        private IQueryable<T> Query(
-            bool asNoTracking = true)
+        private IQueryable<T> Query(bool asNoTracking = true)
         {
             IQueryable<T> query = _dbSet;
 
@@ -36,68 +28,72 @@ namespace Generics.Repositories
             return query;
         }
 
-
-        // =========================================
-        // GET ALL
-        // =========================================
-
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.ToListAsync(cancellationToken);
         }
 
-
-        // =========================================
-        // GET BY ID
-        // =========================================
-
-        public async Task<T?> GetByIdAsync(int id)
+        public async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _dbSet.FindAsync(id);
+            return await _dbSet.FindAsync(new object[] { id }, cancellationToken);
         }
 
-
-        // =========================================
-        // ADD
-        // =========================================
-
-        public async Task<T> AddAsync(T entity)
+        public async Task<T?> GetOneByAsync(
+            Expression<Func<T, bool>> filter,
+            bool asNoTracking = true,
+            CancellationToken cancellationToken = default)
         {
-            await _dbSet.AddAsync(entity);
+            ArgumentNullException.ThrowIfNull(filter);
 
-            await _context.SaveChangesAsync();
+            IQueryable<T> query = Query(asNoTracking);
+
+            return await query.FirstOrDefaultAsync(filter, cancellationToken);
+        }
+
+        public async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(entity);
+
+            await _dbSet.AddAsync(entity, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
 
             return entity;
         }
 
-
-        // =========================================
-        // UPDATE
-        // =========================================
-
-        public async Task UpdateAsync(T entity)
+        public async Task<IEnumerable<T>> AddRangeAsync(
+            IEnumerable<T> entities,
+            CancellationToken cancellationToken = default)
         {
+            ArgumentNullException.ThrowIfNull(entities);
+
+            var lista = entities.ToList();
+
+            if (lista.Count == 0)
+            {
+                return lista;
+            }
+
+            await _dbSet.AddRangeAsync(lista, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return lista;
+        }
+
+        public async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(entity);
+
             _dbSet.Update(entity);
-
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
-
-        // =========================================
-        // DELETE
-        // =========================================
-
-        public async Task DeleteAsync(T entity)
+        public async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
         {
+            ArgumentNullException.ThrowIfNull(entity);
+
             _dbSet.Remove(entity);
-
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
-
-
-        // =========================================
-        // PAGINACION GENERICA
-        // =========================================
 
         public async Task<PagedResult<T>> GetPagedAsync(
             int pageNumber,
@@ -111,22 +107,15 @@ namespace Generics.Repositories
         {
             if (pageNumber < 1)
             {
-                throw new ArgumentOutOfRangeException(
-                    nameof(pageNumber),
-                    "pageNumber debe ser mayor o igual a 1.");
+                throw new ArgumentOutOfRangeException(nameof(pageNumber), "pageNumber debe ser mayor o igual a 1.");
             }
 
             if (pageSize < 1)
             {
-                throw new ArgumentOutOfRangeException(
-                    nameof(pageSize),
-                    "pageSize debe ser mayor o igual a 1.");
+                throw new ArgumentOutOfRangeException(nameof(pageSize), "pageSize debe ser mayor o igual a 1.");
             }
 
-            var query =
-                ApplyIncludes(
-                    Query(asNoTracking),
-                    includes);
+            var query = ApplyIncludes(Query(asNoTracking), includes);
 
             if (filter != null)
             {
@@ -138,9 +127,7 @@ namespace Generics.Repositories
                 query = query.AsSplitQuery();
             }
 
-            int totalRecords =
-                await query.CountAsync(
-                    cancellationToken);
+            int totalRecords = await query.CountAsync(cancellationToken);
 
             if (orderBy != null)
             {
@@ -151,27 +138,17 @@ namespace Generics.Repositories
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize);
 
-            var data =
-                await query.ToListAsync(
-                    cancellationToken);
+            var data = await query.ToListAsync(cancellationToken);
 
             return new PagedResult<T>
             {
                 Data = data,
-
                 TotalRecords = totalRecords,
-
-                TotalPages =
-                    (int)Math.Ceiling(
-                        (double)totalRecords / pageSize),
-
+                TotalPages = (int)Math.Ceiling((double)totalRecords / pageSize),
                 PageSize = pageSize,
-
                 CurrentPage = pageNumber
             };
         }
-
-
 
         private static IQueryable<T> ApplyIncludes(
             IQueryable<T> query,
@@ -184,10 +161,5 @@ namespace Generics.Repositories
 
             return query;
         }
-
-
-        
-
-        
     }
 }
