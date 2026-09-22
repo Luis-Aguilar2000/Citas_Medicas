@@ -48,9 +48,9 @@ export class PacientesService
   extends GenericCrudService<Paciente> {
 
 
-  /* =========================================
-     CONSTRUCTOR
-  ========================================= */
+  // =========================================
+  // CONSTRUCTOR
+  // =========================================
 
   constructor(
     http: HttpClient
@@ -64,26 +64,28 @@ export class PacientesService
   }
 
 
-  /* =========================================
-     GET - LISTAR PACIENTES PAGINADOS
-  ========================================= */
+  // =========================================
+  // GET - LISTAR PACIENTES PAGINADOS
+  // =========================================
 
   getPacientes(
     pageNumber: number = 1,
-    pageSize: number = 10
+    pageSize: number = 10,
+    filter: string = ''
   ): Observable<PagedResult<Paciente>> {
 
     return this.getPaged(
       pageNumber,
-      pageSize
+      pageSize,
+      filter
     );
 
   }
 
 
-  /* =========================================
-     GET - PACIENTE POR ID
-  ========================================= */
+  // =========================================
+  // GET - PACIENTE POR ID
+  // =========================================
 
   getPacienteById(
     idPaciente: number
@@ -96,9 +98,9 @@ export class PacientesService
   }
 
 
-  /* =========================================
-     POST - AGREGAR PACIENTE
-  ========================================= */
+  // =========================================
+  // POST - AGREGAR PACIENTE
+  // =========================================
 
   addPaciente(
     paciente: Paciente
@@ -111,9 +113,9 @@ export class PacientesService
   }
 
 
-  /* =========================================
-     PUT - ACTUALIZAR PACIENTE
-  ========================================= */
+  // =========================================
+  // PUT - ACTUALIZAR PACIENTE
+  // =========================================
 
   updatePaciente(
     paciente: Paciente
@@ -127,9 +129,9 @@ export class PacientesService
   }
 
 
-  /* =========================================
-     DELETE - ELIMINAR PACIENTE
-  ========================================= */
+  // =========================================
+  // DELETE - ELIMINAR PACIENTE
+  // =========================================
 
   deletePaciente(
     idPaciente: number

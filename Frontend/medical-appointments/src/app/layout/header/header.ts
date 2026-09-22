@@ -1,11 +1,11 @@
 import {
   Component,
-  Input,
-  OnDestroy
+  Input
 } from '@angular/core';
 
 import {
-  BusquedaService
+  BusquedaService,
+  SugerenciaBusqueda
 } from '../../core/services/busqueda';
 
 
@@ -16,7 +16,7 @@ import {
   templateUrl: './header.html',
   styleUrl: './header.css'
 })
-export class Header implements OnDestroy {
+export class Header {
 
 
   // =========================================
@@ -25,14 +25,6 @@ export class Header implements OnDestroy {
 
   @Input()
   sidebarColapsado = false;
-
-
-  // =========================================
-  // TEMPORIZADOR
-  // =========================================
-
-  private temporizadorBusqueda:
-    ReturnType<typeof setTimeout> | null = null;
 
 
   // =========================================
@@ -45,56 +37,88 @@ export class Header implements OnDestroy {
 
 
   // =========================================
-  // BUSCAR
+  // ESCRIBIR
   // =========================================
 
-  onBuscar(
+  onEscribir(
     event: Event
   ): void {
 
     const input =
       event.target as HTMLInputElement;
 
-    const texto =
-      input.value;
 
-
-    if (
-      this.temporizadorBusqueda
-    ) {
-
-      clearTimeout(
-        this.temporizadorBusqueda
-      );
-
-    }
-
-
-    this.temporizadorBusqueda =
-      setTimeout(() => {
-
-        this.busquedaService.buscar(
-          texto
-        );
-
-      }, 350);
+    this.busquedaService.escribir(
+      input.value
+    );
 
   }
 
 
   // =========================================
-  // DESTROY
+  // ENTER
   // =========================================
 
-  ngOnDestroy(): void {
+  onEnter(): void {
+
+    this.realizarBusqueda();
+
+  }
+
+
+  // =========================================
+  // CLIC EN LUPA
+  // =========================================
+
+  onClickBuscar(): void {
+
+    this.realizarBusqueda();
+
+  }
+
+
+  // =========================================
+  // REALIZAR BÚSQUEDA
+  // =========================================
+
+  private realizarBusqueda(): void {
+
+    this.busquedaService.buscar();
+
+  }
+
+
+  // =========================================
+  // SELECCIONAR SUGERENCIA
+  // =========================================
+
+  seleccionarSugerencia(
+    sugerencia: SugerenciaBusqueda
+  ): void {
+
+    this.busquedaService
+      .seleccionarSugerencia(
+        sugerencia
+      );
+
+  }
+
+
+  // =========================================
+  // FOCUS
+  // =========================================
+
+  onFocus(): void {
 
     if (
-      this.temporizadorBusqueda
+      this.busquedaService
+        .sugerencias()
+        .length > 0
     ) {
 
-      clearTimeout(
-        this.temporizadorBusqueda
-      );
+      this.busquedaService
+        .mostrarSugerencias
+        .set(true);
 
     }
 

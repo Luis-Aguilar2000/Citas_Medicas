@@ -2,10 +2,9 @@
   class="header"
   [class.sidebar-colapsado]="sidebarColapsado">
 
-
   <!-- =========================================
        IZQUIERDA
-  ========================================= -->
+  ========================================== -->
 
   <div class="header-left">
 
@@ -25,20 +24,91 @@
 
 
   <!-- =========================================
-       CENTRO - BUSCADOR
-  ========================================= -->
+       CENTRO
+  ========================================== -->
 
   <div class="header-center">
 
-    <div class="search-box">
+    <div class="search-container">
 
-      <i class="bi bi-search"></i>
 
-      <input
-        type="text"
-        [value]="busquedaService.texto()"
-        [placeholder]="busquedaService.placeholder()"
-        (input)="onBuscar($event)">
+      <!-- =====================================
+           BUSCADOR
+      ====================================== -->
+
+      <div class="search-box">
+
+        <button
+          type="button"
+          class="search-button"
+          aria-label="Buscar"
+          (click)="onClickBuscar()">
+
+          <i class="bi bi-search"></i>
+
+        </button>
+
+
+        <input
+          type="text"
+          autocomplete="off"
+          [value]="busquedaService.entrada()"
+          [placeholder]="busquedaService.placeholder()"
+          (input)="onEscribir($event)"
+          (keydown.enter)="onEnter()"
+          (focus)="onFocus()">
+
+      </div>
+
+
+      <!-- =====================================
+           PREDICCIONES
+      ====================================== -->
+
+      @if (
+        busquedaService.mostrarSugerencias() &&
+        busquedaService.sugerencias().length > 0
+      ) {
+
+        <div class="search-suggestions">
+
+          @for (
+            sugerencia of busquedaService.sugerencias();
+            track $index
+          ) {
+
+            <button
+              type="button"
+              class="suggestion-item"
+              (click)="seleccionarSugerencia(sugerencia)">
+
+              <span class="suggestion-text">
+
+                {{ sugerencia.texto }}
+
+              </span>
+
+
+              @if (
+                sugerencia.descripcion
+              ) {
+
+                <span
+                  class="suggestion-description">
+
+                  {{ sugerencia.descripcion }}
+
+                </span>
+
+              }
+
+            </button>
+
+          }
+
+        </div>
+
+      }
 
     </div>
 
@@ -47,10 +117,9 @@
 
   <!-- =========================================
        DERECHA
-  ========================================= -->
+  ========================================== -->
 
   <div class="header-right">
-
 
     <button
       type="button"
@@ -67,8 +136,7 @@
 
       <i class="bi bi-bell"></i>
 
-      <span class="notification-dot">
-      </span>
+      <span class="notification-dot"></span>
 
     </button>
 

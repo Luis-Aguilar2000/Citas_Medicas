@@ -33,9 +33,10 @@ export interface PagedResult<T> {
 
 export abstract class GenericCrudService<T> {
 
-  /* =========================================
-     CONSTRUCTOR
-  ========================================= */
+
+  // =========================================
+  // CONSTRUCTOR
+  // =========================================
 
   protected constructor(
 
@@ -46,9 +47,9 @@ export abstract class GenericCrudService<T> {
   ) {}
 
 
-  /* =========================================
-     OBTENER TODOS
-  ========================================= */
+  // =========================================
+  // OBTENER TODOS
+  // =========================================
 
   getAll():
     Observable<T[]> {
@@ -60,36 +61,57 @@ export abstract class GenericCrudService<T> {
   }
 
 
-  /* =========================================
-     OBTENER PAGINADO
-  ========================================= */
+  // =========================================
+  // OBTENER PAGINADO
+  // =========================================
 
   getPaged(
     pageNumber: number = 1,
-    pageSize: number = 10
+    pageSize: number = 10,
+    filter: string = ''
   ): Observable<PagedResult<T>> {
 
-    const params = new HttpParams()
-      .set(
-        'pageNumber',
-        pageNumber.toString()
-      )
-      .set(
-        'pageSize',
-        pageSize.toString()
+    let params =
+      new HttpParams()
+        .set(
+          'pageNumber',
+          pageNumber.toString()
+        )
+        .set(
+          'pageSize',
+          pageSize.toString()
+        );
+
+
+    // =========================================
+    // FILTRO
+    // =========================================
+
+    if (
+      filter.trim() !== ''
+    ) {
+
+      params = params.set(
+        'filter',
+        filter
       );
+
+    }
+
 
     return this.http.get<PagedResult<T>>(
       this.apiUrl,
-      { params }
+      {
+        params
+      }
     );
 
   }
 
 
-  /* =========================================
-     OBTENER POR ID
-  ========================================= */
+  // =========================================
+  // OBTENER POR ID
+  // =========================================
 
   getById(
     id: number
@@ -102,9 +124,9 @@ export abstract class GenericCrudService<T> {
   }
 
 
-  /* =========================================
-     AGREGAR
-  ========================================= */
+  // =========================================
+  // AGREGAR
+  // =========================================
 
   add(
     entity: T
@@ -118,9 +140,9 @@ export abstract class GenericCrudService<T> {
   }
 
 
-  /* =========================================
-     ACTUALIZAR
-  ========================================= */
+  // =========================================
+  // ACTUALIZAR
+  // =========================================
 
   update(
     id: number,
@@ -135,9 +157,9 @@ export abstract class GenericCrudService<T> {
   }
 
 
-  /* =========================================
-     ELIMINAR
-  ========================================= */
+  // =========================================
+  // ELIMINAR
+  // =========================================
 
   delete(
     id: number

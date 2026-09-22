@@ -17,7 +17,10 @@
 
   display: grid;
 
-  grid-template-columns: 1fr minmax(300px, 500px) 1fr;
+  grid-template-columns:
+    1fr
+    minmax(300px, 500px)
+    1fr;
 
   align-items: center;
 
@@ -31,7 +34,9 @@
 }
 
 
-/* SIDEBAR COLAPSADO */
+/* =========================================
+   SIDEBAR COLAPSADO
+========================================= */
 
 .header.sidebar-colapsado {
   left: 70px;
@@ -93,8 +98,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  position: relative;
 }
 
+
+/* =========================================
+   CONTENEDOR BUSCADOR
+========================================= */
+
+.search-container {
+  position: relative;
+
+  width: 100%;
+}
+
+
+/* =========================================
+   BUSCADOR
+========================================= */
 
 .search-box {
   width: 100%;
@@ -122,16 +144,61 @@
 .search-box:focus-within {
   border-color: #6c5ce7;
 
-  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.08);
+  box-shadow:
+    0 0 0 3px
+    rgba(108, 92, 231, 0.08);
 }
 
 
-.search-box i {
+/* =========================================
+   BOTÓN BÚSQUEDA
+========================================= */
+
+.search-button {
+  width: 24px;
+  height: 24px;
+
+  min-width: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  margin: 0;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #888;
+
+  cursor: pointer;
+
+  transition: 0.15s ease;
+}
+
+
+.search-button i {
   color: #888;
 
   font-size: 15px;
+
+  pointer-events: none;
+
+  transition: 0.15s ease;
 }
 
+
+.search-button:hover i {
+  color: #6c5ce7;
+}
+
+
+/* =========================================
+   INPUT
+========================================= */
 
 .search-box input {
   width: 100%;
@@ -142,6 +209,7 @@
   background: transparent;
 
   font-family: inherit;
+
   font-size: 14px;
 
   color: #333;
@@ -150,6 +218,118 @@
 
 .search-box input::placeholder {
   color: #999;
+}
+
+
+/* =========================================
+   PREDICCIONES
+========================================= */
+
+.search-suggestions {
+  position: absolute;
+
+  top: calc(100% + 5px);
+
+  left: 8px;
+  right: 8px;
+
+  background: #ffffff;
+
+  border: 1px solid #e6e6eb;
+
+  border-radius: 8px;
+
+  box-shadow:
+    0 5px 14px
+    rgba(0, 0, 0, 0.08);
+
+  overflow: hidden;
+
+  z-index: 1200;
+}
+
+
+/* =========================================
+   SUGERENCIA
+========================================= */
+
+.suggestion-item {
+  width: 100%;
+
+  min-height: 34px;
+
+  display: flex;
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 16px;
+
+  padding: 7px 12px;
+
+  border: none;
+
+  border-bottom:
+    1px solid #f2f2f5;
+
+  background: #ffffff;
+
+  cursor: pointer;
+
+  text-align: left;
+
+  font-family: inherit;
+
+  transition:
+    background 0.15s ease;
+}
+
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+
+.suggestion-item:hover {
+  background: #f7f6ff;
+}
+
+
+/* =========================================
+   NOMBRE
+========================================= */
+
+.suggestion-text {
+  min-width: 0;
+
+  color: #333;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* =========================================
+   DUI
+========================================= */
+
+.suggestion-description {
+  flex-shrink: 0;
+
+  color: #999;
+
+  font-size: 10px;
+
+  font-weight: 400;
+
+  white-space: nowrap;
 }
 
 
@@ -166,7 +346,9 @@
 }
 
 
-/* ICONOS */
+/* =========================================
+   ICONOS
+========================================= */
 
 .header-icon {
   position: relative;
@@ -258,7 +440,9 @@
 }
 
 
-/* AVATAR */
+/* =========================================
+   AVATAR
+========================================= */
 
 .avatar {
   width: 34px;
@@ -277,11 +461,14 @@
   color: #6c5ce7;
 
   font-size: 11px;
+
   font-weight: 700;
 }
 
 
-/* INFORMACIÓN */
+/* =========================================
+   INFORMACIÓN USUARIO
+========================================= */
 
 .user-info {
   display: flex;
@@ -297,6 +484,7 @@
   color: #333;
 
   font-size: 12px;
+
   font-weight: 600;
 }
 
@@ -326,14 +514,19 @@
 @media (max-width: 950px) {
 
   .header {
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns:
+      auto
+      1fr
+      auto;
 
     padding: 0 14px;
   }
 
+
   .logo-text {
     display: none;
   }
+
 
   .user-info,
   .user-arrow {
@@ -349,6 +542,12 @@
     justify-content: flex-end;
   }
 
+
+  .search-container {
+    width: 42px;
+  }
+
+
   .search-box {
     width: 42px;
 
@@ -359,7 +558,13 @@
     border: none;
   }
 
+
   .search-box input {
+    display: none;
+  }
+
+
+  .search-suggestions {
     display: none;
   }
 
