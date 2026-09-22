@@ -7,6 +7,18 @@ builder.Services.AddControllers();
 
 builder.Services.AddOpenApi();
 
+// CORS para Angular
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AngularPolicy", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 // Core
 builder.Services.AddCore();
 
@@ -21,6 +33,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Habilitar CORS
+app.UseCors("AngularPolicy");
 
 app.UseAuthorization();
 
