@@ -1,44 +1,74 @@
 using Core;
+using Infraestructura;
+using Newtonsoft.Json.Serialization;
 using Persistence;
+using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console()
+    .CreateLogger();
 
-builder.Services.AddControllers();
-
-builder.Services.AddOpenApi();
-
-// CORS para Angular
-builder.Services.AddCors(options =>
+try
 {
-    options.AddPolicy("AngularPolicy", policy =>
+    var builder = WebApplication.CreateBuilder(args);
+
+    // Conecta Serilog con la API.
+    builder.Host.UseSerilog();
+
+    // Configura los controladores y las respuestas JSON.
+    builder.Services
+        .AddControllers()
+        .AddNewtonsoftJson(options =>
+        {
+            options.SerializerSettings.ContractResolver =
+                new CamelCasePropertyNamesContractResolver();
+        });
+
+    builder.Services.AddOpenApi();
+
+    // Permite las peticiones desde Angular.
+    builder.Services.AddCors(options =>
     {
-        policy
-            .WithOrigins("http://localhost:4200")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+        options.AddPolicy("AngularPolicy", policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
     });
-});
 
-// Core
-builder.Services.AddCore();
+    // Registra las capas del proyecto.
+    builder.Services.AddCore(builder.Configuration);
+    builder.Services.AddPersistence();
+    builder.Services.AddExternals(builder.Configuration);
 
-// Persistence
-builder.Services.AddPersistence();
+    var app = builder.Build();
 
-var app = builder.Build();
+    if (app.Environment.IsDevelopment())
+    {
+        app.MapOpenApi();
+    }
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
+    // Registra las peticiones que recibe esta API.
+    app.UseSerilogRequestLogging();
+
+    app.UseHttpsRedirection();
+
+    app.UseCors("AngularPolicy");
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
 }
-
-app.UseHttpsRedirection();
-
-// Habilitar CORS
-app.UseCors("AngularPolicy");
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+catch (Exception ex)
+{
+    Log.Fatal(ex, "La API se detuvo por un error.");
+}
+finally
+{
+    Log.CloseAndFlush();
+}

@@ -1,4 +1,5 @@
-﻿using Core.Facturacion.Features.Facturas.Commands;
+﻿using Core.Facturacion.Exceptions;
+using Core.Facturacion.Features.Facturas.Commands;
 using Core.Facturacion.Features.Facturas.Queries;
 using Domain.Models;
 using Generics.Models;
@@ -39,12 +40,36 @@ namespace API.Controllers
 
             return Ok(resultado);
         }
-
         [HttpPost]
         public async Task<ActionResult<Factura>> Post(
-            AddFacturaCommand command)
+            [FromBody] AddFacturaCommand command)
         {
-            return Ok(await _mediator.Send(command));
+            try
+            {
+                var factura = await _mediator.Send(command);
+
+                return Ok(factura);
+            }
+            catch (DomainException ex)
+                when (ex.Error == Errores.PACIENTE_NO_EXISTE)
+            {
+                return BadRequest(new
+                {
+                    codigo = (int)ex.Error,
+                    mensaje = ex.Message
+                });
+            }
+            catch (DomainException ex)
+                when (ex.Error == Errores.PACIENTES_NO_DISPONIBLE)
+            {
+                return StatusCode(
+                    StatusCodes.Status503ServiceUnavailable,
+                    new
+                    {
+                        codigo = (int)ex.Error,
+                        mensaje = ex.Message
+                    });
+            }
         }
 
         [HttpPut("{id}")]

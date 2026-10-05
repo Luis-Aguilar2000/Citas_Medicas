@@ -1,28 +1,57 @@
-using Core;
 using Core.Facturacion;
+using Infraestructura;
+using Newtonsoft.Json.Serialization;
 using Persistence.Facturacion;
+using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console()
+    .CreateLogger();
 
-builder.Services.AddControllers();
-
-builder.Services.AddOpenApi();
-
-builder.Services.AddCore();
-
-builder.Services.AddPersistence();
-
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
+try
 {
-    app.MapOpenApi();
+    var builder = WebApplication.CreateBuilder(args);
+
+    builder.Host.UseSerilog();
+
+    builder.Services
+        .AddControllers()
+        .AddNewtonsoftJson(options =>
+        {
+            options.SerializerSettings.ContractResolver =
+                new CamelCasePropertyNamesContractResolver();
+        });
+
+    builder.Services.AddOpenApi();
+
+    builder.Services.AddCore(builder.Configuration);
+    builder.Services.AddPersistence();
+    builder.Services.AddExternals(builder.Configuration);
+
+    var app = builder.Build();
+
+    if (app.Environment.IsDevelopment())
+    {
+        app.MapOpenApi();
+    }
+
+    app.UseSerilogRequestLogging();
+
+    app.UseHttpsRedirection();
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+catch (Exception ex)
+{
+    Log.Fatal(ex, "La API de Facturación se detuvo por un error.");
+    throw;
+}
+finally
+{
+    Log.CloseAndFlush();
+}
