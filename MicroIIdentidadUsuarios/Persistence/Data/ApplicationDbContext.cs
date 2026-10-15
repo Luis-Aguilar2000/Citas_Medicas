@@ -26,11 +26,8 @@ namespace Persistence.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<RolPermiso>()
-                .HasKey(x => new { x.IdRol, x.IdPermiso });
-
-            modelBuilder.Entity<MedicoEspecialidad>()
-                .HasKey(x => new { x.IdMedico, x.IdEspecialidad });
+            modelBuilder.ApplyConfigurationsFromAssembly(
+                typeof(ApplicationDbContext).Assembly);
         }
     }
 }
