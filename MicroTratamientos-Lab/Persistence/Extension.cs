@@ -10,24 +10,18 @@ namespace Persistence
     public static class Extension
     {
         public static IServiceCollection AddPersistence(
-           this IServiceCollection services)
+            this IServiceCollection services,
+            IConfiguration configuration)
         {
-            IConfiguration configuration;
-
-            using (ServiceProvider provider = services.BuildServiceProvider())
-            {
-                configuration =
-                    ServiceProviderServiceExtensions
-                    .GetService<IConfiguration>(provider)!;
-            }
-
-            services.AddDbContext<ApplicationDbContext>(
-                opt => opt.UseSqlServer(configuration["sql:cx"])
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    configuration["sql:cx"]
+                )
             );
 
-
             services.AddScoped<DbContext>(provider =>
-                provider.GetRequiredService<ApplicationDbContext>());
+                provider.GetRequiredService<ApplicationDbContext>()
+            );
 
             services.AddScoped(
                 typeof(IGenericRepository<>),

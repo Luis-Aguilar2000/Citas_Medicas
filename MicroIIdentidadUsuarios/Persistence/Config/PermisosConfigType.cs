@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.Config
 {
-    public class PermisosConfig : IEntityTypeConfiguration<Permisos>
+    public class PermisosConfigType : IEntityTypeConfiguration<Permisos>
     {
         public void Configure(EntityTypeBuilder<Permisos> builder)
         {

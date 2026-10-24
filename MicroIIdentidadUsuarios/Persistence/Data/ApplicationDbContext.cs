@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Persistence.Data
 {
@@ -22,12 +23,14 @@ namespace Persistence.Data
 
         public DbSet<SesionUsuario> SesionesUsuario { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(
+            ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(
-                typeof(ApplicationDbContext).Assembly);
+                Assembly.GetExecutingAssembly()
+            );
         }
     }
 }
