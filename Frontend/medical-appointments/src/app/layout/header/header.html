@@ -54,14 +54,12 @@
     </button>
 
     <button type="button" class="user-button">
-      <div class="avatar">LA</div>
+      <div class="avatar">{{ iniciales }}</div>
 
       <div class="user-info">
-        <strong>Usuario</strong>
-        <span>Administrador</span>
+        <strong>{{ nombreCompleto }}</strong>
+        <span>{{ usuario?.rol || 'Sin rol' }}</span>
       </div>
-
-      <i class="bi bi-chevron-down user-arrow"></i>
     </button>
   </div>
 </header>

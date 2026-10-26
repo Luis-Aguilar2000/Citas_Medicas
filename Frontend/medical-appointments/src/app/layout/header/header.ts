@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { BusquedaService, SugerenciaBusqueda } from '../../core/services/busqueda';
+import { AuthService } from '../../core/Auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -9,6 +10,26 @@ import { BusquedaService, SugerenciaBusqueda } from '../../core/services/busqued
   styleUrl: './header.css'
 })
 export class Header {
+  private readonly authService = inject(AuthService);
+
+  readonly usuario = this.authService.obtenerUsuario();
+
+  get nombreCompleto(): string {
+    return [
+      this.usuario?.nombres,
+      this.usuario?.apellidos
+    ].filter(Boolean).join(' ') || 'Usuario';
+  }
+
+  get iniciales(): string {
+    const nombre = this.usuario?.nombres?.trim() ?? '';
+    const apellido = this.usuario?.apellidos?.trim() ?? '';
+
+    return (
+      (nombre.charAt(0) + apellido.charAt(0)).toUpperCase() || 'US'
+    );
+  }
+
   // SIDEBAR
   @Input() sidebarColapsado = false;
 
