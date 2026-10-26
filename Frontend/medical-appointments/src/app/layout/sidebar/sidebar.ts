@@ -1,6 +1,9 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { inject } from '@angular/core';
+import { AuthService } from '../../core/Auth/auth.service';
+
 
 @Component({
   selector: 'app-sidebar',
@@ -12,6 +15,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class Sidebar {
   @Input() colapsado = false;
   @Output() cambiarEstado = new EventEmitter<void>();
+
+  private readonly authService = inject(AuthService);
 
   pacientesAbierto = false;
   identidadAbierto = false;
@@ -26,6 +31,11 @@ export class Sidebar {
   private temporizadorAnimacion: ReturnType<typeof setTimeout> | null = null;
 
   constructor(private cdr: ChangeDetectorRef) {}
+
+  cerrarSesion(): void {
+    this.cerrarFlotanteInmediato();
+    this.authService.cerrarSesion();
+  }
 
   // ALTERNAR ESTADO DEL SIDEBAR
   toggleSidebar(): void {

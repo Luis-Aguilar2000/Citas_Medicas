@@ -12,15 +12,18 @@ namespace Core.Features.Auth.Commands.Login
         private readonly IGenericRepository<Usuario> _usuarioRepository;
         private readonly IGenericRepository<Rol> _rolRepository;
         private readonly IJwtService _jwtService;
+        private readonly IPasswordService _passwordService;
 
         public LoginCommandHandler(
             IGenericRepository<Usuario> usuarioRepository,
             IGenericRepository<Rol> rolRepository,
-            IJwtService jwtService)
+            IJwtService jwtService,
+            IPasswordService passwordService)
         {
             _usuarioRepository = usuarioRepository;
             _rolRepository = rolRepository;
             _jwtService = jwtService;
+            _passwordService = passwordService;
         }
 
         public async Task<LoginResponseDto> Handle(
@@ -41,7 +44,7 @@ namespace Core.Features.Auth.Commands.Login
                 );
             }
 
-            // Verificar si el usuario está activo
+            // Verificar si está activo
             if (!usuario.Estado)
             {
                 throw new UnauthorizedAccessException(
@@ -49,8 +52,13 @@ namespace Core.Features.Auth.Commands.Login
                 );
             }
 
-            // Temporal: comparar contraseña directamente
-            if (usuario.PasswordHash != command.Password)
+            // Verificar contraseña contra el hash
+            var passwordValido = _passwordService.VerifyPassword(
+                command.Password,
+                usuario.PasswordHash
+            );
+
+            if (!passwordValido)
             {
                 throw new UnauthorizedAccessException(
                     "Correo o contraseña incorrectos."
@@ -71,7 +79,6 @@ namespace Core.Features.Auth.Commands.Login
                 );
             }
 
-            // Token válido por 1 hora
             var expiracion = DateTime.UtcNow.AddHours(1);
 
             var token = _jwtService.GenerarToken(
@@ -83,7 +90,6 @@ namespace Core.Features.Auth.Commands.Login
             return new LoginResponseDto
             {
                 Token = token,
-
                 Expiracion = expiracion,
 
                 Usuario = new UsuarioLoginDto

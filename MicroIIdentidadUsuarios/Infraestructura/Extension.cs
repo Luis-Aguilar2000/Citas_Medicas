@@ -11,6 +11,8 @@ namespace Infraestructura
         {
             services.AddScoped<IJwtService, JwtService>();
 
+            services.AddScoped<IPasswordService, PasswordService>();
+
             return services;
         }
     }

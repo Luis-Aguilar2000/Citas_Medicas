@@ -277,7 +277,12 @@
       <span *ngIf="!colapsado">Configuración</span>
     </a>
 
-    <button type="button" class="menu-item logout" (click)="cerrarFlotante()">
+    <button
+      type="button"
+      class="menu-item logout"
+      (click)="cerrarSesion()"
+      aria-label="Cerrar sesión"
+    >
       <i class="bi bi-box-arrow-left"></i>
       <span *ngIf="!colapsado">Cerrar sesión</span>
     </button>

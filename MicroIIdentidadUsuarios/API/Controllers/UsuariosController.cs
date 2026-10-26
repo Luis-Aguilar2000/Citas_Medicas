@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrador")]
     [Route("[controller]")]
     [ApiController]
     public class UsuariosController : ControllerBase
@@ -36,19 +36,25 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var result = await _mediator.Send(new GetUsuarioByIdQuery
-            {
-                IdUsuario = id
-            });
+            var result = await _mediator.Send(
+                new GetUsuarioByIdQuery
+                {
+                    IdUsuario = id
+                }
+            );
 
-            return result == null ? NotFound() : Ok(result);
+            return result == null
+                ? NotFound()
+                : Ok(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(
             [FromBody] AddUsuarioCommand command)
         {
-            return Ok(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
         }
 
         [HttpPut]
@@ -57,18 +63,24 @@ namespace API.Controllers
         {
             var result = await _mediator.Send(command);
 
-            return result ? Ok(result) : NotFound();
+            return result
+                ? Ok(result)
+                : NotFound();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _mediator.Send(new DeleteUsuarioCommand
-            {
-                IdUsuario = id
-            });
+            var result = await _mediator.Send(
+                new DeleteUsuarioCommand
+                {
+                    IdUsuario = id
+                }
+            );
 
-            return result ? Ok(result) : NotFound();
+            return result
+                ? Ok(result)
+                : NotFound();
         }
     }
 }
