@@ -10,12 +10,8 @@ namespace Persistence
     public static class Extension
     {
         public static IServiceCollection AddPersistence(
-<<<<<<< Updated upstream
             this IServiceCollection services,
             IConfiguration configuration)
-=======
-            this IServiceCollection services)
->>>>>>> Stashed changes
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
@@ -34,11 +30,5 @@ namespace Persistence
 
             return services;
         }
-
     }
-<<<<<<< Updated upstream
 }
-=======
-}
-
->>>>>>> Stashed changes

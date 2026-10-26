@@ -1,13 +1,15 @@
 using Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Controllers
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+// OpenAPI
 builder.Services.AddOpenApi();
+
 // Persistence
-builder.Services.AddPersistence();
+builder.Services.AddPersistence(builder.Configuration);
 
 var app = builder.Build();
 

@@ -93,8 +93,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// En desarrollo estás usando http://localhost:5144.
-// Mantener HTTPS para los demás ambientes.
 if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
