@@ -1,3 +1,4 @@
+
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,10 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddPersistence();
 
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssembly(typeof(Core.Extension).Assembly);
-});
+
 
 builder.Services.AddCors(options =>
 {

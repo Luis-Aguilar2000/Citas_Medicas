@@ -9,36 +9,36 @@ namespace API.Controllers
     public class AntecMedicoController : ControllerBase
     {
 
-        private readonly IMediator _mediator;
+        //private readonly IMediator _mediator;
 
 
 
-        [HttpGet]
-        public async Task<List<AntecedentesMedicos>> Get(
-            [FromQuery] int totalRegistros = 0)
-        {
-            return await _mediator.Send(new GetAntecMedicosQuery
-            {
-                TotalRegistros = totalRegistros
-            });
-        }
+        //[HttpGet]
+        //public async Task<List<AntecedentesMedicos>> Get(
+        //    [FromQuery] int totalRegistros = 0)
+        //{
+        //    return await _mediator.Send(new GetAntecMedicosQuery
+        //    {
+        //        TotalRegistros = totalRegistros
+        //    });
+        //}
 
-        [HttpGet("{id}")]
-        public async Task<AntecedentesMedicos> GetById(int id)
-        {
-            return await _mediator.Send(
-                new GetAntecMedicosByIdQuery
-                {
-                    IdPaciente = id
-                });
-        }
+        //[HttpGet("{id}")]
+        //public async Task<AntecedentesMedicos> GetById(int id)
+        //{
+        //    return await _mediator.Send(
+        //        new GetAntecMedicosByIdQuery
+        //        {
+        //            IdPaciente = id
+        //        });
+        //}
 
-        [HttpPost]
-        public async Task<bool> Post(
-            [FromBody] AddAntecMedicosCommand command)
-        {
-            return await _mediator.Send(command);
-        }
+        //[HttpPost]
+        //public async Task<bool> Post(
+        //    [FromBody] AddAntecMedicosCommand command)
+        //{
+        //    return await _mediator.Send(command);
+        //}
 
     }
 

@@ -9,36 +9,36 @@ namespace API.Controllers
     public class SintomasController : ControllerBase
     {
 
-        private readonly IMediator _mediator;
+        //private readonly IMediator _mediator;
 
 
 
-        [HttpGet]
-        public async Task<List<Sintomas>> Get(
-            [FromQuery] int totalRegistros = 0)
-        {
-            return await _mediator.Send(new GetSintomasQuery
-            {
-                TotalRegistros = totalRegistros
-            });
-        }
+        //[HttpGet]
+        //public async Task<List<Sintomas>> Get(
+        //    [FromQuery] int totalRegistros = 0)
+        //{
+        //    return await _mediator.Send(new GetSintomasQuery
+        //    {
+        //        TotalRegistros = totalRegistros
+        //    });
+        //}
 
-        [HttpGet("{id}")]
-        public async Task<Sintomas> GetById(int id)
-        {
-            return await _mediator.Send(
-                new GetSintomasByIdQuery
-                {
-                    IdPaciente = id
-                });
-        }
+        //[HttpGet("{id}")]
+        //public async Task<Sintomas> GetById(int id)
+        //{
+        //    return await _mediator.Send(
+        //        new GetSintomasByIdQuery
+        //        {
+        //            IdPaciente = id
+        //        });
+        //}
 
-        [HttpPost]
-        public async Task<bool> Post(
-            [FromBody] AddSintomasCommand command)
-        {
-            return await _mediator.Send(command);
-        }
+        //[HttpPost]
+        //public async Task<bool> Post(
+        //    [FromBody] AddSintomasCommand command)
+        //{
+        //    return await _mediator.Send(command);
+        //}
 
     }
 

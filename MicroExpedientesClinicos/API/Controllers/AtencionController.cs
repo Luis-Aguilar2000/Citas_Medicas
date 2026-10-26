@@ -9,36 +9,36 @@ namespace API.Controllers
     public class AtencionController : ControllerBase
     {
 
-        private readonly IMediator _mediator;
+        //private readonly IMediator _mediator;
 
 
 
-        [HttpGet]
-        public async Task<List<Atenciones>> Get(
-            [FromQuery] int totalRegistros = 0)
-        {
-            return await _mediator.Send(new GetAtencionQuery
-            {
-                TotalRegistros = totalRegistros
-            });
-        }
+        //[HttpGet]
+        //public async Task<List<Atenciones>> Get(
+        //    [FromQuery] int totalRegistros = 0)
+        //{
+        //    return await _mediator.Send(new GetAtencionQuery
+        //    {
+        //        TotalRegistros = totalRegistros
+        //    });
+        //}
 
-        [HttpGet("{id}")]
-        public async Task<Atenciones> GetById(int id)
-        {
-            return await _mediator.Send(
-                new GetAtencionByIdQuery
-                {
-                    IdPaciente = id
-                });
-        }
+        //[HttpGet("{id}")]
+        //public async Task<Atenciones> GetById(int id)
+        //{
+        //    return await _mediator.Send(
+        //        new GetAtencionByIdQuery
+        //        {
+        //            IdPaciente = id
+        //        });
+        //}
 
-        [HttpPost]
-        public async Task<bool> Post(
-            [FromBody] AddAtencionCommand command)
-        {
-            return await _mediator.Send(command);
-        }
+        //[HttpPost]
+        //public async Task<bool> Post(
+        //    [FromBody] AddAtencionCommand command)
+        //{
+        //    return await _mediator.Send(command);
+        //}
 
     }
 

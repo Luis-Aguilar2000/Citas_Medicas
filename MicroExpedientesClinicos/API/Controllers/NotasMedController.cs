@@ -9,36 +9,36 @@ namespace API.Controllers
     public class NotasMedController : ControllerBase
     {
 
-        private readonly IMediator _mediator;
+        //private readonly IMediator _mediator;
 
 
 
-        [HttpGet]
-        public async Task<List<NotasMedicas>> Get(
-            [FromQuery] int totalRegistros = 0)
-        {
-            return await _mediator.Send(new GetNotasMedQuery
-            {
-                TotalRegistros = totalRegistros
-            });
-        }
+        //[HttpGet]
+        //public async Task<List<NotasMedicas>> Get(
+        //    [FromQuery] int totalRegistros = 0)
+        //{
+        //    return await _mediator.Send(new GetNotasMedQuery
+        //    {
+        //        TotalRegistros = totalRegistros
+        //    });
+        //}
 
-        [HttpGet("{id}")]
-        public async Task<NotasMedicas> GetById(int id)
-        {
-            return await _mediator.Send(
-                new GetNotasMedByIdQuery
-                {
-                    IdPaciente = id
-                });
-        }
+        //[HttpGet("{id}")]
+        //public async Task<NotasMedicas> GetById(int id)
+        //{
+        //    return await _mediator.Send(
+        //        new GetNotasMedByIdQuery
+        //        {
+        //            IdPaciente = id
+        //        });
+        //}
 
-        [HttpPost]
-        public async Task<bool> Post(
-            [FromBody] AddNotasMedCommand command)
-        {
-            return await _mediator.Send(command);
-        }
+        //[HttpPost]
+        //public async Task<bool> Post(
+        //    [FromBody] AddNotasMedCommand command)
+        //{
+        //    return await _mediator.Send(command);
+        //}
 
     }
 

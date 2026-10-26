@@ -10,36 +10,36 @@ namespace API.Controllers
     public class AntecedentesFamiliaresController : ControllerBase
     {
 
-        private readonly IMediator _mediator;
+        //private readonly IMediator _mediator;
 
 
 
-        [HttpGet]
-        public async Task<List<AntecedentesFamiliares>> Get(
-            [FromQuery] int totalRegistros = 0)
-        {
-            return await _mediator.Send(new GetAntecFamiliaresQuery
-            {
-                TotalRegistros = totalRegistros
-            });
-        }
+        //[HttpGet]
+        //public async Task<List<AntecedentesFamiliares>> Get(
+        //    [FromQuery] int totalRegistros = 0)
+        //{
+        //    return await _mediator.Send(new GetAntecFamiliaresQuery
+        //    {
+        //        TotalRegistros = totalRegistros
+        //    });
+        //}
 
-        [HttpGet("{id}")]
-        public async Task<AntecedentesFamiliares> GetById(int id)
-        {
-            return await _mediator.Send(
-                new GetAntecFamiliaresByIdQuery
-                {
-                    IdPaciente = id
-                });
-        }
+        //[HttpGet("{id}")]
+        //public async Task<AntecedentesFamiliares> GetById(int id)
+        //{
+        //    return await _mediator.Send(
+        //        new GetAntecFamiliaresByIdQuery
+        //        {
+        //            IdPaciente = id
+        //        });
+        //}
 
-        [HttpPost]
-        public async Task<bool> Post(
-            [FromBody] AddAntecFamiliaresCommand command)
-        {
-            return await _mediator.Send(command);
-        }
+        //[HttpPost]
+        //public async Task<bool> Post(
+        //    [FromBody] AddAntecFamiliaresCommand command)
+        //{
+        //    return await _mediator.Send(command);
+        //}
 
     }
 
