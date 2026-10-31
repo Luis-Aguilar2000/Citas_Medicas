@@ -23,6 +23,17 @@ try
                 new CamelCasePropertyNamesContractResolver();
         });
 
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AngularPolicy", policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+    });
+
     builder.Services.AddOpenApi();
 
     builder.Services.AddCore(builder.Configuration);
@@ -38,7 +49,7 @@ try
 
     app.UseSerilogRequestLogging();
 
-    app.UseHttpsRedirection();
+    app.UseCors("AngularPolicy");
 
     app.UseAuthorization();
 
@@ -48,7 +59,11 @@ try
 }
 catch (Exception ex)
 {
-    Log.Fatal(ex, "La API de Facturación se detuvo por un error.");
+    Log.Fatal(
+        ex,
+        "La API de Facturación se detuvo por un error."
+    );
+
     throw;
 }
 finally

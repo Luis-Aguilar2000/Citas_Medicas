@@ -22,7 +22,7 @@ export interface Paciente {
 })
 export class PacientesService extends GenericCrudService<Paciente> {
   constructor(http: HttpClient) {
-    super(http, 'https://localhost:7250/Pacientes');
+    super(http, 'http://localhost:5031/Pacientes');
   }
 
   // Obtiene el listado paginado de pacientes con opción de filtro

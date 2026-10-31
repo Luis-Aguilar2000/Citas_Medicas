@@ -20,7 +20,7 @@ export interface Consultorio {
 })
 export class ConsultoriosService extends GenericCrudService<Consultorio> {
   constructor(http: HttpClient) {
-    super(http, 'https://localhost:7250/Consultorios');
+    super(http, 'http://localhost:5031/Consultorios');
   }
 
   // Obtiene el listado paginado de consultorios

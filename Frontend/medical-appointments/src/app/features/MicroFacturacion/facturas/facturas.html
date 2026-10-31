@@ -1,0 +1,966 @@
+<div class="facturas-container">
+
+  <div class="tabla-contenedor">
+
+    <div class="tabla-header">
+
+      <div>
+        <h2>Facturas</h2>
+
+        <p>
+          Administra las facturas de los pacientes.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="btn-nuevo"
+        (click)="abrirNuevaFactura()">
+
+        <i class="bi bi-plus-lg"></i>
+
+        Nueva factura
+
+      </button>
+
+    </div>
+
+    <div class="tabla-responsive">
+
+      <table class="tabla-facturas">
+
+        <thead>
+
+          <tr>
+            <th>Factura</th>
+            <th>Paciente</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+
+            <th class="columna-acciones">
+              Acciones
+            </th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr
+            *ngFor="let factura of facturas()">
+
+            <td>
+
+              <span class="id-factura">
+                #{{ factura.idFactura }}
+              </span>
+
+            </td>
+
+            <td>
+
+              {{
+                obtenerNombrePaciente(
+                  factura.idPaciente
+                )
+              }}
+
+            </td>
+
+            <td>
+
+              {{
+                factura.fechaFactura
+                  | date:'dd/MM/yyyy hh:mm a'
+              }}
+
+            </td>
+
+            <td>
+
+              <span
+                class="estado"
+                [ngClass]="obtenerClaseEstado(factura.estado)">
+
+                {{ factura.estado }}
+
+              </span>
+
+            </td>
+
+            <td class="columna-acciones">
+
+              <app-botones-acciones
+                [mostrarVer]="true"
+                [mostrarEditar]="true"
+                [mostrarEliminar]="true"
+                (ver)="verFactura(factura)"
+                (editar)="editarFactura(factura)"
+                (eliminar)="eliminarFactura(factura)">
+              </app-botones-acciones>
+
+            </td>
+
+          </tr>
+
+          <tr
+            *ngIf="facturas().length === 0">
+
+            <td
+              colspan="5"
+              class="sin-datos">
+
+              No hay facturas registradas.
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <app-paginacion
+      *ngIf="totalRegistros > 0"
+      [paginaActual]="paginaActual"
+      [tamanoPagina]="tamanoPagina"
+      [totalRegistros]="totalRegistros"
+      [totalPaginas]="totalPaginas"
+      nombreRegistros="facturas"
+      (paginaCambiada)="cambiarPagina($event)"
+      (tamanoPaginaCambiado)="cambiarTamanoPagina($event)">
+    </app-paginacion>
+
+  </div>
+
+</div>
+
+
+<div
+  class="modal-overlay"
+  *ngIf="mostrarFormulario">
+
+  <div class="modal-factura">
+
+    <div class="modal-header">
+
+      <div>
+
+        <h2>
+
+          {{
+            modoFormulario === 'nuevo'
+              ? 'Nueva factura'
+              : modoFormulario === 'editar'
+                ? 'Editar factura'
+                : 'Detalle de factura'
+          }}
+
+        </h2>
+
+        <p
+          *ngIf="modoFormulario !== 'nuevo'">
+
+          Factura #{{ nuevaFactura.idFactura }}
+
+        </p>
+
+      </div>
+
+      <button
+        type="button"
+        class="btn-cerrar"
+        [disabled]="guardando"
+        (click)="cerrarFormulario()">
+
+        <i class="bi bi-x-lg"></i>
+
+      </button>
+
+    </div>
+
+
+    <div class="form-grid">
+
+      <div class="campo">
+
+        <label>
+          Paciente
+        </label>
+
+        <select
+          [(ngModel)]="nuevaFactura.idPaciente"
+          [disabled]="
+            modoFormulario === 'ver' ||
+            guardando
+          ">
+
+          <option [ngValue]="0">
+            Seleccione un paciente
+          </option>
+
+          <option
+            *ngFor="let paciente of pacientes()"
+            [ngValue]="paciente.idPaciente">
+
+            {{ paciente.nombres }}
+            {{ paciente.apellidos }}
+
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="campo">
+
+        <label>
+          Fecha
+        </label>
+
+        <input
+          type="datetime-local"
+          [(ngModel)]="nuevaFactura.fechaFactura"
+          [disabled]="
+            modoFormulario === 'ver' ||
+            guardando
+          ">
+
+      </div>
+
+
+      <div
+        class="campo campo-completo"
+        *ngIf="modoFormulario !== 'nuevo'">
+
+        <label>
+          Estado
+        </label>
+
+        <div class="estado-contenedor">
+
+          <span
+            class="estado"
+            [ngClass]="obtenerClaseEstado(nuevaFactura.estado)">
+
+            {{ nuevaFactura.estado }}
+
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="detalle-factura">
+
+      <div class="detalle-titulo">
+
+        <div>
+
+          <h3>
+            Detalle de factura
+          </h3>
+
+          <p>
+            Servicios incluidos en la factura.
+          </p>
+
+        </div>
+
+        <span class="cantidad-items">
+
+          {{ detallesFactura().length }}
+
+          {{
+            detallesFactura().length === 1
+              ? 'servicio'
+              : 'servicios'
+          }}
+
+        </span>
+
+      </div>
+
+
+      <div
+        class="agregar-servicio"
+        *ngIf="
+          modoFormulario === 'nuevo' ||
+          modoFormulario === 'editar'
+        ">
+
+        <div class="campo-servicio">
+
+          <label>
+            Servicio
+          </label>
+
+          <select
+            [(ngModel)]="servicioSeleccionado"
+            [disabled]="guardando">
+
+            <option [ngValue]="0">
+              Seleccione un servicio
+            </option>
+
+            <option
+              *ngFor="let servicio of servicios()"
+              [ngValue]="servicio.idServicio">
+
+              {{ servicio.nombre }}
+
+              -
+
+              {{
+                servicio.precio
+                  | currency:'USD':'symbol':'1.2-2'
+              }}
+
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="campo-servicio">
+
+          <label>
+            Cantidad
+          </label>
+
+          <input
+            type="number"
+            min="1"
+            [(ngModel)]="cantidadServicio"
+            [disabled]="guardando">
+
+        </div>
+
+
+        <div class="boton-servicio">
+
+          <label>&nbsp;</label>
+
+          <button
+            type="button"
+            class="btn-agregar-servicio"
+            [disabled]="guardando"
+            (click)="agregarServicio()">
+
+            <i class="bi bi-plus-lg"></i>
+
+            Agregar
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="detalle-cargando"
+        *ngIf="cargandoDetalles">
+
+        Cargando detalle...
+
+      </div>
+
+
+      <div
+        class="tabla-detalle-responsive"
+        *ngIf="!cargandoDetalles">
+
+        <table class="tabla-detalle">
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Descripción
+              </th>
+
+              <th class="texto-centro">
+                Cantidad
+              </th>
+
+              <th class="texto-derecha">
+                Precio
+              </th>
+
+              <th class="texto-derecha">
+                Subtotal
+              </th>
+
+              <th
+                class="texto-centro"
+                *ngIf="
+                  modoFormulario === 'nuevo' ||
+                  modoFormulario === 'editar'
+                ">
+
+                Acción
+
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            <tr
+              *ngFor="
+                let detalle of detallesFactura();
+                let i = index
+              ">
+
+              <td>
+
+                <div class="descripcion-detalle">
+
+                  <strong>
+                    {{ detalle.descripcion }}
+                  </strong>
+
+                  <small>
+                    {{ detalle.tipoItem }}
+                  </small>
+
+                </div>
+
+              </td>
+
+
+              <td class="texto-centro">
+
+                <input
+                  *ngIf="
+                    modoFormulario === 'nuevo' ||
+                    modoFormulario === 'editar'
+                  "
+                  class="input-cantidad"
+                  type="number"
+                  min="1"
+                  [(ngModel)]="detalle.cantidad"
+                  [disabled]="guardando">
+
+                <span
+                  *ngIf="modoFormulario === 'ver'">
+
+                  {{ detalle.cantidad }}
+
+                </span>
+
+              </td>
+
+
+              <td class="texto-derecha">
+
+                {{
+                  detalle.precioUnitario
+                    | currency:'USD':'symbol':'1.2-2'
+                }}
+
+              </td>
+
+
+              <td class="texto-derecha subtotal">
+
+                {{
+                  calcularSubtotal(detalle)
+                    | currency:'USD':'symbol':'1.2-2'
+                }}
+
+              </td>
+
+
+              <td
+                class="texto-centro"
+                *ngIf="
+                  modoFormulario === 'nuevo' ||
+                  modoFormulario === 'editar'
+                ">
+
+                <button
+                  type="button"
+                  class="btn-eliminar-servicio"
+                  [disabled]="guardando"
+                  (click)="eliminarServicio(i)">
+
+                  <i class="bi bi-trash"></i>
+
+                </button>
+
+              </td>
+
+            </tr>
+
+
+            <tr
+              *ngIf="
+                detallesFactura().length === 0
+              ">
+
+              <td
+                [attr.colspan]="
+                  modoFormulario === 'ver'
+                    ? 4
+                    : 5
+                "
+                class="sin-detalles">
+
+                No hay servicios agregados.
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <div
+        class="resumen-factura"
+        *ngIf="
+          detallesFactura().length > 0
+        ">
+
+        <div
+          class="resumen-linea resumen-total">
+
+          <span>
+            Total
+          </span>
+
+          <strong>
+
+            {{
+              calcularTotalFactura()
+                | currency:'USD':'symbol':'1.2-2'
+            }}
+
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="acciones">
+
+      <button
+        type="button"
+        class="btn-cancelar"
+        [disabled]="guardando"
+        (click)="cerrarFormulario()">
+
+        {{
+          modoFormulario === 'ver'
+            ? 'Cerrar'
+            : 'Cancelar'
+        }}
+
+      </button>
+
+
+      <button
+        type="button"
+        class="btn-pagar-formulario"
+        *ngIf="
+          nuevaFactura.estado.toLowerCase() !== 'pagada' &&
+          nuevaFactura.estado.toLowerCase() !== 'cancelada'
+        "
+        [disabled]="
+          guardando ||
+          cargandoDetalles ||
+          detallesFactura().length === 0
+        "
+        (click)="pagarFactura()">
+
+        <i class="bi bi-cash-coin"></i>
+
+        {{
+          modoFormulario === 'nuevo'
+            ? 'Crear y pagar'
+            : 'Pagar factura'
+        }}
+
+      </button>
+
+
+      <button
+        type="button"
+        class="btn-guardar"
+        *ngIf="
+          modoFormulario === 'nuevo' ||
+          modoFormulario === 'editar'
+        "
+        [disabled]="guardando"
+        (click)="guardarFactura()">
+
+        <i class="bi bi-check-lg"></i>
+
+        {{
+          guardando
+            ? 'Guardando...'
+            : modoFormulario === 'nuevo'
+              ? 'Crear factura'
+              : 'Guardar factura'
+        }}
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div
+  class="modal-overlay"
+  *ngIf="mostrarModalPago()">
+
+  <div class="modal-pago">
+
+    <div class="modal-header">
+
+      <div>
+
+        <h2>
+          Pagar factura
+        </h2>
+
+        <p
+          *ngIf="facturaPago() as factura">
+
+          Factura #{{ factura.idFactura }}
+
+          ·
+
+          {{
+            obtenerNombrePaciente(
+              factura.idPaciente
+            )
+          }}
+
+        </p>
+
+      </div>
+
+      <button
+        type="button"
+        class="btn-cerrar"
+        [disabled]="guardandoPago()"
+        (click)="cerrarModalPago()">
+
+        <i class="bi bi-x-lg"></i>
+
+      </button>
+
+    </div>
+
+
+    <div
+      class="cargando-pago"
+      *ngIf="cargandoPago()">
+
+      Cargando información...
+
+    </div>
+
+
+    <ng-container
+      *ngIf="!cargandoPago()">
+
+      <div class="resumen-pago">
+
+        <div class="tarjeta-pago">
+
+          <span>
+            Total factura
+          </span>
+
+          <strong>
+
+            {{
+              totalFacturaPago()
+                | currency:'USD':'symbol':'1.2-2'
+            }}
+
+          </strong>
+
+        </div>
+
+
+        <div class="tarjeta-pago">
+
+          <span>
+            Pagado
+          </span>
+
+          <strong class="valor-pagado">
+
+            {{
+              totalPagadoFactura()
+                | currency:'USD':'symbol':'1.2-2'
+            }}
+
+          </strong>
+
+        </div>
+
+
+        <div class="tarjeta-pago">
+
+          <span>
+            Saldo pendiente
+          </span>
+
+          <strong
+            [class.valor-pendiente]="
+              saldoFactura() > 0
+            "
+            [class.valor-completo]="
+              saldoFactura() <= 0
+            ">
+
+            {{
+              saldoFactura()
+                | currency:'USD':'symbol':'1.2-2'
+            }}
+
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="pago-completado"
+        *ngIf="
+          saldoFactura() <= 0
+        ">
+
+        <i class="bi bi-check-circle-fill"></i>
+
+        <div>
+
+          <strong>
+            Factura pagada
+          </strong>
+
+          <span>
+            No existe saldo pendiente.
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="formulario-pago"
+        *ngIf="
+          saldoFactura() > 0
+        ">
+
+        <div class="campo-pago">
+
+          <label>
+            Forma de pago
+          </label>
+
+          <select
+            [(ngModel)]="nuevoPago.idFormaPago"
+            [disabled]="guardandoPago()">
+
+            <option [ngValue]="0">
+              Seleccione una forma de pago
+            </option>
+
+            <option
+              *ngFor="
+                let forma of formasPago()
+              "
+              [ngValue]="forma.idFormaPago">
+
+              {{ forma.nombre }}
+
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="campo-pago">
+
+          <label>
+            Monto
+          </label>
+
+          <div class="input-moneda">
+
+            <span>
+              $
+            </span>
+
+            <input
+              type="number"
+              min="0.01"
+              step="0.01"
+              [max]="saldoFactura()"
+              [(ngModel)]="nuevoPago.monto"
+              [disabled]="guardandoPago()">
+
+          </div>
+
+        </div>
+
+
+        <div class="campo-pago">
+
+          <label>
+            Fecha
+          </label>
+
+          <input
+            type="datetime-local"
+            [(ngModel)]="nuevoPago.fechaPago"
+            [disabled]="guardandoPago()">
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="historial-pagos-factura"
+        *ngIf="
+          pagosFactura().length > 0
+        ">
+
+        <h3>
+          Pagos realizados
+        </h3>
+
+        <div class="tabla-detalle-responsive">
+
+          <table class="tabla-detalle">
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  Pago
+                </th>
+
+                <th>
+                  Fecha
+                </th>
+
+                <th class="texto-derecha">
+                  Monto
+                </th>
+
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              <tr
+                *ngFor="
+                  let pago of pagosFactura()
+                ">
+
+                <td>
+                  #{{ pago.idPago }}
+                </td>
+
+                <td>
+
+                  {{
+                    pago.fechaPago
+                      | date:'dd/MM/yyyy hh:mm a'
+                  }}
+
+                </td>
+
+                <td class="texto-derecha">
+
+                  {{
+                    pago.monto
+                      | currency:'USD':'symbol':'1.2-2'
+                  }}
+
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </ng-container>
+
+
+    <div class="acciones">
+
+      <button
+        type="button"
+        class="btn-cancelar"
+        [disabled]="guardandoPago()"
+        (click)="cerrarModalPago()">
+
+        Cerrar
+
+      </button>
+
+
+      <button
+        type="button"
+        class="btn-registrar-pago"
+        *ngIf="
+          !cargandoPago() &&
+          saldoFactura() > 0
+        "
+        [disabled]="guardandoPago()"
+        (click)="registrarPago()">
+
+        <i class="bi bi-cash-coin"></i>
+
+        {{
+          guardandoPago()
+            ? 'Registrando...'
+            : 'Registrar pago'
+        }}
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

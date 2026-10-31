@@ -19,7 +19,7 @@ export interface HorarioMedico {
 })
 export class HorarioMedicoService extends GenericCrudService<HorarioMedico> {
   constructor(http: HttpClient) {
-    super(http, 'https://localhost:7250/HorariosMedicos');
+    super(http, 'http://localhost:5031/HorariosMedicos');
   }
 
   // Obtiene el listado paginado de horarios médicos

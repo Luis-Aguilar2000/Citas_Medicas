@@ -1,0 +1,144 @@
+<div class="overlay" *ngIf="mostrarFormulario">
+  <div class="modal-servicio">
+    <div class="modal-header">
+      <div class="modal-marca">
+        <span class="mini-logo"><i class="bi bi-heart-pulse"></i></span>
+        <strong>Servicio</strong>
+      </div>
+      <button type="button" class="btn-cerrar" (click)="cerrarFormulario()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <h2 *ngIf="modoFormulario === 'nuevo'">Registrar servicio</h2>
+    <h2 *ngIf="modoFormulario === 'ver'">Servicio #{{ nuevoServicio.idServicio }}</h2>
+    <h2 *ngIf="modoFormulario === 'editar'">Editar servicio</h2>
+
+    <p class="subtitulo">
+      {{ modoFormulario === 'ver' ? 'Consulte la información del servicio' : 'Complete la información del servicio' }}
+    </p>
+
+    <div class="form-grid">
+      <div class="campo" *ngIf="modoFormulario !== 'nuevo'">
+        <label>ID</label>
+        <input type="text" [value]="nuevoServicio.idServicio" disabled>
+      </div>
+
+      <div class="campo">
+        <label>Estado</label>
+        <select [(ngModel)]="nuevoServicio.estado" [disabled]="modoFormulario === 'ver'">
+          <option [ngValue]="true">Activo</option>
+          <option [ngValue]="false">Inactivo</option>
+        </select>
+      </div>
+
+      <div class="campo campo-completo">
+        <label>Nombre</label>
+        <input type="text" [(ngModel)]="nuevoServicio.nombre" [disabled]="modoFormulario === 'ver'" placeholder="Ej. Consulta general">
+      </div>
+
+      <div class="campo campo-completo">
+        <label>Descripción</label>
+        <textarea rows="3" [(ngModel)]="nuevoServicio.descripcion" [disabled]="modoFormulario === 'ver'" placeholder="Descripción del servicio"></textarea>
+      </div>
+
+      <div class="campo campo-completo">
+        <label>Precio</label>
+        <div class="precio-input">
+          <span>$</span>
+          <input type="number" min="0" step="0.01" [(ngModel)]="nuevoServicio.precio" [disabled]="modoFormulario === 'ver'">
+        </div>
+      </div>
+    </div>
+
+    <div class="acciones">
+      <button *ngIf="modoFormulario === 'ver'" type="button" class="btn-cancelar" (click)="cerrarFormulario()">
+        Cerrar
+      </button>
+
+      <ng-container *ngIf="modoFormulario !== 'ver'">
+        <button type="button" class="btn-cancelar" [disabled]="guardando" (click)="cerrarFormulario()">
+          Cancelar
+        </button>
+        <button type="button" class="btn-guardar" [disabled]="guardando" (click)="guardarServicio()">
+          <i class="bi bi-check-lg"></i>
+          {{ guardando ? 'Guardando...' : modoFormulario === 'nuevo' ? 'Guardar servicio' : 'Guardar cambios' }}
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<div class="tabla-contenedor">
+  <div class="tabla-header">
+    <div>
+      <h2>Servicios</h2>
+      <p>
+        {{ totalRegistros }} {{ totalRegistros === 1 ? 'servicio registrado' : 'servicios registrados' }}
+      </p>
+    </div>
+    <button type="button" class="btn-nuevo" (click)="abrirNuevoServicio()">
+      <i class="bi bi-plus-lg"></i> Nuevo servicio
+    </button>
+  </div>
+
+  <div class="tabla-responsive">
+    <table class="tabla-servicios">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Servicio</th>
+          <th>Descripción</th>
+          <th>Precio</th>
+          <th>Estado</th>
+          <th class="columna-acciones">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let servicio of servicios()">
+          <td>
+            <span class="id-servicio">{{ servicio.idServicio }}</span>
+          </td>
+          <td>
+            <strong class="nombre-servicio">{{ servicio.nombre }}</strong>
+          </td>
+          <td>
+            <span class="descripcion">{{ servicio.descripcion || 'Sin descripción' }}</span>
+          </td>
+          <td>
+            <strong class="precio">{{ servicio.precio | currency:'USD':'symbol':'1.2-2' }}</strong>
+          </td>
+          <td>
+            <span class="estado"
+                  [class.estado-activo]="servicio.estado"
+                  [class.estado-inactivo]="!servicio.estado">
+              {{ servicio.estado ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td class="columna-acciones">
+            <app-botones-acciones
+              (ver)="verServicio(servicio)"
+              (editar)="editarServicio(servicio)"
+              (eliminar)="eliminarServicio(servicio)">
+            </app-botones-acciones>
+          </td>
+        </tr>
+        <tr *ngIf="servicios().length === 0">
+          <td colspan="6" class="sin-datos">
+            No hay servicios registrados
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <app-paginacion
+    [paginaActual]="paginaActual"
+    [tamanoPagina]="tamanoPagina"
+    [totalRegistros]="totalRegistros"
+    [totalPaginas]="totalPaginas"
+    nombreRegistros="servicios"
+    (paginaCambiada)="cambiarPagina($event)"
+    (tamanoPaginaCambiado)="cambiarTamanoPagina($event)">
+  </app-paginacion>
+</div>
