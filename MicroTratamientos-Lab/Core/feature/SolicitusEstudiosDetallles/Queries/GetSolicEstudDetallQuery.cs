@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Core.feature.SolicitusEstudiosDetallles.Queries
 {
-    public class GetSolicEstudDetallQuery: RequestParametersGets,
+    public class GetSolicEstudDetallQuery : RequestParametersGets,
          IRequest<PagedResult<SolicitudEstudioDetalle>>
     {
     }
@@ -44,3 +44,4 @@ namespace Core.feature.SolicitusEstudiosDetallles.Queries
             );
         }
     }
+}

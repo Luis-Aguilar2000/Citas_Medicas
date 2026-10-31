@@ -4,5 +4,8 @@
     {
         public string PacientesAgendasBaseUrl { get; set; }
             = string.Empty;
+
+        public string TratamientosLabBaseUrl { get; set; }
+            = string.Empty;
     }
 }

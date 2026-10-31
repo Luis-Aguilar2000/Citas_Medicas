@@ -1,162 +1,60 @@
 <div class="pagos-container">
-
   <div class="encabezado-pagina">
-
     <div>
-
-      <h1>
-        Historial de pagos
-      </h1>
-
-      <p>
-        Consulta y administra los pagos registrados.
-      </p>
-
+      <h1>Historial de pagos</h1>
+      <p>Consulta y administra los pagos registrados.</p>
     </div>
-
   </div>
 
-
   <div class="tabla-contenedor">
-
     <div class="tabla-header">
-
       <div>
-
-        <h2>
-          Pagos realizados
-        </h2>
-
-        <p>
-          Historial general de pagos del sistema.
-        </p>
-
+        <h2>Pagos realizados</h2>
+        <p>Historial general de pagos del sistema.</p>
       </div>
-
       <span class="total-registros">
-
-        {{ totalRegistros }}
-
-        {{
-          totalRegistros === 1
-            ? 'pago'
-            : 'pagos'
-        }}
-
+        {{ totalRegistros }} {{ totalRegistros === 1 ? 'pago' : 'pagos' }}
       </span>
-
     </div>
 
-
     <div class="tabla-responsive">
-
       <table class="tabla-pagos">
-
         <thead>
-
           <tr>
-
-            <th>
-              Pago
-            </th>
-
-            <th>
-              Factura
-            </th>
-
-            <th>
-              Paciente
-            </th>
-
-            <th>
-              Fecha
-            </th>
-
-            <th>
-              Forma de pago
-            </th>
-
-            <th class="texto-centro">
-              Monto
-            </th>
-
-            <th class="texto-centro">
-              Acciones
-            </th>
-
+            <th>Pago</th>
+            <th>Factura</th>
+            <th>Paciente</th>
+            <th>Fecha</th>
+            <th>Forma de pago</th>
+            <th class="texto-centro">Monto</th>
+            <th class="texto-centro">Acciones</th>
           </tr>
-
         </thead>
-
         <tbody>
-
-          <tr
-            *ngFor="let pago of pagos()">
-
+          <tr *ngFor="let pago of pagos()">
             <td>
-
-              <strong class="id-pago">
-                #{{ pago.idPago }}
-              </strong>
-
+              <strong class="id-pago">#{{ pago.idPago }}</strong>
             </td>
-
             <td>
-
-              <strong class="id-factura">
-                #{{ pago.idFactura }}
-              </strong>
-
+              <strong class="id-factura">#{{ pago.idFactura }}</strong>
             </td>
-
             <td>
-
-              {{
-                obtenerPacientePago(
-                  pago.idFactura
-                )
-              }}
-
+              {{ obtenerPacientePago(pago.idFactura) }}
             </td>
-
             <td>
-
-              {{
-                pago.fechaPago
-                  | date:'dd/MM/yyyy hh:mm a'
-              }}
-
+              {{ pago.fechaPago | date:'dd/MM/yyyy hh:mm a' }}
             </td>
-
             <td>
-
               <span class="forma-pago">
-
-                {{
-                  obtenerFormaPago(
-                    pago.idFormaPago
-                  )
-                }}
-
+                {{ obtenerFormaPago(pago.idFormaPago) }}
               </span>
-
             </td>
-
             <td class="texto-centro">
-
               <strong class="monto-pago">
-
-                {{
-                  pago.monto
-                    | currency:'USD':'symbol':'1.2-2'
-                }}
-
+                {{ pago.monto | currency:'USD':'symbol':'1.2-2' }}
               </strong>
-
             </td>
-
             <td class="texto-centro">
-
               <app-botones-acciones
                 [mostrarVer]="true"
                 [mostrarEditar]="true"
@@ -165,37 +63,18 @@
                 (editar)="editarPago(pago)"
                 (eliminar)="eliminarPago(pago)">
               </app-botones-acciones>
-
             </td>
-
           </tr>
 
-
-          <tr
-            *ngIf="
-              pagos().length === 0
-            ">
-
-            <td
-              colspan="7"
-              class="sin-registros">
-
+          <tr *ngIf="pagos().length === 0">
+            <td colspan="7" class="sin-registros">
               <i class="bi bi-cash-stack"></i>
-
-              <span>
-                No hay pagos registrados.
-              </span>
-
+              <span>No hay pagos registrados.</span>
             </td>
-
           </tr>
-
         </tbody>
-
       </table>
-
     </div>
-
 
     <app-paginacion
       *ngIf="totalRegistros > 0"
@@ -207,200 +86,86 @@
       (paginaCambiada)="cambiarPagina($event)"
       (tamanoPaginaCambiado)="cambiarTamanoPagina($event)">
     </app-paginacion>
-
   </div>
-
 </div>
 
-
-<div
-  class="modal-overlay"
-  *ngIf="mostrarFormulario">
-
+<div class="modal-overlay" *ngIf="mostrarFormulario">
   <div class="modal-pago">
-
     <div class="modal-header">
-
       <div>
-
         <h2>
-
-          {{
-            modoFormulario === 'ver'
-              ? 'Detalle del pago'
-              : 'Editar pago'
-          }}
-
+          {{ modoFormulario === 'ver' ? 'Detalle del pago' : 'Editar pago' }}
         </h2>
-
-        <p>
-          Pago #{{ pagoFormulario.idPago }}
-        </p>
-
+        <p>Pago #{{ pagoFormulario.idPago }}</p>
       </div>
-
       <button
         type="button"
         class="btn-cerrar"
         [disabled]="guardando"
         (click)="cerrarFormulario()">
-
         <i class="bi bi-x-lg"></i>
-
       </button>
-
     </div>
 
-
     <div class="form-grid">
-
       <div class="campo">
-
-        <label>
-          Factura
-        </label>
-
-        <input
-          type="text"
-          [value]="
-            '#' +
-            pagoFormulario.idFactura
-          "
-          disabled>
-
+        <label>Factura</label>
+        <input type="text" [value]="'#' + pagoFormulario.idFactura" disabled>
       </div>
 
-
       <div class="campo">
-
-        <label>
-          Paciente
-        </label>
-
-        <input
-          type="text"
-          [value]="
-            obtenerPacientePago(
-              pagoFormulario.idFactura
-            )
-          "
-          disabled>
-
+        <label>Paciente</label>
+        <input type="text" [value]="obtenerPacientePago(pagoFormulario.idFactura)" disabled>
       </div>
 
-
       <div class="campo">
-
-        <label>
-          Forma de pago
-        </label>
-
+        <label>Forma de pago</label>
         <select
-          [(ngModel)]="
-            pagoFormulario.idFormaPago
-          "
-          [disabled]="
-            modoFormulario === 'ver' ||
-            guardando
-          ">
-
-          <option
-            *ngFor="
-              let forma of formasPago()
-            "
-            [ngValue]="
-              forma.idFormaPago
-            ">
-
+          [(ngModel)]="pagoFormulario.idFormaPago"
+          [disabled]="modoFormulario === 'ver' || guardando">
+          <option *ngFor="let forma of formasPago()" [ngValue]="forma.idFormaPago">
             {{ forma.nombre }}
-
           </option>
-
         </select>
-
       </div>
 
-
       <div class="campo">
-
-        <label>
-          Monto
-        </label>
-
+        <label>Monto</label>
         <input
           type="number"
           min="0.01"
           step="0.01"
-          [(ngModel)]="
-            pagoFormulario.monto
-          "
-          [disabled]="
-            modoFormulario === 'ver' ||
-            guardando
-          ">
-
+          [(ngModel)]="pagoFormulario.monto"
+          [disabled]="modoFormulario === 'ver' || guardando">
       </div>
-
 
       <div class="campo campo-completo">
-
-        <label>
-          Fecha del pago
-        </label>
-
+        <label>Fecha del pago</label>
         <input
           type="datetime-local"
-          [(ngModel)]="
-            pagoFormulario.fechaPago
-          "
-          [disabled]="
-            modoFormulario === 'ver' ||
-            guardando
-          ">
-
+          [(ngModel)]="pagoFormulario.fechaPago"
+          [disabled]="modoFormulario === 'ver' || guardando">
       </div>
-
     </div>
 
-
     <div class="acciones">
-
       <button
         type="button"
         class="btn-cancelar"
         [disabled]="guardando"
         (click)="cerrarFormulario()">
-
-        {{
-          modoFormulario === 'ver'
-            ? 'Cerrar'
-            : 'Cancelar'
-        }}
-
+        {{ modoFormulario === 'ver' ? 'Cerrar' : 'Cancelar' }}
       </button>
-
 
       <button
         type="button"
         class="btn-guardar"
-        *ngIf="
-          modoFormulario === 'editar'
-        "
+        *ngIf="modoFormulario === 'editar'"
         [disabled]="guardando"
         (click)="guardarPago()">
-
         <i class="bi bi-check-lg"></i>
-
-        {{
-          guardando
-            ? 'Guardando...'
-            : 'Guardar cambios'
-        }}
-
+        {{ guardando ? 'Guardando...' : 'Guardar cambios' }}
       </button>
-
     </div>
-
   </div>
-
 </div>

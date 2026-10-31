@@ -1,16 +1,10 @@
-﻿using Core.feature.ArchivosClinicos.Commands;
-using Domain.Models;
+﻿using Domain.Models;
 using Generics.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.feature.Medicamentos.Commands
 {
-    public class AddMedicamentoCommand: IRequest<bool>
+    public class AddMedicamentoCommand : IRequest<bool>
     {
         public int IdMedicamento { get; set; }
         public string NombreComercial { get; set; }
@@ -18,6 +12,7 @@ namespace Core.feature.Medicamentos.Commands
         public string Presentacion { get; set; }
         public string Concentracion { get; set; }
         public string ViaAdministracion { get; set; }
+        public decimal Precio { get; set; }
         public bool Activo { get; set; }
         public List<PrescripcionDetalle> PrescripcionDetalles { get; set; } = new();
     }
@@ -39,18 +34,20 @@ namespace Core.feature.Medicamentos.Commands
         {
             var medicamento = new Medicamento
             {
-                IdMedicamento = request.IdMedicamento,
                 NombreComercial = request.NombreComercial,
                 NombreGenerico = request.NombreGenerico,
                 Presentacion = request.Presentacion,
                 Concentracion = request.Concentracion,
                 ViaAdministracion = request.ViaAdministracion,
+                Precio = request.Precio,
                 Activo = request.Activo,
-                PrescripcionDetalles = request.PrescripcionDetalles,
-
+                PrescripcionDetalles = request.PrescripcionDetalles
             };
 
-            await _repository.AddAsync(medicamento);
+            await _repository.AddAsync(
+                medicamento,
+                cancellationToken
+            );
 
             return true;
         }

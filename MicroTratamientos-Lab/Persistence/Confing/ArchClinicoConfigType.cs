@@ -1,11 +1,6 @@
 ﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.Confing
 {
@@ -14,6 +9,11 @@ namespace Persistence.Confing
         public void Configure(EntityTypeBuilder<ArchivoClinico> builder)
         {
             builder.HasKey(x => x.IdArchivoClinico);
+
+            builder.HasOne(x => x.ResultadoEstudio)
+                .WithMany(x => x.ArchivosClinicos)
+                .HasForeignKey(x => x.IdResultadoEstudio)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

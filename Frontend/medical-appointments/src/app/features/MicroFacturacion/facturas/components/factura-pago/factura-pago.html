@@ -1,0 +1,139 @@
+@if (visible && factura) {
+  <div class="modal-overlay">
+    <div class="modal-pago">
+      <div class="modal-header">
+        <div>
+          <h2>Pago de factura</h2>
+          <p>Factura #{{ factura.idFactura }}</p>
+        </div>
+        <button
+          type="button"
+          class="btn-cerrar"
+          [disabled]="guardando()"
+          (click)="cerrarModal()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div class="resumen-pago">
+        <div class="resumen-card">
+          <span>Total</span>
+          <strong>${{ total | number:'1.2-2' }}</strong>
+        </div>
+        <div class="resumen-card">
+          <span>Pagado</span>
+          <strong>${{ totalPagado() | number:'1.2-2' }}</strong>
+        </div>
+        <div class="resumen-card">
+          <span>Saldo</span>
+          <strong>${{ saldo() | number:'1.2-2' }}</strong>
+        </div>
+      </div>
+
+      @if (saldo() > 0) {
+        <div class="form-pago">
+          <div class="campo">
+            <label>Forma de pago</label>
+            <select [(ngModel)]="nuevoPago.idFormaPago">
+              <option [ngValue]="0">Seleccione</option>
+              @for (forma of formasPago(); track forma.idFormaPago) {
+                <option [ngValue]="forma.idFormaPago">
+                  {{ forma.nombre }}
+                </option>
+              }
+            </select>
+          </div>
+
+          <div class="campo">
+            <label>Monto</label>
+            <input
+              type="number"
+              min="0.01"
+              step="0.01"
+              [max]="saldo()"
+              [(ngModel)]="nuevoPago.monto">
+          </div>
+
+          <div class="campo">
+            <label>Fecha</label>
+            <input
+              type="datetime-local"
+              [(ngModel)]="nuevoPago.fechaPago">
+          </div>
+
+          <button
+            type="button"
+            class="btn-pagar"
+            [disabled]="guardando()"
+            (click)="registrarPago()">
+            @if (guardando()) {
+              Registrando...
+            } @else {
+              Registrar pago
+            }
+          </button>
+        </div>
+      } @else {
+        <div class="factura-pagada">
+          <i class="bi bi-check-circle"></i>
+          Factura pagada completamente
+        </div>
+      }
+
+      <div class="historial">
+        <h3>Historial de pagos</h3>
+
+        @if (cargando()) {
+          <div class="estado">
+            Cargando pagos...
+          </div>
+        } @else {
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Forma</th>
+                <th>Monto</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (pago of pagos(); track pago.idPago) {
+                <tr>
+                  <td>
+                    {{ pago.fechaPago | date:'dd/MM/yyyy HH:mm' }}
+                  </td>
+                  <td>
+                    @for (forma of formasPago(); track forma.idFormaPago) {
+                      @if (forma.idFormaPago === pago.idFormaPago) {
+                        {{ forma.nombre }}
+                      }
+                    }
+                  </td>
+                  <td>
+                    ${{ pago.monto | number:'1.2-2' }}
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="3" class="sin-datos">
+                    No hay pagos registrados.
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn-cerrar-footer"
+          [disabled]="guardando()"
+          (click)="cerrarModal()">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+}

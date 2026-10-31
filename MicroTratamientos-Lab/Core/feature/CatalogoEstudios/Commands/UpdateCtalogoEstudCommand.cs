@@ -1,22 +1,17 @@
-﻿using Core.feature.ArchivosClinicos.Commands;
-using Domain.Models;
+﻿using Domain.Models;
 using Generics.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.feature.CatalogoEstudios.Commands
 {
-    public class UpdateCtalogoEstudCommand: IRequest<bool>
+    public class UpdateCtalogoEstudCommand : IRequest<bool>
     {
         public int IdCatalogoEstudio { get; set; }
         public string Codigo { get; set; }
         public string NombreEstudio { get; set; }
         public string Categoria { get; set; }
         public string Descripcion { get; set; }
+        public decimal Precio { get; set; }
         public bool Activo { get; set; }
         public List<SolicitudEstudioDetalle> SolicitudEstudioDetalles { get; set; }
     }
@@ -36,7 +31,10 @@ namespace Core.feature.CatalogoEstudios.Commands
             UpdateCtalogoEstudCommand request,
             CancellationToken cancellationToken)
         {
-            var catalogo = await _repository.GetByIdAsync(request.IdCatalogoEstudio);
+            var catalogo = await _repository.GetByIdAsync(
+                request.IdCatalogoEstudio,
+                cancellationToken
+            );
 
             if (catalogo == null)
             {
@@ -47,10 +45,14 @@ namespace Core.feature.CatalogoEstudios.Commands
             catalogo.NombreEstudio = request.NombreEstudio;
             catalogo.Categoria = request.Categoria;
             catalogo.Descripcion = request.Descripcion;
+            catalogo.Precio = request.Precio;
             catalogo.Activo = request.Activo;
             catalogo.SolicitudEstudioDetalles = request.SolicitudEstudioDetalles;
 
-            await _repository.UpdateAsync(catalogo);
+            await _repository.UpdateAsync(
+                catalogo,
+                cancellationToken
+            );
 
             return true;
         }

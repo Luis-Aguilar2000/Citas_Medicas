@@ -1,3 +1,4 @@
+using API.Middlewares;
 using Core.Facturacion;
 using Infraestructura;
 using Newtonsoft.Json.Serialization;
@@ -48,6 +49,8 @@ try
     }
 
     app.UseSerilogRequestLogging();
+
+    app.UseMiddleware<ExceptionMiddleware>();
 
     app.UseCors("AngularPolicy");
 

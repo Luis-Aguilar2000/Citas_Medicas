@@ -1,16 +1,10 @@
-﻿using Core.feature.ArchivosClinicos.Commands;
-using Domain.Models;
+﻿using Domain.Models;
 using Generics.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.feature.Medicamentos.Commands
 {
-    public class UpdateMedicamentoCommand: IRequest<bool>
+    public class UpdateMedicamentoCommand : IRequest<bool>
     {
         public int IdMedicamento { get; set; }
         public string NombreComercial { get; set; }
@@ -18,6 +12,7 @@ namespace Core.feature.Medicamentos.Commands
         public string Presentacion { get; set; }
         public string Concentracion { get; set; }
         public string ViaAdministracion { get; set; }
+        public decimal Precio { get; set; }
         public bool Activo { get; set; }
         public List<PrescripcionDetalle> PrescripcionDetalles { get; set; } = new();
     }
@@ -37,7 +32,10 @@ namespace Core.feature.Medicamentos.Commands
             UpdateMedicamentoCommand request,
             CancellationToken cancellationToken)
         {
-            var medicamento = await _repository.GetByIdAsync(request.IdMedicamento);
+            var medicamento = await _repository.GetByIdAsync(
+                request.IdMedicamento,
+                cancellationToken
+            );
 
             if (medicamento == null)
             {
@@ -49,10 +47,14 @@ namespace Core.feature.Medicamentos.Commands
             medicamento.Presentacion = request.Presentacion;
             medicamento.Concentracion = request.Concentracion;
             medicamento.ViaAdministracion = request.ViaAdministracion;
+            medicamento.Precio = request.Precio;
             medicamento.Activo = request.Activo;
             medicamento.PrescripcionDetalles = request.PrescripcionDetalles;
 
-            await _repository.UpdateAsync(medicamento);
+            await _repository.UpdateAsync(
+                medicamento,
+                cancellationToken
+            );
 
             return true;
         }

@@ -15,17 +15,15 @@ namespace Infraestructura
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            // Lee RestSettings desde appsettings.json.
             services.AddRequestLogging(configuration);
 
-            // Registra la librería para realizar llamadas HTTP.
             services.AddHttpClient<IRest, RestBuilder>(client =>
             {
                 client.Timeout = TimeSpan.FromSeconds(30);
             });
 
-            // Conecta el contrato con el servicio de pacientes.
             services.AddScoped<IPacienteService, PacienteService>();
+            services.AddScoped<ITratamientoLabService, TratamientoLabService>();
 
             return services;
         }

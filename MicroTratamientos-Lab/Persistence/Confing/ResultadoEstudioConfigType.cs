@@ -1,19 +1,22 @@
 ﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.Confing
 {
-    public class ResultadoEstudioConfigType: IEntityTypeConfiguration<ResultadoEstudio>
+    public class ResultadoEstudioConfigType
+        : IEntityTypeConfiguration<ResultadoEstudio>
     {
         public void Configure(EntityTypeBuilder<ResultadoEstudio> builder)
         {
             builder.HasKey(x => x.IdResultadoEstudio);
+
+            builder.HasOne(x => x.SolicitudEstudioDetalle)
+                .WithOne(x => x.ResultadoEstudio)
+                .HasForeignKey<ResultadoEstudio>(
+                    x => x.IdSolicitudEstudioDetalle
+                )
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

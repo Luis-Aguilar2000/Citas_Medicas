@@ -1,0 +1,138 @@
+<div class="detalle-factura">
+  @if (editable) {
+    <div class="agregar-item">
+      <div class="campo">
+        <label>Tipo</label>
+        <select
+          [(ngModel)]="tipoItemSeleccionado"
+          (ngModelChange)="cambiarTipoItem()">
+          <option value="Servicio">Servicio</option>
+          <option value="Medicamento">Medicamento</option>
+          <option value="Estudio">Estudio</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Ítem</label>
+
+        @if (tipoItemSeleccionado === 'Servicio') {
+          <select [(ngModel)]="itemSeleccionado">
+            <option [ngValue]="0">Seleccione un servicio</option>
+            @for (servicio of servicios; track servicio.idServicio) {
+              <option [ngValue]="servicio.idServicio">
+                {{ servicio.nombre }} - ${{ servicio.precio | number:'1.2-2' }}
+              </option>
+            }
+          </select>
+        }
+
+        @if (tipoItemSeleccionado === 'Medicamento') {
+          <select [(ngModel)]="itemSeleccionado">
+            <option [ngValue]="0">Seleccione un medicamento</option>
+            @for (medicamento of medicamentos; track medicamento.idMedicamento) {
+              <option [ngValue]="medicamento.idMedicamento">
+                {{ medicamento.nombreComercial }} {{ medicamento.concentracion }} - ${{ medicamento.precio | number:'1.2-2' }}
+              </option>
+            }
+          </select>
+        }
+
+        @if (tipoItemSeleccionado === 'Estudio') {
+          <select [(ngModel)]="itemSeleccionado">
+            <option [ngValue]="0">Seleccione un estudio</option>
+            @for (estudio of estudios; track estudio.idCatalogoEstudio) {
+              <option [ngValue]="estudio.idCatalogoEstudio">
+                {{ estudio.nombreEstudio }} - ${{ estudio.precio | number:'1.2-2' }}
+              </option>
+            }
+          </select>
+        }
+      </div>
+
+      <div class="campo cantidad">
+        <label>Cantidad</label>
+        <input
+          type="number"
+          min="1"
+          [(ngModel)]="cantidadItem">
+      </div>
+
+      <button
+        type="button"
+        class="btn-agregar"
+        (click)="agregarItem()">
+        <i class="bi bi-plus-lg"></i>
+        Agregar
+      </button>
+    </div>
+  }
+
+  @if (cargando) {
+    <div class="estado-carga">
+      Cargando detalles...
+    </div>
+  } @else {
+    <div class="tabla-detalle">
+      <table>
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Descripción</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Subtotal</th>
+            @if (editable) {
+              <th></th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (detalle of detalles; track $index; let i = $index) {
+            <tr>
+              <td>{{ detalle.tipoItem }}</td>
+              <td>{{ detalle.descripcion }}</td>
+              <td>
+                @if (editable) {
+                  <input
+                    class="input-cantidad"
+                    type="number"
+                    min="1"
+                    [(ngModel)]="detalle.cantidad"
+                    (ngModelChange)="detallesChange.emit(detalles)">
+                } @else {
+                  {{ detalle.cantidad }}
+                }
+              </td>
+              <td>${{ detalle.precioUnitario | number:'1.2-2' }}</td>
+              <td>${{ calcularSubtotal(detalle) | number:'1.2-2' }}</td>
+              @if (editable) {
+                <td class="acciones-detalle">
+                  <button
+                    type="button"
+                    class="btn-eliminar"
+                    title="Eliminar"
+                    (click)="eliminarItem(i)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+              }
+            </tr>
+          } @empty {
+            <tr>
+              <td
+                class="sin-datos"
+                [attr.colspan]="editable ? 6 : 5">
+                No hay ítems agregados.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="total-factura">
+      <span>Total</span>
+      <strong>${{ calcularTotal() | number:'1.2-2' }}</strong>
+    </div>
+  }
+</div>
