@@ -6,7 +6,6 @@ namespace Core.feature.Medicamentos.Commands
 {
     public class AddMedicamentoCommand : IRequest<bool>
     {
-        public int IdMedicamento { get; set; }
         public string NombreComercial { get; set; }
         public string NombreGenerico { get; set; }
         public string Presentacion { get; set; }
@@ -14,7 +13,6 @@ namespace Core.feature.Medicamentos.Commands
         public string ViaAdministracion { get; set; }
         public decimal Precio { get; set; }
         public bool Activo { get; set; }
-        public List<PrescripcionDetalle> PrescripcionDetalles { get; set; } = new();
     }
 
     public class AddMedicamentoCommandHandler
@@ -40,8 +38,7 @@ namespace Core.feature.Medicamentos.Commands
                 Concentracion = request.Concentracion,
                 ViaAdministracion = request.ViaAdministracion,
                 Precio = request.Precio,
-                Activo = request.Activo,
-                PrescripcionDetalles = request.PrescripcionDetalles
+                Activo = request.Activo
             };
 
             await _repository.AddAsync(

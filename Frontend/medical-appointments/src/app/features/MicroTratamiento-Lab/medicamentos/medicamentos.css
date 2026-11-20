@@ -1,0 +1,346 @@
+.btn-nuevo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background: #6c5ce7;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-nuevo i {
+  font-size: 16px;
+}
+
+.btn-nuevo:hover {
+  background: #5b4cc4;
+}
+
+.btn-nuevo:active {
+  transform: scale(0.98);
+}
+
+.btn-cerrar {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: #777;
+  font-size: 17px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.btn-cerrar:hover {
+  background: #f3f4f6;
+  color: #333;
+}
+
+.btn-cancelar {
+  background: white;
+  color: #555;
+  border: 1px solid #ccc;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-cancelar:hover {
+  background: #f8f8f8;
+}
+
+.btn-guardar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background: #6c5ce7;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-guardar:hover:not(:disabled) {
+  background: #5b4cc4;
+}
+
+.btn-guardar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-medicamento {
+  width: 580px;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 14px;
+  padding: 26px 30px;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-marca {
+  display: flex;
+  align-items: center;
+}
+
+.mini-logo {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 8px;
+  background: #6c5ce7;
+  color: white;
+  border-radius: 7px;
+}
+
+.mini-logo i {
+  font-size: 14px;
+}
+
+.modal-medicamento h2 {
+  margin-top: 24px;
+  margin-bottom: 5px;
+  color: #222;
+}
+
+.subtitulo {
+  margin-top: 0;
+  margin-bottom: 22px;
+  color: #888;
+  font-size: 13px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+}
+
+.campo label {
+  margin-bottom: 6px;
+  color: #555;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.campo input,
+.campo select {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  background: white;
+  color: #333;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.campo input:focus,
+.campo select:focus {
+  border-color: #6c5ce7;
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.08);
+}
+
+.campo input:disabled,
+.campo select:disabled {
+  background: #f8f9fa;
+  border-color: #e5e7eb;
+  color: #555;
+  cursor: default;
+  opacity: 1;
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.tabla-contenedor {
+  margin-top: 20px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.tabla-header {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  box-sizing: border-box;
+}
+
+.tabla-header h2 {
+  margin: 0;
+  color: #222;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.tabla-header p {
+  margin: 5px 0 0;
+  color: #888;
+  font-size: 13px;
+}
+
+.tabla-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tabla-medicamentos {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tabla-medicamentos thead {
+  background: #6c5ce7;
+}
+
+.tabla-medicamentos th {
+  padding: 14px 16px;
+  text-align: left;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+
+.tabla-medicamentos td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #eeeeee;
+  color: #555;
+  vertical-align: middle;
+}
+
+.tabla-medicamentos tbody tr {
+  transition: background 0.2s ease;
+}
+
+.tabla-medicamentos tbody tr:hover {
+  background: #f8f7fd;
+}
+
+.tabla-medicamentos tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.id-medicamento {
+  color: #6c5ce7;
+  font-weight: 600;
+}
+
+.nombre-medicamento {
+  color: #333;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.estado-medicamento {
+  display: inline-block;
+  padding: 5px 10px;
+  background: #dcfce7;
+  color: #15803d;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.estado-medicamento.inactivo {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.columna-acciones {
+  text-align: center !important;
+  white-space: nowrap;
+}
+
+.sin-datos {
+  text-align: center;
+  padding: 35px !important;
+  color: #999 !important;
+}
+
+@media (max-width: 650px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-medicamento {
+    padding: 22px 20px;
+  }
+}
+
+@media (max-width: 700px) {
+  .tabla-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .btn-nuevo {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1100px) {
+  .tabla-medicamentos {
+    min-width: 1050px;
+  }
+}

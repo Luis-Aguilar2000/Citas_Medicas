@@ -1,11 +1,9 @@
-using Core.feature.Medicamentos.Commands;
-using Core.feature.Medicamentos.Queries;
 using Core.feature.Prescripciones.Commands;
 using Core.feature.Prescripciones.Queries;
 using Domain.Models;
+using Generics.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq.Dynamic.Core;
 
 namespace API.Controllers
 {
@@ -13,7 +11,6 @@ namespace API.Controllers
     [Route("[controller]")]
     public class PrescripcionController : ControllerBase
     {
-
         private readonly IMediator _mediator;
 
         public PrescripcionController(IMediator mediator)
@@ -21,9 +18,8 @@ namespace API.Controllers
             _mediator = mediator;
         }
 
-
         // =========================================
-        // GET - LISTAR Prescripción
+        // GET - LISTAR PRESCRIPCIONES
         // =========================================
 
         [HttpGet]
@@ -35,13 +31,12 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
-
         // =========================================
-        // GET - Catalogo PrescripciónId
+        // GET - OBTENER PRESCRIPCIÓN POR ID
         // =========================================
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Medicamento>> GetById(int id)
+        public async Task<ActionResult<Prescripcion>> GetById(int id)
         {
             var prescripcion = await _mediator.Send(
                 new GetPrescripByIdQuery
@@ -58,23 +53,21 @@ namespace API.Controllers
             return Ok(prescripcion);
         }
 
-
         // =========================================
-        // POST - CREAR Prescripción
+        // POST - CREAR PRESCRIPCIÓN
         // =========================================
 
         [HttpPost]
-        public async Task<ActionResult<bool>> Post(
+        public async Task<ActionResult<int>> Post(
             [FromBody] AddPrescripCommand command)
         {
-            var resultado = await _mediator.Send(command);
+            var idPrescripcion = await _mediator.Send(command);
 
-            return Ok(resultado);
+            return Ok(idPrescripcion);
         }
 
-
         // =========================================
-        // PUT - ACTUALIZAR Prescripción
+        // PUT - ACTUALIZAR PRESCRIPCIÓN
         // =========================================
 
         [HttpPut("{id}")]
@@ -94,9 +87,8 @@ namespace API.Controllers
             return Ok(true);
         }
 
-
         // =========================================
-        // DELETE - ELIMINAR Prescripción
+        // DELETE - ELIMINAR PRESCRIPCIÓN
         // =========================================
 
         [HttpDelete("{id}")]
@@ -116,9 +108,5 @@ namespace API.Controllers
 
             return Ok(true);
         }
-
-
-
-
     }
 }

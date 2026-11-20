@@ -1,0 +1,337 @@
+<!-- MODAL MEDICAMENTO -->
+<div class="overlay" *ngIf="mostrarFormulario">
+  <div class="modal-medicamento">
+
+    <!-- HEADER MODAL -->
+    <div class="modal-header">
+      <div class="modal-marca">
+        <span class="mini-logo">
+          <i class="bi bi-capsule"></i>
+        </span>
+        <strong>Medicamento</strong>
+      </div>
+
+      <button
+        type="button"
+        class="btn-cerrar"
+        (click)="cerrarFormulario()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <!-- TÍTULOS Y SUBTÍTULOS -->
+    <h2 *ngIf="modoFormulario === 'nuevo'">
+      Registrar nuevo medicamento
+    </h2>
+
+    <h2 *ngIf="modoFormulario === 'ver'">
+      Información del medicamento
+    </h2>
+
+    <h2 *ngIf="modoFormulario === 'editar'">
+      Editar medicamento
+    </h2>
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'nuevo'">
+      Complete la información del medicamento
+    </p>
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'ver'">
+      Consulte la información registrada
+    </p>
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'editar'">
+      Modifique la información necesaria
+    </p>
+
+    <!-- FORMULARIO -->
+    <div class="form-grid">
+
+      <div class="campo">
+        <label>Nombre comercial</label>
+
+        <input
+          type="text"
+          placeholder="Ingrese el nombre comercial"
+          [(ngModel)]="nuevoMedicamento.nombreComercial"
+          [disabled]="modoFormulario === 'ver'">
+      </div>
+
+      <div class="campo">
+        <label>Nombre genérico</label>
+
+        <input
+          type="text"
+          placeholder="Ingrese el nombre genérico"
+          [(ngModel)]="nuevoMedicamento.nombreGenerico"
+          [disabled]="modoFormulario === 'ver'">
+      </div>
+
+      <div class="campo">
+        <label>Presentación</label>
+
+        <input
+          type="text"
+          placeholder="Ej. Tableta"
+          [(ngModel)]="nuevoMedicamento.presentacion"
+          [disabled]="modoFormulario === 'ver'">
+      </div>
+
+      <div class="campo">
+        <label>Concentración</label>
+
+        <input
+          type="text"
+          placeholder="Ej. 500 mg"
+          [(ngModel)]="nuevoMedicamento.concentracion"
+          [disabled]="modoFormulario === 'ver'">
+      </div>
+
+      <div class="campo">
+        <label>Vía de administración</label>
+
+        <select
+          [(ngModel)]="nuevoMedicamento.viaAdministracion"
+          [disabled]="modoFormulario === 'ver'">
+
+          <option value="">Seleccione</option>
+          <option value="Oral">Oral</option>
+          <option value="Intravenosa">Intravenosa</option>
+          <option value="Intramuscular">Intramuscular</option>
+          <option value="Intramuscular/Intravenosa">
+            Intramuscular/Intravenosa
+          </option>
+          <option value="Subcutánea">Subcutánea</option>
+          <option value="Tópica">Tópica</option>
+          <option value="Oftálmica">Oftálmica</option>
+          <option value="Ótica">Ótica</option>
+          <option value="Nasal">Nasal</option>
+          <option value="Inhalatoria">Inhalatoria</option>
+          <option value="Rectal">Rectal</option>
+
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Precio</label>
+
+        <input
+          type="number"
+          min="0"
+          step="0.01"
+          placeholder="0.00"
+          [(ngModel)]="nuevoMedicamento.precio"
+          [disabled]="modoFormulario === 'ver'">
+      </div>
+
+      <div class="campo">
+        <label>Estado</label>
+
+        <select
+          [(ngModel)]="nuevoMedicamento.activo"
+          [disabled]="modoFormulario === 'ver'">
+
+          <option [ngValue]="true">
+            Activo
+          </option>
+
+          <option [ngValue]="false">
+            Inactivo
+          </option>
+
+        </select>
+      </div>
+
+    </div>
+
+    <!-- ACCIONES MODAL -->
+    <div class="acciones">
+
+      <button
+        *ngIf="modoFormulario === 'ver'"
+        type="button"
+        class="btn-cancelar"
+        (click)="cerrarFormulario()">
+        Cerrar
+      </button>
+
+      <ng-container *ngIf="modoFormulario !== 'ver'">
+
+        <button
+          type="button"
+          class="btn-cancelar"
+          (click)="cerrarFormulario()">
+          Cancelar
+        </button>
+
+        <button
+          type="button"
+          class="btn-guardar"
+          [disabled]="guardando"
+          (click)="guardarMedicamento()">
+
+          <i class="bi bi-check-lg"></i>
+
+          {{
+            guardando
+              ? 'Guardando...'
+              : modoFormulario === 'nuevo'
+                ? 'Guardar'
+                : 'Guardar cambios'
+          }}
+
+        </button>
+
+      </ng-container>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- TABLA MEDICAMENTOS -->
+<div class="tabla-contenedor">
+
+  <div class="tabla-header">
+
+    <div>
+      <h2>Medicamentos</h2>
+
+      <p>
+        {{ totalRegistros }}
+        {{
+          totalRegistros === 1
+            ? 'medicamento registrado'
+            : 'medicamentos registrados'
+        }}
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="btn-nuevo"
+      (click)="abrirNuevoMedicamento()">
+
+      <i class="bi bi-plus-lg"></i>
+      Nuevo medicamento
+
+    </button>
+
+  </div>
+
+  <div class="tabla-responsive">
+
+    <table class="tabla-medicamentos">
+
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre comercial</th>
+          <th>Nombre genérico</th>
+          <th>Presentación</th>
+          <th>Concentración</th>
+          <th>Vía</th>
+          <th>Precio</th>
+          <th>Estado</th>
+          <th class="columna-acciones">
+            Acciones
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let medicamento of medicamentos()">
+
+          <td>
+            <span class="id-medicamento">
+              {{ medicamento.idMedicamento }}
+            </span>
+          </td>
+
+          <td>
+            <div class="medicamento-info">
+              <strong>
+                {{ medicamento.nombreComercial }}
+              </strong>
+            </div>
+          </td>
+
+          <td>
+            {{ medicamento.nombreGenerico }}
+          </td>
+
+          <td>
+            {{ medicamento.presentacion }}
+          </td>
+
+          <td>
+            {{ medicamento.concentracion }}
+          </td>
+
+          <td>
+            {{ medicamento.viaAdministracion }}
+          </td>
+
+          <td>
+            ${{ medicamento.precio | number:'1.2-2' }}
+          </td>
+
+          <td>
+            <span
+              class="estado-medicamento"
+              [class.inactivo]="!medicamento.activo">
+
+              {{
+                medicamento.activo
+                  ? 'Activo'
+                  : 'Inactivo'
+              }}
+
+            </span>
+          </td>
+
+          <td class="columna-acciones">
+
+            <app-botones-acciones
+              (ver)="verMedicamento(medicamento)"
+              (editar)="editarMedicamento(medicamento)"
+              (eliminar)="eliminarMedicamento(medicamento)">
+            </app-botones-acciones>
+
+          </td>
+
+        </tr>
+
+        <tr *ngIf="medicamentos().length === 0">
+          <td
+            colspan="9"
+            class="sin-datos">
+            No hay medicamentos registrados
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <!-- PAGINACIÓN GENÉRICA -->
+  <app-paginacion
+    [paginaActual]="paginaActual"
+    [tamanoPagina]="tamanoPagina"
+    [totalRegistros]="totalRegistros"
+    [totalPaginas]="totalPaginas"
+    nombreRegistros="medicamentos"
+    (paginaCambiada)="cambiarPagina($event)"
+    (tamanoPaginaCambiado)="cambiarTamanoPagina($event)">
+  </app-paginacion>
+
+</div>

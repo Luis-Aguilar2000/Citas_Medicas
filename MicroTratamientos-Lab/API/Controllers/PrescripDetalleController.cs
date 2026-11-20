@@ -1,11 +1,9 @@
-using Core.feature.Prescripciones.Commands;
-using Core.feature.Prescripciones.Queries;
 using Core.feature.PrescripcionesDetalles.Commands;
 using Core.feature.PrescripcionesDetalles.Queries;
 using Domain.Models;
+using Generics.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq.Dynamic.Core;
 
 namespace API.Controllers
 {
@@ -13,7 +11,6 @@ namespace API.Controllers
     [Route("[controller]")]
     public class PrescripDetalleController : ControllerBase
     {
-
         private readonly IMediator _mediator;
 
         public PrescripDetalleController(IMediator mediator)
@@ -21,9 +18,8 @@ namespace API.Controllers
             _mediator = mediator;
         }
 
-
         // =========================================
-        // GET - LISTAR PrescripciónDetalle
+        // GET - LISTAR DETALLES DE PRESCRIPCIÓN
         // =========================================
 
         [HttpGet]
@@ -35,46 +31,43 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
-
         // =========================================
-        // GET -  PrescripciónDetalleId
+        // GET - OBTENER DETALLE POR ID
         // =========================================
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Medicamento>> GetById(int id)
+        public async Task<ActionResult<PrescripcionDetalle>> GetById(int id)
         {
-            var prescripcion = await _mediator.Send(
+            var prescripcionDetalle = await _mediator.Send(
                 new GetPrescripDetalleByIdQuery
                 {
                     IdPrescripcionDetalle = id
                 }
             );
 
-            if (prescripcion == null)
+            if (prescripcionDetalle == null)
             {
                 return NotFound();
             }
 
-            return Ok(prescripcion);
+            return Ok(prescripcionDetalle);
         }
 
-
         // =========================================
-        // POST - CREAR PrescripciónDetalle
+        // POST - CREAR DETALLE DE PRESCRIPCIÓN
         // =========================================
 
         [HttpPost]
         public async Task<ActionResult<bool>> Post(
-            [FromBody] AddPrescripCommand command)
+            [FromBody] AddPrescripDetalleCommand command)
         {
             var resultado = await _mediator.Send(command);
 
             return Ok(resultado);
         }
 
-
         // =========================================
-        // PUT - ACTUALIZAR PrescripciónDetalle
+        // PUT - ACTUALIZAR DETALLE DE PRESCRIPCIÓN
         // =========================================
 
         [HttpPut("{id}")]
@@ -94,9 +87,8 @@ namespace API.Controllers
             return Ok(true);
         }
 
-
         // =========================================
-        // DELETE - ELIMINAR PrescripciónDetalle
+        // DELETE - ELIMINAR DETALLE DE PRESCRIPCIÓN
         // =========================================
 
         [HttpDelete("{id}")]
@@ -116,9 +108,5 @@ namespace API.Controllers
 
             return Ok(true);
         }
-
-
-
-
     }
 }

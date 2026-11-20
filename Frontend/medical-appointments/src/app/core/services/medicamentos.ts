@@ -25,15 +25,12 @@ export class MedicamentosService
   extends GenericCrudService<Medicamento> {
 
   constructor(http: HttpClient) {
-    super(
-      http,
-      'http://localhost:5085/Medicamento'
-    );
+    super(http, 'http://localhost:5085/Medicamento');
   }
 
   getMedicamentos(
     pageNumber: number = 1,
-    pageSize: number = 100,
+    pageSize: number = 10,
     filter: string = ''
   ): Observable<PagedResult<Medicamento>> {
     return this.getPaged(
@@ -47,5 +44,26 @@ export class MedicamentosService
     idMedicamento: number
   ): Observable<Medicamento> {
     return this.getById(idMedicamento);
+  }
+
+  addMedicamento(
+    medicamento: Medicamento
+  ): Observable<boolean> {
+    return this.add(medicamento);
+  }
+
+  updateMedicamento(
+    medicamento: Medicamento
+  ): Observable<boolean> {
+    return this.update(
+      medicamento.idMedicamento,
+      medicamento
+    );
+  }
+
+  deleteMedicamento(
+    idMedicamento: number
+  ): Observable<boolean> {
+    return this.delete(idMedicamento);
   }
 }

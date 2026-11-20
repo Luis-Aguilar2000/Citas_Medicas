@@ -1,0 +1,492 @@
+<div class="overlay" *ngIf="mostrarFormulario">
+
+  <div class="modal-receta">
+
+    <div class="modal-header">
+
+      <div class="modal-marca">
+        <span class="mini-logo">
+          <i class="bi bi-file-medical"></i>
+        </span>
+        <strong>Receta médica</strong>
+      </div>
+
+      <button
+        type="button"
+        class="btn-cerrar"
+        (click)="cerrarFormulario()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+    </div>
+
+    <h2 *ngIf="modoFormulario === 'nuevo'">
+      Registrar nueva receta
+    </h2>
+
+    <h2 *ngIf="modoFormulario === 'ver'">
+      Información de la receta
+    </h2>
+
+    <h2 *ngIf="modoFormulario === 'editar'">
+      Editar receta
+    </h2>
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'nuevo'">
+      Complete la información de la prescripción médica
+    </p>
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'ver'">
+      Consulte la información registrada
+    </p>
+
+    <p
+      class="subtitulo"
+      *ngIf="modoFormulario === 'editar'">
+      Modifique la información necesaria
+    </p>
+
+    <div class="form-grid">
+
+      <div class="campo">
+        <label>Paciente</label>
+
+        <select
+          [(ngModel)]="formulario.idPaciente"
+          [disabled]="modoFormulario === 'ver'"
+          (ngModelChange)="seleccionarPaciente()">
+
+          <option [ngValue]="0">
+            Seleccione un paciente
+          </option>
+
+          <option
+            *ngFor="let paciente of pacientes"
+            [ngValue]="paciente.idPaciente">
+
+            {{ paciente.nombres }}
+            {{ paciente.apellidos }}
+
+          </option>
+
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Cita</label>
+
+        <select
+          [(ngModel)]="formulario.idCita"
+          [disabled]="
+            modoFormulario === 'ver' ||
+            !formulario.idPaciente
+          "
+          (ngModelChange)="seleccionarCita()">
+
+          <option [ngValue]="null">
+            Seleccione una cita
+          </option>
+
+          <option
+            *ngFor="let cita of citasDelPaciente"
+            [ngValue]="cita.idCita">
+
+            {{ obtenerDescripcionCita(cita) }}
+
+          </option>
+
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Médico</label>
+
+        <input
+          type="text"
+          [value]="
+            formulario.idMedico
+              ? 'Médico #' + formulario.idMedico
+              : ''
+          "
+          placeholder="Se asigna mediante la cita"
+          disabled>
+      </div>
+
+      <div class="campo">
+        <label>Fecha de emisión</label>
+
+        <input
+          type="date"
+          [(ngModel)]="formulario.fechaEmision"
+          [disabled]="modoFormulario === 'ver'">
+      </div>
+
+      <div class="campo">
+        <label>Estado</label>
+
+        <select
+          [(ngModel)]="formulario.estado"
+          [disabled]="modoFormulario === 'ver'">
+
+          <option value="ACTIVA">Activa</option>
+          <option value="FINALIZADA">Finalizada</option>
+          <option value="ANULADA">Anulada</option>
+
+        </select>
+      </div>
+
+      <div class="campo campo-completo">
+        <label>Observaciones</label>
+
+        <textarea
+          rows="3"
+          placeholder="Ingrese observaciones"
+          [(ngModel)]="formulario.observaciones"
+          [disabled]="modoFormulario === 'ver'">
+        </textarea>
+      </div>
+
+    </div>
+
+    <div class="seccion-medicamentos">
+
+      <div class="seccion-header">
+
+        <div>
+          <h3>Medicamentos</h3>
+          <p>
+            Medicamentos incluidos en la receta
+          </p>
+        </div>
+
+        <button
+          *ngIf="modoFormulario !== 'ver'"
+          type="button"
+          class="btn-agregar"
+          (click)="agregarMedicamento()">
+
+          <i class="bi bi-plus-lg"></i>
+          Agregar medicamento
+        </button>
+
+      </div>
+
+      <div
+        class="medicamento-card"
+        *ngFor="let detalle of detalles; let i = index">
+
+        <div class="medicamento-header">
+
+          <strong>
+            Medicamento {{ i + 1 }}
+          </strong>
+
+          <button
+            *ngIf="
+              modoFormulario !== 'ver' &&
+              detalles.length > 1
+            "
+            type="button"
+            class="btn-quitar"
+            (click)="quitarMedicamento(i)">
+
+            <i class="bi bi-trash"></i>
+          </button>
+
+        </div>
+
+        <div class="form-grid">
+
+          <div class="campo campo-completo">
+            <label>Medicamento</label>
+
+            <select
+              [(ngModel)]="detalle.idMedicamento"
+              [disabled]="modoFormulario === 'ver'">
+
+              <option [ngValue]="0">
+                Seleccione un medicamento
+              </option>
+
+              <option
+                *ngFor="let medicamento of medicamentos"
+                [ngValue]="medicamento.idMedicamento">
+
+                {{ medicamento.nombreComercial }}
+                - {{ medicamento.concentracion }}
+
+              </option>
+
+            </select>
+          </div>
+
+          <div class="campo">
+            <label>Dosis</label>
+
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              [(ngModel)]="detalle.dosis"
+              [disabled]="modoFormulario === 'ver'">
+          </div>
+
+          <div class="campo">
+            <label>Unidad de medida</label>
+
+            <input
+              type="text"
+              placeholder="Ej. tableta, ml, mg"
+              [(ngModel)]="detalle.unidadMedida"
+              [disabled]="modoFormulario === 'ver'">
+          </div>
+
+          <div class="campo">
+            <label>Frecuencia</label>
+
+            <input
+              type="text"
+              placeholder="Ej. Cada 8 horas"
+              [(ngModel)]="detalle.frecuencia"
+              [disabled]="modoFormulario === 'ver'">
+          </div>
+
+          <div class="campo">
+            <label>Duración en días</label>
+
+            <input
+              type="number"
+              min="1"
+              [(ngModel)]="detalle.duracionDias"
+              [disabled]="modoFormulario === 'ver'">
+          </div>
+
+          <div class="campo campo-completo">
+            <label>Indicaciones especiales</label>
+
+            <textarea
+              rows="2"
+              placeholder="Ej. Tomar después de los alimentos"
+              [(ngModel)]="detalle.indicacionesEspeciales"
+              [disabled]="modoFormulario === 'ver'">
+            </textarea>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="acciones">
+
+      <button
+        *ngIf="modoFormulario === 'ver'"
+        type="button"
+        class="btn-cancelar"
+        (click)="cerrarFormulario()">
+        Cerrar
+      </button>
+
+      <ng-container *ngIf="modoFormulario !== 'ver'">
+
+        <button
+          type="button"
+          class="btn-cancelar"
+          (click)="cerrarFormulario()">
+          Cancelar
+        </button>
+
+        <button
+          type="button"
+          class="btn-guardar"
+          [disabled]="guardando"
+          (click)="guardarReceta()">
+
+          <i class="bi bi-check-lg"></i>
+
+          {{
+            guardando
+              ? 'Guardando...'
+              : modoFormulario === 'nuevo'
+                ? 'Guardar'
+                : 'Guardar cambios'
+          }}
+        </button>
+
+      </ng-container>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="tabla-contenedor">
+
+  <div class="tabla-header">
+
+    <div>
+      <h2>Recetas médicas</h2>
+
+      <p>
+        {{ totalRegistros }}
+        {{
+          totalRegistros === 1
+            ? 'receta registrada'
+            : 'recetas registradas'
+        }}
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="btn-nuevo"
+      (click)="nuevaReceta()">
+
+      <i class="bi bi-plus-lg"></i>
+      Nueva receta
+    </button>
+
+  </div>
+
+  <div class="tabla-responsive">
+
+    <table class="tabla-recetas">
+
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Paciente</th>
+          <th>Médico</th>
+          <th>Cita</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Observaciones</th>
+          <th class="columna-acciones">
+            Acciones
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let prescripcion of prescripciones">
+
+          <td>
+            <span class="id-receta">
+              {{ prescripcion.idPrescripcion }}
+            </span>
+          </td>
+
+          <td>
+            <strong class="paciente-nombre">
+              {{
+                obtenerNombrePaciente(
+                  prescripcion.idPaciente
+                )
+              }}
+            </strong>
+          </td>
+
+          <td>
+            Médico #{{ prescripcion.idMedico }}
+          </td>
+
+          <td>
+            {{
+              prescripcion.idCita
+                ? '#' + prescripcion.idCita
+                : 'Sin cita'
+            }}
+          </td>
+
+          <td>
+            {{
+              formatearFecha(
+                prescripcion.fechaEmision
+              )
+            }}
+          </td>
+
+          <td>
+            <span
+              class="estado-receta"
+              [class.finalizada]="
+                prescripcion.estado === 'FINALIZADA'
+              "
+              [class.anulada]="
+                prescripcion.estado === 'ANULADA'
+              ">
+
+              {{ prescripcion.estado }}
+
+            </span>
+          </td>
+
+          <td>
+            <span
+              class="observaciones"
+              [title]="prescripcion.observaciones">
+
+              {{
+                prescripcion.observaciones ||
+                'Sin observaciones'
+              }}
+
+            </span>
+          </td>
+
+          <td class="columna-acciones">
+
+            <app-botones-acciones
+              (ver)="verReceta(prescripcion)"
+              (editar)="editarReceta(prescripcion)"
+              (eliminar)="eliminarReceta(prescripcion)">
+            </app-botones-acciones>
+
+          </td>
+
+        </tr>
+
+        <tr
+          *ngIf="
+            !cargando &&
+            prescripciones.length === 0
+          ">
+
+          <td colspan="8" class="sin-datos">
+            No hay recetas registradas
+          </td>
+
+        </tr>
+
+        <tr *ngIf="cargando">
+
+          <td colspan="8" class="sin-datos">
+            Cargando recetas...
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <app-paginacion
+    [paginaActual]="paginaActual"
+    [tamanoPagina]="tamanoPagina"
+    [totalRegistros]="totalRegistros"
+    [totalPaginas]="totalPaginas"
+    nombreRegistros="recetas"
+    (paginaCambiada)="cambiarPagina($event)"
+    (tamanoPaginaCambiado)="cambiarTamanoPagina($event)">
+  </app-paginacion>
+
+</div>

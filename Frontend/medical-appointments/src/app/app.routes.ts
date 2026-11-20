@@ -13,6 +13,12 @@ import { Servicios } from './features/MicroFacturacion/servicios/servicios';
 import { Facturas } from './features/MicroFacturacion/facturas/facturas';
 import { Pagos } from './features/MicroFacturacion/pagos/pagos';
 
+import { Medicamentos } from './features/MicroTratamiento-Lab/medicamentos/medicamentos';
+//import { CatalogoEstudios } from './features/MicroTratamiento-Lab/catalogo-estudios/catalogo-estudios';
+import { Recetas } from './features/MicroTratamiento-Lab/recetas/recetas';
+//import { OrdenesLaboratorio } from './features/MicroTratamiento-Lab/ordenes-laboratorio/ordenes-laboratorio';
+//import { Tratamientos } from './features/MicroTratamiento-Lab/tratamientos/tratamientos';
+
 import { authGuard, authChildGuard } from './core/Auth/auth.guard';
 
 export const routes: Routes = [
@@ -27,13 +33,22 @@ export const routes: Routes = [
     canActivateChild: [authChildGuard],
     children: [
       { path: 'inicio', component: Inicio },
+
       { path: 'pacientes', component: Pacientes },
       { path: 'consultorios', component: Consultorios },
       { path: 'horarios-medicos', component: HorarioMedico },
       { path: 'agenda-citas', component: AgendaCitas },
+
       { path: 'servicios', component: Servicios },
       { path: 'facturas', component: Facturas },
       { path: 'pagos', component: Pagos },
+
+      { path: 'medicamentos', component: Medicamentos },
+      //{ path: 'catalogo-estudios', component: CatalogoEstudios },
+      { path: 'prescripciones', component: Recetas },
+      //{ path: 'ordenes-laboratorio', component: OrdenesLaboratorio },
+      //{ path: 'tratamientos', component: Tratamientos },
+
       { path: '', redirectTo: 'inicio', pathMatch: 'full' }
     ]
   },

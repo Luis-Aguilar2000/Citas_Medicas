@@ -1,16 +1,10 @@
-﻿using Core.feature.ArchivosClinicos.Commands;
-using Domain.Models;
+﻿using Domain.Models;
 using Generics.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.feature.PrescripcionesDetalles.Commands
 {
-    public class UpdatePrescripDetalleCommand: IRequest<bool>
+    public class UpdatePrescripDetalleCommand : IRequest<bool>
     {
         public int IdPrescripcionDetalle { get; set; }
         public int IdPrescripcion { get; set; }
@@ -20,12 +14,10 @@ namespace Core.feature.PrescripcionesDetalles.Commands
         public string Frecuencia { get; set; }
         public int DuracionDias { get; set; }
         public string IndicacionesEspeciales { get; set; }
-        public Prescripcion Prescripcion { get; set; }
-        public Medicamento Medicamento { get; set; }
     }
 
     public class UpdatePrescripDetalleCommandHandler
-       : IRequestHandler<UpdatePrescripDetalleCommand, bool>
+        : IRequestHandler<UpdatePrescripDetalleCommand, bool>
     {
         private readonly IGenericRepository<PrescripcionDetalle> _repository;
 
@@ -39,7 +31,9 @@ namespace Core.feature.PrescripcionesDetalles.Commands
             UpdatePrescripDetalleCommand request,
             CancellationToken cancellationToken)
         {
-            var prescripcionDetalle = await _repository.GetByIdAsync(request.IdPrescripcionDetalle);
+            var prescripcionDetalle = await _repository.GetByIdAsync(
+                request.IdPrescripcionDetalle
+            );
 
             if (prescripcionDetalle == null)
             {
@@ -50,9 +44,10 @@ namespace Core.feature.PrescripcionesDetalles.Commands
             prescripcionDetalle.IdMedicamento = request.IdMedicamento;
             prescripcionDetalle.Dosis = request.Dosis;
             prescripcionDetalle.UnidadMedida = request.UnidadMedida;
-            prescripcionDetalle.IndicacionesEspeciales = request.IndicacionesEspeciales;
-            prescripcionDetalle.Prescripcion = request.Prescripcion;
-            prescripcionDetalle.Medicamento = request.Medicamento;
+            prescripcionDetalle.Frecuencia = request.Frecuencia;
+            prescripcionDetalle.DuracionDias = request.DuracionDias;
+            prescripcionDetalle.IndicacionesEspeciales =
+                request.IndicacionesEspeciales;
 
             await _repository.UpdateAsync(prescripcionDetalle);
 

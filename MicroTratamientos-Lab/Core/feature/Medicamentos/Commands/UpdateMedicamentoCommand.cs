@@ -14,7 +14,6 @@ namespace Core.feature.Medicamentos.Commands
         public string ViaAdministracion { get; set; }
         public decimal Precio { get; set; }
         public bool Activo { get; set; }
-        public List<PrescripcionDetalle> PrescripcionDetalles { get; set; } = new();
     }
 
     public class UpdateMedicamentoCommandHandler
@@ -38,9 +37,7 @@ namespace Core.feature.Medicamentos.Commands
             );
 
             if (medicamento == null)
-            {
                 return false;
-            }
 
             medicamento.NombreComercial = request.NombreComercial;
             medicamento.NombreGenerico = request.NombreGenerico;
@@ -49,7 +46,6 @@ namespace Core.feature.Medicamentos.Commands
             medicamento.ViaAdministracion = request.ViaAdministracion;
             medicamento.Precio = request.Precio;
             medicamento.Activo = request.Activo;
-            medicamento.PrescripcionDetalles = request.PrescripcionDetalles;
 
             await _repository.UpdateAsync(
                 medicamento,
