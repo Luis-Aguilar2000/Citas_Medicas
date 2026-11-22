@@ -1,8 +1,8 @@
-import { Component, OnInit, signal } from '@angular/core';
+﻿import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ConsultoriosService, Consultorio } from '../../../core/services/consultorios';
-import { BusquedaService } from '../../../core/services/busqueda';
+import { ConsultoriosService, Consultorio } from '../../../core/services/MicroPacientesAgendas/consultorios';
+import { BusquedaService } from '../../../core/services/Compartidos/busqueda';
 import { BotonesAcciones } from '../../../shared/components/botones-acciones/botones-acciones';
 import { Paginacion } from '../../../shared/components/paginacion/paginacion';
 
@@ -14,7 +14,7 @@ import { Paginacion } from '../../../shared/components/paginacion/paginacion';
   styleUrl: './consultorios.css'
 })
 export class Consultorios implements OnInit {
-  // LISTA Y PAGINACIÓN
+  // LISTA Y PAGINACIÃ“N
   consultorios = signal<Consultorio[]>([]);
   paginaActual = 1;
   tamanoPagina = 10;
@@ -96,7 +96,7 @@ export class Consultorios implements OnInit {
   }
 
   eliminarConsultorio(consultorio: Consultorio): void {
-    if (!confirm(`¿Desea eliminar el consultorio ${consultorio.nombre}?`)) return;
+    if (!confirm(`Â¿Desea eliminar el consultorio ${consultorio.nombre}?`)) return;
 
     this.consultoriosService.deleteConsultorio(consultorio.idConsultorio).subscribe({
       next: () => {

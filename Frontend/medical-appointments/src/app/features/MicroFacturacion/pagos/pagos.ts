@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, signal, effect, untracked } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, signal, effect, untracked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PagosService, Pago } from '../../../core/services/pagos';
-import { FormasPagoService, FormaPago } from '../../../core/services/formas-pago';
-import { FacturasService, Factura } from '../../../core/services/facturas';
-import { PacientesService, Paciente } from '../../../core/services/pacientes';
-import { BusquedaService } from '../../../core/services/busqueda';
+import { PagosService, Pago } from '../../../core/services/MicroFacturacion/pagos';
+import { FormasPagoService, FormaPago } from '../../../core/services/MicroFacturacion/formas-pago';
+import { FacturasService, Factura } from '../../../core/services/MicroFacturacion/facturas';
+import { PacientesService, Paciente } from '../../../core/services/MicroPacientesAgendas/pacientes';
+import { BusquedaService } from '../../../core/services/Compartidos/busqueda';
 import { BotonesAcciones } from '../../../shared/components/botones-acciones/botones-acciones';
 import { Paginacion } from '../../../shared/components/paginacion/paginacion';
 
@@ -164,7 +164,7 @@ export class Pagos implements OnInit, OnDestroy {
     }
 
     if (Number(this.pagoFormulario.monto) <= 0) {
-      alert('Ingrese un monto válido.');
+      alert('Ingrese un monto vÃ¡lido.');
       return;
     }
 
@@ -185,7 +185,7 @@ export class Pagos implements OnInit, OnDestroy {
   }
 
   eliminarPago(pago: Pago): void {
-    const confirmar = confirm(`¿Desea eliminar el pago #${pago.idPago}?`);
+    const confirmar = confirm(`Â¿Desea eliminar el pago #${pago.idPago}?`);
     if (!confirmar) {
       return;
     }

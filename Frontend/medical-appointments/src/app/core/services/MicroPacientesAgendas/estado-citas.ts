@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { GenericCrudService, PagedResult } from '../generics/generic-crud.service';
+import { GenericCrudService, PagedResult } from '../../generics/generic-crud.service';
 
 // Modelo de datos para la entidad EstadoCita
 export interface EstadoCita {
@@ -23,7 +23,7 @@ export class EstadoCitasService extends GenericCrudService<EstadoCita> {
     return this.getPaged(pageNumber, pageSize);
   }
 
-  // Obtiene un estado de cita específico por su ID
+  // Obtiene un estado de cita especÃ­fico por su ID
   getEstadoCitaById(idEstadoCita: number): Observable<EstadoCita> {
     return this.getById(idEstadoCita);
   }

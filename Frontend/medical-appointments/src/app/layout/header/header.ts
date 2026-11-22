@@ -1,5 +1,5 @@
 import { Component, Input, inject } from '@angular/core';
-import { BusquedaService, SugerenciaBusqueda } from '../../core/services/busqueda';
+import { BusquedaService, SugerenciaBusqueda } from '../../core/services/Compartidos/busqueda';
 import { AuthService } from '../../core/Auth/auth.service';
 
 @Component({

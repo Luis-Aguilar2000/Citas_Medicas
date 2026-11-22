@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Factura } from './facturas';
 import { FacturaDetalle } from './factura-detalles';
 import { Pago } from './pagos';
-import { Paciente } from './pacientes';
+import { Paciente } from '../MicroPacientesAgendas/pacientes';
 
 @Injectable({
   providedIn: 'root'

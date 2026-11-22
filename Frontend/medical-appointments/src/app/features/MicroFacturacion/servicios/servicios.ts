@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy, signal, effect, untracked } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, signal, effect, untracked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { Servicio, ServiciosService } from '../../../core/services/servicios';
-import { BusquedaService } from '../../../core/services/busqueda';
+import { Servicio, ServiciosService } from '../../../core/services/MicroFacturacion/servicios';
+import { BusquedaService } from '../../../core/services/Compartidos/busqueda';
 import { BotonesAcciones } from '../../../shared/components/botones-acciones/botones-acciones';
 import { Paginacion } from '../../../shared/components/paginacion/paginacion';
 
@@ -151,7 +151,7 @@ export class Servicios implements OnInit, OnDestroy {
   }
 
   eliminarServicio(servicio: Servicio): void {
-    const confirmar = confirm(`¿Desea eliminar el servicio "${servicio.nombre}"?`);
+    const confirmar = confirm(`Â¿Desea eliminar el servicio "${servicio.nombre}"?`);
     if (!confirmar) return;
 
     this.serviciosService.deleteServicio(servicio.idServicio).subscribe({

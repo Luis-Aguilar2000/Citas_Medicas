@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+﻿import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
@@ -7,28 +7,28 @@ import {
   Prescripcion,
   CrearPrescripcion,
   PrescripcionesService
-} from '../../../core/services/prescripciones';
+} from '../../../core/services/MicroTratamientosLab/prescripciones';
 
 import {
   PrescripcionDetalle,
   CrearPrescripcionDetalle,
   PrescripcionDetallesService
-} from '../../../core/services/prescripcion-detalles';
+} from '../../../core/services/MicroTratamientosLab/prescripcion-detalles';
 
 import {
   Medicamento,
   MedicamentosService
-} from '../../../core/services/medicamentos';
+} from '../../../core/services/MicroTratamientosLab/medicamentos';
 
 import {
   Paciente,
   PacientesService
-} from '../../../core/services/pacientes';
+} from '../../../core/services/MicroPacientesAgendas/pacientes';
 
 import {
   Cita,
   CitasService
-} from '../../../core/services/citas';
+} from '../../../core/services/MicroPacientesAgendas/citas';
 
 import { BotonesAcciones } from '../../../shared/components/botones-acciones/botones-acciones';
 import { Paginacion } from '../../../shared/components/paginacion/paginacion';
@@ -255,7 +255,7 @@ export class Recetas implements OnInit {
       detalle.idPrescripcionDetalle > 0
     ) {
       const confirmar = window.confirm(
-        '¿Está seguro de eliminar este medicamento de la receta?'
+        'Â¿EstÃ¡ seguro de eliminar este medicamento de la receta?'
       );
 
       if (!confirmar) return;
@@ -479,7 +479,7 @@ export class Recetas implements OnInit {
     prescripcion: Prescripcion
   ): void {
     const confirmar = window.confirm(
-      `¿Está seguro de eliminar la receta #${prescripcion.idPrescripcion}?`
+      `Â¿EstÃ¡ seguro de eliminar la receta #${prescripcion.idPrescripcion}?`
     );
 
     if (!confirmar) return;
@@ -586,7 +586,7 @@ export class Recetas implements OnInit {
     }
 
     if (!this.formulario.fechaEmision) {
-      alert('Ingrese la fecha de emisión.');
+      alert('Ingrese la fecha de emisiÃ³n.');
       return false;
     }
 
@@ -600,7 +600,7 @@ export class Recetas implements OnInit {
 
       if (!detalle.idMedicamento) {
         alert(
-          `Seleccione el medicamento de la línea ${i + 1}.`
+          `Seleccione el medicamento de la lÃ­nea ${i + 1}.`
         );
         return false;
       }
@@ -610,21 +610,21 @@ export class Recetas implements OnInit {
         Number(detalle.dosis) <= 0
       ) {
         alert(
-          `Ingrese una dosis válida en la línea ${i + 1}.`
+          `Ingrese una dosis vÃ¡lida en la lÃ­nea ${i + 1}.`
         );
         return false;
       }
 
       if (!detalle.unidadMedida.trim()) {
         alert(
-          `Ingrese la unidad de medida en la línea ${i + 1}.`
+          `Ingrese la unidad de medida en la lÃ­nea ${i + 1}.`
         );
         return false;
       }
 
       if (!detalle.frecuencia.trim()) {
         alert(
-          `Ingrese la frecuencia en la línea ${i + 1}.`
+          `Ingrese la frecuencia en la lÃ­nea ${i + 1}.`
         );
         return false;
       }
@@ -634,7 +634,7 @@ export class Recetas implements OnInit {
         Number(detalle.duracionDias) <= 0
       ) {
         alert(
-          `Ingrese la duración en la línea ${i + 1}.`
+          `Ingrese la duraciÃ³n en la lÃ­nea ${i + 1}.`
         );
         return false;
       }

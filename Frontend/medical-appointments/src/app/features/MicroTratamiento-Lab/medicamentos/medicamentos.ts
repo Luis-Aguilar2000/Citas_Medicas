@@ -1,11 +1,11 @@
-import { Component, OnInit, signal } from '@angular/core';
+﻿import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import {
   MedicamentosService,
   Medicamento
-} from '../../../core/services/medicamentos';
+} from '../../../core/services/MicroTratamientosLab/medicamentos';
 
 import { BotonesAcciones } from '../../../shared/components/botones-acciones/botones-acciones';
 import { Paginacion } from '../../../shared/components/paginacion/paginacion';
@@ -93,7 +93,7 @@ export class Medicamentos implements OnInit {
   eliminarMedicamento(medicamento: Medicamento): void {
     if (
       !confirm(
-        `¿Desea eliminar el medicamento ${medicamento.nombreComercial}?`
+        `Â¿Desea eliminar el medicamento ${medicamento.nombreComercial}?`
       )
     ) {
       return;
@@ -218,27 +218,27 @@ export class Medicamentos implements OnInit {
     }
 
     if (!this.nuevoMedicamento.nombreGenerico.trim()) {
-      alert('Ingrese el nombre genérico.');
+      alert('Ingrese el nombre genÃ©rico.');
       return false;
     }
 
     if (!this.nuevoMedicamento.presentacion.trim()) {
-      alert('Ingrese la presentación.');
+      alert('Ingrese la presentaciÃ³n.');
       return false;
     }
 
     if (!this.nuevoMedicamento.concentracion.trim()) {
-      alert('Ingrese la concentración.');
+      alert('Ingrese la concentraciÃ³n.');
       return false;
     }
 
     if (!this.nuevoMedicamento.viaAdministracion.trim()) {
-      alert('Seleccione la vía de administración.');
+      alert('Seleccione la vÃ­a de administraciÃ³n.');
       return false;
     }
 
     if (Number(this.nuevoMedicamento.precio) < 0) {
-      alert('Ingrese un precio válido.');
+      alert('Ingrese un precio vÃ¡lido.');
       return false;
     }
 

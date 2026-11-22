@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import {
   GenericCrudService,
   PagedResult
-} from '../generics/generic-crud.service';
+} from '../../generics/generic-crud.service';
 
 export interface SolicitudEstudio {
   idSolicitudEstudio: number;

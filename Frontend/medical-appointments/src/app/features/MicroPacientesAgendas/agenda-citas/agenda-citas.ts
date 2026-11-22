@@ -1,13 +1,13 @@
-import { Component, OnInit, signal } from '@angular/core';
+﻿import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CitasService, Cita } from '../../../core/services/citas';
-import { PacientesService, Paciente } from '../../../core/services/pacientes';
-import { ConsultoriosService, Consultorio } from '../../../core/services/consultorios';
-import { EstadoCitasService, EstadoCita } from '../../../core/services/estado-citas';
+import { CitasService, Cita } from '../../../core/services/MicroPacientesAgendas/citas';
+import { PacientesService, Paciente } from '../../../core/services/MicroPacientesAgendas/pacientes';
+import { ConsultoriosService, Consultorio } from '../../../core/services/MicroPacientesAgendas/consultorios';
+import { EstadoCitasService, EstadoCita } from '../../../core/services/MicroPacientesAgendas/estado-citas';
 import { BotonesAcciones } from '../../../shared/components/botones-acciones/botones-acciones';
 import { Paginacion } from '../../../shared/components/paginacion/paginacion';
-import { BusquedaService } from '../../../core/services/busqueda';
+import { BusquedaService } from '../../../core/services/Compartidos/busqueda';
 
 @Component({
   selector: 'app-agenda-citas',
@@ -66,7 +66,7 @@ export class AgendaCitas implements OnInit {
     });
   }
 
-  // Carga el catálogo de pacientes
+  // Carga el catÃ¡logo de pacientes
   cargarPacientes(): void {
     this.pacientesService.getPacientes(1, 1000).subscribe({
       next: (resultado) => this.pacientes.set(resultado.data),
@@ -74,7 +74,7 @@ export class AgendaCitas implements OnInit {
     });
   }
 
-  // Carga el catálogo de consultorios
+  // Carga el catÃ¡logo de consultorios
   cargarConsultorios(): void {
     this.consultoriosService.getConsultorios(1, 1000).subscribe({
       next: (resultado) => this.consultorios.set(resultado.data),
@@ -82,7 +82,7 @@ export class AgendaCitas implements OnInit {
     });
   }
 
-  // Carga el catálogo de estados de citas
+  // Carga el catÃ¡logo de estados de citas
   cargarEstadosCitas(): void {
     this.estadoCitasService.getEstadosCitas(1, 1000).subscribe({
       next: (resultado) => this.estadosCitas.set(resultado.data),
@@ -133,7 +133,7 @@ export class AgendaCitas implements OnInit {
     });
   }
 
-  // Abre el formulario en modo edición para una cita existente
+  // Abre el formulario en modo ediciÃ³n para una cita existente
   editarCita(cita: Cita): void {
     this.citasService.getCitaById(cita.idCita).subscribe({
       next: (resultado) => {
@@ -150,10 +150,10 @@ export class AgendaCitas implements OnInit {
     });
   }
 
-  // Elimina una cita previa confirmación
+  // Elimina una cita previa confirmaciÃ³n
   eliminarCita(cita: Cita): void {
     const paciente = this.obtenerNombrePaciente(cita.idPaciente);
-    if (!confirm(`¿Desea eliminar la cita #${cita.idCita} de ${paciente}?`)) {
+    if (!confirm(`Â¿Desea eliminar la cita #${cita.idCita} de ${paciente}?`)) {
       return;
     }
 
@@ -168,14 +168,14 @@ export class AgendaCitas implements OnInit {
     });
   }
 
-  // Valida y procesa el guardado o actualización de la cita
+  // Valida y procesa el guardado o actualizaciÃ³n de la cita
   guardarCita(): void {
     if (this.nuevaCita.idPaciente <= 0) {
       alert('Seleccione un paciente.');
       return;
     }
     if (this.nuevaCita.idMedico <= 0) {
-      alert('Ingrese un médico válido.');
+      alert('Ingrese un mÃ©dico vÃ¡lido.');
       return;
     }
     if (this.nuevaCita.idConsultorio <= 0) {
@@ -237,7 +237,7 @@ export class AgendaCitas implements OnInit {
     this.nuevaCita = this.crearCitaVacia();
   }
 
-  // Cambia la página actual de la tabla
+  // Cambia la pÃ¡gina actual de la tabla
   cambiarPagina(pagina: number): void {
     if (pagina < 1 || pagina > this.totalPaginas || pagina === this.paginaActual) {
       return;
@@ -246,7 +246,7 @@ export class AgendaCitas implements OnInit {
     this.cargarCitas();
   }
 
-  // Modifica el tamaño de la página y reinicia a la primera
+  // Modifica el tamaÃ±o de la pÃ¡gina y reinicia a la primera
   cambiarTamanoPagina(tamano: number): void {
     this.tamanoPagina = tamano;
     this.paginaActual = 1;

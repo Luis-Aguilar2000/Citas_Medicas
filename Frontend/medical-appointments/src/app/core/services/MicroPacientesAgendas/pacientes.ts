@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { GenericCrudService, PagedResult } from '../generics/generic-crud.service';
+import { GenericCrudService, PagedResult } from '../../generics/generic-crud.service';
 
 // Modelo de datos para la entidad Paciente
 export interface Paciente {
@@ -25,12 +25,12 @@ export class PacientesService extends GenericCrudService<Paciente> {
     super(http, 'http://localhost:5031/Pacientes');
   }
 
-  // Obtiene el listado paginado de pacientes con opción de filtro
+  // Obtiene el listado paginado de pacientes con opciÃ³n de filtro
   getPacientes(pageNumber: number = 1, pageSize: number = 10, filter: string = ''): Observable<PagedResult<Paciente>> {
     return this.getPaged(pageNumber, pageSize, filter);
   }
 
-  // Obtiene un paciente específico por su ID
+  // Obtiene un paciente especÃ­fico por su ID
   getPacienteById(idPaciente: number): Observable<Paciente> {
     return this.getById(idPaciente);
   }

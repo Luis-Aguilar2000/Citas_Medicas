@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Core.Configs;
+using Core.Services;
+using Infraestructura.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NugetPackage_Rest.Builders;
 using NugetPackage_Rest.Extensions;
@@ -12,14 +15,17 @@ namespace Infraestructura
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            // Lee la configuración del registro de peticiones.
             services.AddRequestLogging(configuration);
 
-            // Registra la librería para enviar peticiones HTTP.
+            services.Configure<DownstreamOptions>(
+                configuration.GetSection("Downstream"));
+
             services.AddHttpClient<IRest, RestBuilder>(client =>
             {
-                client.Timeout = System.TimeSpan.FromSeconds(30);
+                client.Timeout = TimeSpan.FromSeconds(30);
             });
+
+            services.AddScoped<IIdentidadService, IdentidadService>();
 
             return services;
         }

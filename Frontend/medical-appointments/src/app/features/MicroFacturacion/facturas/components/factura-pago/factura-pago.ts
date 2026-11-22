@@ -1,4 +1,4 @@
-import {
+﻿import {
   Component,
   EventEmitter,
   Input,
@@ -11,9 +11,9 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { Factura } from '../../../../../core/services/facturas';
-import { PagosService, Pago } from '../../../../../core/services/pagos';
-import { FormasPagoService, FormaPago } from '../../../../../core/services/formas-pago';
+import { Factura } from '../../../../../core/services/MicroFacturacion/facturas';
+import { PagosService, Pago } from '../../../../../core/services/MicroFacturacion/pagos';
+import { FormasPagoService, FormaPago } from '../../../../../core/services/MicroFacturacion/formas-pago';
 
 @Component({
   selector: 'app-factura-pago',
@@ -81,7 +81,7 @@ export class FacturaPagoComponent implements OnChanges {
     this.cargarPagos();
   }
 
-  /** Carga el catálogo de formas de pago activas. */
+  /** Carga el catÃ¡logo de formas de pago activas. */
   private cargarFormasPago(): void {
     this.formasPagoService.getFormasPago(1, 100).subscribe({
       next: resultado => {
@@ -117,7 +117,7 @@ export class FacturaPagoComponent implements OnChanges {
     if (!this.factura || this.guardando() || this.cargando()) return;
 
     if (this.pagoCompleto()) {
-      alert('La factura ya está pagada completamente.');
+      alert('La factura ya estÃ¡ pagada completamente.');
       return;
     }
 
@@ -193,7 +193,7 @@ export class FacturaPagoComponent implements OnChanges {
     this.cerrar.emit();
   }
 
-  /** Crea una estructura de pago vacía con valores por defecto. */
+  /** Crea una estructura de pago vacÃ­a con valores por defecto. */
   private crearPagoVacio(): Pago {
     return {
       idPago: 0,
@@ -204,7 +204,7 @@ export class FacturaPagoComponent implements OnChanges {
     };
   }
 
-  /** Redondea un valor numérico a dos decimales de manera precisa. */
+  /** Redondea un valor numÃ©rico a dos decimales de manera precisa. */
   private redondearMoneda(valor: number): number {
     return Math.round((Number(valor) + Number.EPSILON) * 100) / 100;
   }

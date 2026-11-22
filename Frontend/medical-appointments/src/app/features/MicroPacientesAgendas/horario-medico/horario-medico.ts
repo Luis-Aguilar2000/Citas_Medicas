@@ -1,9 +1,9 @@
-import { Component, OnInit, signal } from '@angular/core';
+﻿import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HorarioMedicoService, HorarioMedico as HorarioMedicoModel } from '../../../core/services/horario-medico';
-import { ConsultoriosService, Consultorio } from '../../../core/services/consultorios';
-import { BusquedaService } from '../../../core/services/busqueda';
+import { HorarioMedicoService, HorarioMedico as HorarioMedicoModel } from '../../../core/services/MicroPacientesAgendas/horario-medico';
+import { ConsultoriosService, Consultorio } from '../../../core/services/MicroPacientesAgendas/consultorios';
+import { BusquedaService } from '../../../core/services/Compartidos/busqueda';
 import { BotonesAcciones } from '../../../shared/components/botones-acciones/botones-acciones';
 import { Paginacion } from '../../../shared/components/paginacion/paginacion';
 
@@ -20,7 +20,7 @@ import { Paginacion } from '../../../shared/components/paginacion/paginacion';
   styleUrl: './horario-medico.css'
 })
 export class HorarioMedico implements OnInit {
-  // DATOS Y PAGINACIÓN
+  // DATOS Y PAGINACIÃ“N
   horarios = signal<HorarioMedicoModel[]>([]);
   consultorios = signal<Consultorio[]>([]);
   paginaActual = 1;
@@ -34,14 +34,14 @@ export class HorarioMedico implements OnInit {
   horarioSeleccionado: HorarioMedicoModel | null = null;
   nuevoHorario: HorarioMedicoModel = this.crearHorarioVacio();
 
-  // DÍAS DE LA SEMANA
+  // DÃAS DE LA SEMANA
   diasSemana: string[] = [
     'Lunes',
     'Martes',
-    'Miércoles',
+    'MiÃ©rcoles',
     'Jueves',
     'Viernes',
-    'Sábado',
+    'SÃ¡bado',
     'Domingo'
   ];
 
@@ -52,7 +52,7 @@ export class HorarioMedico implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.busquedaService.configurar('Buscar horarios médicos...');
+    this.busquedaService.configurar('Buscar horarios mÃ©dicos...');
     this.cargarHorarios();
     this.cargarConsultorios();
   }
@@ -85,7 +85,7 @@ export class HorarioMedico implements OnInit {
     return consultorio ? consultorio.nombre : `Consultorio #${idConsultorio}`;
   }
 
-  // PAGINACIÓN
+  // PAGINACIÃ“N
   cambiarPagina(pagina: number): void {
     if (pagina < 1 || pagina > this.totalPaginas || pagina === this.paginaActual) return;
     this.paginaActual = pagina;
@@ -140,7 +140,7 @@ export class HorarioMedico implements OnInit {
 
   eliminarHorario(horario: HorarioMedicoModel): void {
     const consultorio = this.obtenerNombreConsultorio(horario.idConsultorio);
-    if (!confirm(`¿Desea eliminar el horario del ${horario.diaSemana} en ${consultorio}?`)) return;
+    if (!confirm(`Â¿Desea eliminar el horario del ${horario.diaSemana} en ${consultorio}?`)) return;
 
     this.horarioService.deleteHorario(horario.idHorario).subscribe({
       next: () => {

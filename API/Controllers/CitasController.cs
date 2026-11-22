@@ -17,11 +17,7 @@ namespace API.Controllers
         {
             _mediator = mediator;
         }
-
-
-        // =========================================
         // GET - LISTAR CITAS PAGINADAS
-        // =========================================
 
         [HttpGet]
         public async Task<ActionResult<PagedResult<Cita>>> Get(
@@ -32,10 +28,7 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
-
-        // =========================================
         // GET - CITA POR ID
-        // =========================================
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Cita>> GetById(int id)
@@ -55,10 +48,7 @@ namespace API.Controllers
             return Ok(cita);
         }
 
-
-        // =========================================
         // POST - CREAR CITA
-        // =========================================
 
         [HttpPost]
         public async Task<ActionResult<bool>> Post(
@@ -70,9 +60,7 @@ namespace API.Controllers
         }
 
 
-        // =========================================
         // PUT - ACTUALIZAR CITA
-        // =========================================
 
         [HttpPut("{id}")]
         public async Task<ActionResult<bool>> Put(

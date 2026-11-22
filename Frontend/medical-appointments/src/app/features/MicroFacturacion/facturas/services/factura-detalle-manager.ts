@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { FacturaDetalle } from '../../../../core/services/factura-detalles';
-import { Servicio } from '../../../../core/services/servicios';
-import { Medicamento } from '../../../../core/services/medicamentos';
-import { CatalogoEstudio } from '../../../../core/services/catalogo-estudios';
+﻿import { Injectable } from '@angular/core';
+import { FacturaDetalle } from '../../../../core/services/MicroFacturacion/factura-detalles';
+import { Servicio } from '../../../../core/services/MicroFacturacion/servicios';
+import { Medicamento } from '../../../../core/services/MicroTratamientosLab/medicamentos';
+import { CatalogoEstudio } from '../../../../core/services/MicroTratamientosLab/catalogo-estudios';
 import { ItemFacturable, TipoItemFactura } from '../models/item-facturable';
 
 @Injectable({
@@ -111,7 +111,7 @@ export class FacturaDetalleManagerService {
 
   validar(detalles: FacturaDetalle[]): string | null {
     if (detalles.length === 0) {
-      return 'Agregue al menos un ítem a la factura.';
+      return 'Agregue al menos un Ã­tem a la factura.';
     }
 
     const cantidadInvalida = detalles.some(

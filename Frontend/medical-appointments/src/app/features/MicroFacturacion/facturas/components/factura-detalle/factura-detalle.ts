@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+﻿import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { FacturaDetalle } from '../../../../../core/services/factura-detalles';
-import { Servicio } from '../../../../../core/services/servicios';
-import { Medicamento } from '../../../../../core/services/medicamentos';
-import { CatalogoEstudio } from '../../../../../core/services/catalogo-estudios';
+import { FacturaDetalle } from '../../../../../core/services/MicroFacturacion/factura-detalles';
+import { Servicio } from '../../../../../core/services/MicroFacturacion/servicios';
+import { Medicamento } from '../../../../../core/services/MicroTratamientosLab/medicamentos';
+import { CatalogoEstudio } from '../../../../../core/services/MicroTratamientosLab/catalogo-estudios';
 import { TipoItemFactura } from '../../models/item-facturable';
 import { FacturaDetalleManagerService } from '../../services/factura-detalle-manager';
 
@@ -44,7 +44,7 @@ export class FacturaDetalleComponent {
 
   agregarItem(): void {
     if (this.itemSeleccionado <= 0) {
-      alert('Seleccione un ítem.');
+      alert('Seleccione un Ã­tem.');
       return;
     }
 
@@ -62,7 +62,7 @@ export class FacturaDetalleComponent {
     );
 
     if (!item) {
-      alert('No se encontró el ítem seleccionado.');
+      alert('No se encontrÃ³ el Ã­tem seleccionado.');
       return;
     }
 

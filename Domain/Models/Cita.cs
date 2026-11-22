@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Domain.Models
 {
     public class Cita
@@ -11,6 +6,7 @@ namespace Domain.Models
         public int IdCita { get; set; }
         public int IdPaciente { get; set; }
         public int IdMedico { get; set; }
+        public int IdEspecialidad { get; set; }
         public int IdConsultorio { get; set; }
         public int IdEstadoCita { get; set; }
         public DateOnly FechaCita { get; set; }

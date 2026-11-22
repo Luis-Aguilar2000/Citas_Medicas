@@ -11,21 +11,25 @@ import { FormsModule } from '@angular/forms';
 import { forkJoin, of, Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 
-import { FacturasService, Factura } from '../../../core/services/facturas';
-import { FacturaDetallesService, FacturaDetalle } from '../../../core/services/factura-detalles';
-import { ServiciosService, Servicio } from '../../../core/services/servicios';
-import { MedicamentosService, Medicamento } from '../../../core/services/medicamentos';
-import { CatalogoEstudiosService, CatalogoEstudio } from '../../../core/services/catalogo-estudios';
-import { PacientesService, Paciente } from '../../../core/services/pacientes';
-import { PagosService } from '../../../core/services/pagos';
-import { ImpresionFacturaService } from '../../../core/services/impresion-factura';
-import { BusquedaService } from '../../../core/services/busqueda';
+import { FacturasService, Factura } from '../../../core/services/MicroFacturacion/facturas';
+import { FacturaDetallesService, FacturaDetalle } from '../../../core/services/MicroFacturacion/factura-detalles';
+import { ServiciosService, Servicio } from '../../../core/services/MicroFacturacion/servicios';
+import { PagosService } from '../../../core/services/MicroFacturacion/pagos';
+import { ImpresionFacturaService } from '../../../core/services/MicroFacturacion/impresion-factura';
+
+import { MedicamentosService, Medicamento } from '../../../core/services/MicroTratamientosLab/medicamentos';
+import { CatalogoEstudiosService, CatalogoEstudio } from '../../../core/services/MicroTratamientosLab/catalogo-estudios';
+
+import { PacientesService, Paciente } from '../../../core/services/MicroPacientesAgendas/pacientes';
+
+import { BusquedaService } from '../../../core/services/Compartidos/busqueda';
+
 import { BotonesAcciones } from '../../../shared/components/botones-acciones/botones-acciones';
 import { Paginacion } from '../../../shared/components/paginacion/paginacion';
+
 import { FacturaDetalleComponent } from './components/factura-detalle/factura-detalle';
 import { FacturaPagoComponent } from './components/factura-pago/factura-pago';
 import { FacturaDetalleManagerService } from './services/factura-detalle-manager';
-
 @Component({
   selector: 'app-facturas',
   standalone: true,
@@ -235,23 +239,33 @@ export class Facturas implements OnInit, OnDestroy {
   }
 
   /** Carga los ítems de detalle asociados a una factura desde el servidor. */
-  cargarDetallesFactura(idFactura: number): void {
-    this.cargandoDetalles = true;
-    this.facturaDetallesService.getDetallesFactura(idFactura).subscribe({
-      next: resultado => {
-        const detalles = resultado.data ?? [];
-        this.detallesFactura.set(detalles.map(detalle => ({ ...detalle })));
-        this.detallesOriginales = detalles.map(detalle => ({ ...detalle }));
-        this.cargandoDetalles = false;
-      },
-      error: error => {
-        console.error('Error cargando detalles:', error);
-        this.detallesFactura.set([]);
-        this.detallesOriginales = [];
-        this.cargandoDetalles = false;
-      }
-    });
-  }
+
+cargarDetallesFactura(idFactura: number): void {
+  this.cargandoDetalles = true;
+
+  this.facturaDetallesService.getDetallesFactura(idFactura).subscribe({
+    next: resultado => {
+      const detalles: FacturaDetalle[] = (resultado.data ?? []) as FacturaDetalle[];
+
+      this.detallesFactura.set(
+        detalles.map((detalle: FacturaDetalle) => ({ ...detalle }))
+      );
+
+      this.detallesOriginales = detalles.map(
+        (detalle: FacturaDetalle) => ({ ...detalle })
+      );
+
+      this.cargandoDetalles = false;
+    },
+    error: error => {
+      console.error('Error cargando detalles:', error);
+      this.detallesFactura.set([]);
+      this.detallesOriginales = [];
+      this.cargandoDetalles = false;
+    }
+  });
+}
+
 
   /** Valida la integridad de la cabecera, montos y detalles de la factura. */
   validarFactura(): boolean {

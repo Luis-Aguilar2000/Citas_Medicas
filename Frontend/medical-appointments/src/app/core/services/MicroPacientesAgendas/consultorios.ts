@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { GenericCrudService, PagedResult } from '../generics/generic-crud.service';
+import { GenericCrudService, PagedResult } from '../../generics/generic-crud.service';
 
 // Modelo de datos para la entidad Consultorio
 export interface Consultorio {
@@ -28,7 +28,7 @@ export class ConsultoriosService extends GenericCrudService<Consultorio> {
     return this.getPaged(pageNumber, pageSize);
   }
 
-  // Obtiene un consultorio específico por su ID
+  // Obtiene un consultorio especÃ­fico por su ID
   getConsultorioById(idConsultorio: number): Observable<Consultorio> {
     return this.getById(idConsultorio);
   }

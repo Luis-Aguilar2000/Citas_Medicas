@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { GenericCrudService, PagedResult } from '../generics/generic-crud.service';
+import { GenericCrudService, PagedResult } from '../../generics/generic-crud.service';
 
 export interface PrescripcionDetalle {
   idPrescripcionDetalle: number;
@@ -41,14 +41,14 @@ export class PrescripcionDetallesService extends GenericCrudService<Prescripcion
     return this.getPaged(pageNumber, pageSize, filter);
   }
 
-  // Obtiene un detalle específico por su ID
+  // Obtiene un detalle especÃ­fico por su ID
   getPrescripcionDetalleById(
     idPrescripcionDetalle: number
   ): Observable<PrescripcionDetalle> {
     return this.getById(idPrescripcionDetalle);
   }
 
-  // Registra un nuevo detalle de prescripción
+  // Registra un nuevo detalle de prescripciÃ³n
   addPrescripcionDetalle(
     detalle: CrearPrescripcionDetalle
   ): Observable<boolean> {

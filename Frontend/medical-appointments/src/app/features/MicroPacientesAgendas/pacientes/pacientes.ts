@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy, signal, effect, untracked } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, signal, effect, untracked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { PacientesService, Paciente } from '../../../core/services/pacientes';
-import { BusquedaService, SugerenciaBusqueda } from '../../../core/services/busqueda';
+import { PacientesService, Paciente } from '../../../core/services/MicroPacientesAgendas/pacientes';
+import { BusquedaService, SugerenciaBusqueda } from '../../../core/services/Compartidos/busqueda';
 import { BotonesAcciones } from '../../../shared/components/botones-acciones/botones-acciones';
 import { Paginacion } from '../../../shared/components/paginacion/paginacion';
 
@@ -15,7 +15,7 @@ import { Paginacion } from '../../../shared/components/paginacion/paginacion';
   styleUrl: './pacientes.css'
 })
 export class Pacientes implements OnInit, OnDestroy {
-  // DATOS Y PAGINACIÓN
+  // DATOS Y PAGINACIÃ“N
   pacientes = signal<Paciente[]>([]);
   paginaActual = 1;
   tamanoPagina = 10;
@@ -35,7 +35,7 @@ export class Pacientes implements OnInit, OnDestroy {
     private pacientesService: PacientesService,
     private busquedaService: BusquedaService
   ) {
-    // BÚSQUEDA CONFIRMADA
+    // BÃšSQUEDA CONFIRMADA
     effect(() => {
       this.busquedaService.texto();
 
@@ -92,7 +92,7 @@ export class Pacientes implements OnInit, OnDestroy {
     });
   }
 
-  // CARGAR PREDICCIONES DE BÚSQUEDA
+  // CARGAR PREDICCIONES DE BÃšSQUEDA
   private cargarPredicciones(texto: string): void {
     const filtro = this.crearFiltroBusqueda(texto);
 
@@ -122,7 +122,7 @@ export class Pacientes implements OnInit, OnDestroy {
     });
   }
 
-  // CREAR FILTRO DE BÚSQUEDA DINÁMICO
+  // CREAR FILTRO DE BÃšSQUEDA DINÃMICO
   private crearFiltroBusqueda(texto: string): string {
     const valor = texto.trim();
     if (valor === '') return '';
@@ -161,7 +161,7 @@ export class Pacientes implements OnInit, OnDestroy {
 
   eliminarPaciente(paciente: Paciente): void {
     const nombreCompleto = `${paciente.nombres} ${paciente.apellidos}`;
-    if (!confirm(`¿Desea eliminar al paciente ${nombreCompleto}?`)) return;
+    if (!confirm(`Â¿Desea eliminar al paciente ${nombreCompleto}?`)) return;
 
     this.pacientesService.deletePaciente(paciente.idPaciente).subscribe({
       next: () => {
@@ -216,7 +216,7 @@ export class Pacientes implements OnInit, OnDestroy {
     this.nuevoPaciente = this.crearPacienteVacio();
   }
 
-  // PAGINACIÓN
+  // PAGINACIÃ“N
   cambiarPagina(pagina: number): void {
     if (pagina < 1 || pagina > this.totalPaginas || pagina === this.paginaActual) return;
     this.paginaActual = pagina;
@@ -229,7 +229,7 @@ export class Pacientes implements OnInit, OnDestroy {
     this.cargarPacientes();
   }
 
-  // MODELO VACÍO
+  // MODELO VACÃO
   private crearPacienteVacio(): Paciente {
     return {
       idPaciente: 0,
