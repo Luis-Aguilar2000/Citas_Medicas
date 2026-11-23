@@ -11,37 +11,27 @@ using System.Threading.Tasks;
 
 namespace Core.feature.Alergia.Queries
 {
-    public class GetAlergiaQuery
-        : RequestParametersGets,
-          IRequest<PagedResult<Alergias>>
+    public class GetAlergiasByIdQuery : IRequest<Alergias>
     {
+        public int AlergiaId { get; set; }
     }
 
-    public class GetAlergiaQueryHandler
-       : IRequestHandler<GetAlergiaQuery, PagedResult<Alergias>>
+    public class GetAlergiasByIdQueryHandler
+       : IRequestHandler<GetAlergiasByIdQuery, Alergias>
     {
         private readonly IGenericRepository<Alergias> _repository;
 
-        public GetAlergiaQueryHandler(
+        public GetAlergiasByIdQueryHandler(
             IGenericRepository<Alergias> repository)
         {
             _repository = repository;
         }
 
-        public async Task<PagedResult<Alergias>> Handle(
-            GetAlergiaQuery request,
+        public async Task<Alergias> Handle(
+            GetAlergiasByIdQuery request,
             CancellationToken cancellationToken)
         {
-            var filter = !string.IsNullOrEmpty(request.Filter)
-                ? Filter.FromStringExpression<Alergias>(request.Filter)
-                : null;
-
-            return await _repository.GetPagedAsync(
-                pageNumber: request.PageNumber,
-                pageSize: request.PageSize,
-                filter: filter,
-                cancellationToken: cancellationToken
-            );
+            return await _repository.GetByIdAsync(request.AlergiaId);
         }
     }
 }
