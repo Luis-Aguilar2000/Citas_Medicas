@@ -45,6 +45,9 @@ namespace Persistence.Migrations
                     b.Property<int>("IdConsultorio")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdEspecialidad")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdEstadoCita")
                         .HasColumnType("int");
 
@@ -175,6 +178,9 @@ namespace Persistence.Migrations
                         .HasColumnType("time");
 
                     b.Property<int>("IdConsultorio")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdEspecialidad")
                         .HasColumnType("int");
 
                     b.Property<int>("IdMedico")

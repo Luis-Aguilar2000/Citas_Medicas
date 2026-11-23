@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
@@ -8,6 +9,8 @@ namespace Domain.Models
         public int IdHorario { get; set; }
 
         public int IdMedico { get; set; }
+
+        public int IdEspecialidad { get; set; }
 
         public int IdConsultorio { get; set; }
 

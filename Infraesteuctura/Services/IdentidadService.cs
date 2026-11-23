@@ -49,15 +49,12 @@ namespace Infraestructura.Services
             {
                 var medicoJson = await _rest.Get
                     .WithoutAuth()
-                    .WithUri(
-                        baseUrl,
-                        $"/Medicos/{idMedico}")
+                    .WithUri(baseUrl, $"/Medicos/{idMedico}")
                     .GetContentAsStringAsync();
 
                 var medico =
                     JsonSerializer.Deserialize<MedicoResponse>(
-                        medicoJson,
-                        JsonOptions);
+                        medicoJson, JsonOptions);
 
                 if (medico == null || !medico.Estado)
                     return false;
@@ -71,8 +68,7 @@ namespace Infraestructura.Services
 
                 var relacion =
                     JsonSerializer.Deserialize<MedicoEspecialidadResponse>(
-                        relacionJson,
-                        JsonOptions);
+                        relacionJson, JsonOptions);
 
                 return relacion != null &&
                        relacion.IdMedico == idMedico &&
@@ -83,6 +79,48 @@ namespace Infraestructura.Services
                       ex.StatusCode == 404)
             {
                 return false;
+            }
+            catch (ApiException ex)
+                when (ex.Reason == ApiFailureReason.Network ||
+                      ex.Reason == ApiFailureReason.Timeout)
+            {
+                throw new InvalidOperationException(
+                    "MicroIdentidadUsuarios no está disponible.",
+                    ex);
+            }
+        }
+
+        public async Task<List<MedicoCatalogoResponse>> ObtenerMedicosAsync(
+            CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (string.IsNullOrWhiteSpace(
+                _options.IdentidadUsuariosBaseUrl))
+            {
+                throw new InvalidOperationException(
+                    "Falta configurar Downstream:IdentidadUsuariosBaseUrl.");
+            }
+
+            var baseUrl =
+                _options.IdentidadUsuariosBaseUrl.TrimEnd('/');
+
+            try
+            {
+                var contenido = await _rest.Get
+                    .WithoutAuth()
+                    .WithUri(baseUrl, "/Medicos/catalogo")
+                    .GetContentAsStringAsync();
+
+                return JsonSerializer.Deserialize<
+                    List<MedicoCatalogoResponse>>(
+                        contenido, JsonOptions) ?? new();
+            }
+            catch (ApiException ex)
+                when (ex.Reason == ApiFailureReason.HttpError &&
+                      ex.StatusCode == 404)
+            {
+                return new List<MedicoCatalogoResponse>();
             }
             catch (ApiException ex)
                 when (ex.Reason == ApiFailureReason.Network ||

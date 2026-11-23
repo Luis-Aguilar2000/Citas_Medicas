@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿
+using Domain.Models;
 using Generics.Helpers;
 using Generics.Interfaces;
 using Generics.Models;
@@ -36,6 +37,7 @@ namespace Core.feature.HorarioMedico.Queries
                 pageNumber: request.PageNumber,
                 pageSize: request.PageSize,
                 filter: filter,
+                asNoTracking: true,
                 cancellationToken: cancellationToken
             );
         }

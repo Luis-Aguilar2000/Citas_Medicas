@@ -34,12 +34,24 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var result = await _mediator.Send(new GetMedicoByIdQuery
-            {
-                IdMedico = id
-            });
+            var result = await _mediator.Send(
+                new GetMedicoByIdQuery
+                {
+                    IdMedico = id
+                });
 
             return result == null ? NotFound() : Ok(result);
+        }
+
+        [HttpGet("catalogo")]
+        public async Task<IActionResult> GetCatalogo(
+            CancellationToken cancellationToken)
+        {
+            var resultado = await _mediator.Send(
+                new GetMedicosCatalogoQuery(),
+                cancellationToken);
+
+            return Ok(resultado);
         }
 
         [HttpPost]
@@ -61,10 +73,11 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _mediator.Send(new DeleteMedicoCommand
-            {
-                IdMedico = id
-            });
+            var result = await _mediator.Send(
+                new DeleteMedicoCommand
+                {
+                    IdMedico = id
+                });
 
             return result ? Ok(result) : NotFound();
         }

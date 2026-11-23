@@ -1,12 +1,17 @@
-﻿import { Injectable } from '@angular/core';
+﻿
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { GenericCrudService, PagedResult } from '../../generics/generic-crud.service';
+import {
+  GenericCrudService,
+  PagedResult
+} from '../../generics/generic-crud.service';
 
 export interface Cita {
   idCita: number;
   idPaciente: number;
   idMedico: number;
+  idEspecialidad: number;
   idConsultorio: number;
   idEstadoCita: number;
   fechaCita: string;
@@ -21,6 +26,7 @@ export interface Cita {
   providedIn: 'root'
 })
 export class CitasService extends GenericCrudService<Cita> {
+
   constructor(http: HttpClient) {
     super(http, 'http://localhost:5031/Citas');
   }

@@ -6,5 +6,8 @@
             int idMedico,
             int idEspecialidad,
             CancellationToken cancellationToken = default);
+
+        Task<List<MedicoCatalogoResponse>> ObtenerMedicosAsync(
+            CancellationToken cancellationToken = default);
     }
 }

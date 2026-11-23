@@ -15,7 +15,7 @@ export interface EstadoCita {
 })
 export class EstadoCitasService extends GenericCrudService<EstadoCita> {
   constructor(http: HttpClient) {
-    super(http, 'https://localhost:7250/EstadoCitas');
+    super(http, 'http://localhost:5031/EstadoCitas');
   }
 
   // Obtiene el listado paginado de estados de citas

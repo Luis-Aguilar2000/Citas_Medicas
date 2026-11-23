@@ -1,5 +1,5 @@
-using Core.feature.Citas.Commands;
 using Core.feature.Citas.Queries;
+using Core.feature.Citas.Commands;
 using Domain.Models;
 using Generics.Models;
 using MediatR;
@@ -17,8 +17,8 @@ namespace API.Controllers
         {
             _mediator = mediator;
         }
-        // GET - LISTAR CITAS PAGINADAS
 
+        // GET - LISTAR CITAS PAGINADAS
         [HttpGet]
         public async Task<ActionResult<PagedResult<Cita>>> Get(
             [FromQuery] GetCitasQuery query)
@@ -29,7 +29,6 @@ namespace API.Controllers
         }
 
         // GET - CITA POR ID
-
         [HttpGet("{id}")]
         public async Task<ActionResult<Cita>> GetById(int id)
         {
@@ -37,8 +36,7 @@ namespace API.Controllers
                 new GetCitasByIdQuery
                 {
                     IdCitas = id
-                }
-            );
+                });
 
             if (cita == null)
             {
@@ -48,8 +46,19 @@ namespace API.Controllers
             return Ok(cita);
         }
 
-        // POST - CREAR CITA
+        // GET - CATÁLOGO DE MÉDICOS
+        [HttpGet("medicos")]
+        public async Task<IActionResult> GetMedicos(
+            CancellationToken cancellationToken)
+        {
+            var resultado = await _mediator.Send(
+                new GetMedicosDisponiblesQuery(),
+                cancellationToken);
 
+            return Ok(resultado);
+        }
+
+        // POST - CREAR CITA
         [HttpPost]
         public async Task<ActionResult<bool>> Post(
             [FromBody] AddCitasCommand command)
@@ -59,9 +68,7 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
-
         // PUT - ACTUALIZAR CITA
-
         [HttpPut("{id}")]
         public async Task<ActionResult<bool>> Put(
             int id,
@@ -79,11 +86,7 @@ namespace API.Controllers
             return Ok(true);
         }
 
-
-        // =========================================
         // DELETE - ELIMINAR CITA
-        // =========================================
-
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
@@ -91,8 +94,7 @@ namespace API.Controllers
                 new DeleteCitasCommand
                 {
                     IdCita = id
-                }
-            );
+                });
 
             if (!resultado)
             {

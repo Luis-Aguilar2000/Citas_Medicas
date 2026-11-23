@@ -1,4 +1,4 @@
-/* BOTONES Y ACCIONES */
+
 .btn-nuevo {
   display: inline-flex;
   align-items: center;
@@ -80,7 +80,6 @@
   background: #5b4cc4;
 }
 
-/* MODAL Y OVERLAY */
 .overlay {
   position: fixed;
   inset: 0;
@@ -92,8 +91,8 @@
 }
 
 .modal-cita {
-  width: 650px;
-  max-width: 90%;
+  width: 720px;
+  max-width: 94%;
   max-height: 90vh;
   overflow-y: auto;
   background: white;
@@ -141,7 +140,6 @@
   font-size: 13px;
 }
 
-/* FORMULARIO */
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -201,26 +199,20 @@
   opacity: 1;
 }
 
-.campo-ayuda {
+.campo select:disabled {
+  cursor: not-allowed;
+  color: #888;
+}
+
+.campo small {
   margin-top: 5px;
-  color: #999;
+  color: #888;
   font-size: 11px;
 }
 
-.horario-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.horario-form > div {
-  display: flex;
-  flex-direction: column;
-}
-
-.label-hora {
-  margin-bottom: 5px;
-  color: #888;
+.campo-ayuda {
+  margin-top: 5px;
+  color: #999;
   font-size: 11px;
 }
 
@@ -232,7 +224,82 @@
   margin-top: 25px;
 }
 
-/* TABLA */
+.horarios-disponibles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.btn-horario {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 12px 10px;
+  border: 1px solid #d0d0d0;
+  border-radius: 7px;
+  background: white;
+  color: #444;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-horario:hover:not(:disabled) {
+  background: #f3f0ff;
+  border-color: #6c5ce7;
+  color: #6c5ce7;
+}
+
+.btn-horario.seleccionado {
+  background: #6c5ce7;
+  border-color: #6c5ce7;
+  color: white;
+}
+
+.btn-horario:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.btn-horario i {
+  font-size: 14px;
+}
+
+.btn-horario:focus-visible {
+  outline: 2px solid #6c5ce7;
+  outline-offset: 3px;
+}
+
+.horario-seleccionado {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 15px;
+  padding: 12px 14px;
+  border-radius: 7px;
+  background: #ecfdf5;
+  color: #15803d;
+  font-size: 13px;
+}
+
+.horario-seleccionado i {
+  font-size: 16px;
+}
+
+.sin-horarios {
+  margin-top: 12px;
+  padding: 15px;
+  border-radius: 7px;
+  background: #f8f7fd;
+  color: #777;
+  font-size: 13px;
+  text-align: center;
+}
+
 .tabla-contenedor {
   margin-top: 20px;
   background: white;
@@ -311,7 +378,6 @@
   border-bottom: none;
 }
 
-/* ELEMENTOS DE TABLA Y ESTADOS */
 .id-cita {
   color: #6c5ce7;
   font-weight: 600;
@@ -354,7 +420,6 @@
   color: #999 !important;
 }
 
-/* MEDIA QUERIES */
 @media (max-width: 1200px) {
   .tabla-citas {
     min-width: 1200px;
@@ -366,6 +431,7 @@
     align-items: flex-start;
     flex-direction: column;
   }
+
   .btn-nuevo {
     width: 100%;
   }
@@ -375,13 +441,23 @@
   .form-grid {
     grid-template-columns: 1fr;
   }
+
   .campo-completo {
     grid-column: auto;
   }
+
   .modal-cita {
+    width: 94%;
+    max-height: 92vh;
     padding: 22px 20px;
   }
-  .horario-form {
-    grid-template-columns: 100%;
+
+  .horarios-disponibles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .btn-horario {
+    padding: 11px 6px;
+    font-size: 12px;
   }
 }
