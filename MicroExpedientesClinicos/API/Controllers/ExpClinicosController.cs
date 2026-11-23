@@ -41,7 +41,7 @@ namespace API.Controllers
         // =========================================
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<AntecedentesMedicos>> GetById(int id)
+        public async Task<ActionResult<ExpedientesClinicos>> GetById(int id)
         {
             var archivo = await _mediator.Send(
                 new GetExpClinicoByIdQuery

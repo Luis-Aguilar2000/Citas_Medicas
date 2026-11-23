@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GenericCrudService, PagedResult } from '../generics/generic-crud.service';
 
-// Modelo de datos de Expedientes Clínicos
+// Modelo de datos de expedientes clínicos
 export interface ExpedienteClinico {
   expedienteId: number;
   pacienteId: number;
@@ -21,11 +21,10 @@ export interface ExpedienteClinico {
 export class ExpedientesClinicosService extends GenericCrudService<ExpedienteClinico> {
 
   constructor(http: HttpClient) {
-    // Sustituir el puerto por el que utiliza tu API
-    super(http, 'http://localhost:PUERTO/ExpedientesClinicos');
+    super(http, 'http://localhost:5000/ExpClinicos');
   }
 
-  // Obtiene los expedientes clínicos paginados
+  // Listar expedientes clínicos con paginación y filtro
   getExpedientes(
     pageNumber: number = 1,
     pageSize: number = 10,
@@ -34,22 +33,22 @@ export class ExpedientesClinicosService extends GenericCrudService<ExpedienteCli
     return this.getPaged(pageNumber, pageSize, filter);
   }
 
-  // Obtiene un expediente por su ID
+  // Consultar expediente por ID
   getExpedienteById(id: number): Observable<ExpedienteClinico> {
     return this.getById(id);
   }
 
-  // Registra un expediente clínico
+  // Registrar expediente
   addExpediente(expediente: ExpedienteClinico): Observable<boolean> {
     return this.add(expediente);
   }
 
-  // Actualiza un expediente clínico
+  // Actualizar expediente
   updateExpediente(expediente: ExpedienteClinico): Observable<boolean> {
     return this.update(expediente.expedienteId, expediente);
   }
 
-  // Elimina un expediente clínico
+  // Eliminar expediente
   deleteExpediente(id: number): Observable<boolean> {
     return this.delete(id);
   }
