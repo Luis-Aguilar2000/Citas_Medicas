@@ -1,1 +1,306 @@
-<p>expediente-clinico works!</p>
+
+<!-- MODAL EXPEDIENTE CLINICO -->
+<div class="overlay" *ngIf="mostrarFormulario">
+
+  <div class="modal-expediente">
+
+    <!-- HEADER MODAL -->
+    <div class="modal-header">
+
+      <div class="modal-marca">
+        <span class="mini-logo">
+          <i class="bi bi-folder2-open"></i>
+        </span>
+
+        <strong>Expediente clínico</strong>
+      </div>
+
+      <button
+        type="button"
+        class="btn-cerrar"
+        (click)="cerrarFormulario()">
+
+        <i class="bi bi-x-lg"></i>
+
+      </button>
+
+    </div>
+
+    <!-- TITULOS -->
+    <h2 *ngIf="modoFormulario === 'nuevo'">
+      Registrar nuevo expediente
+    </h2>
+
+    <h2 *ngIf="modoFormulario === 'ver'">
+      Información del expediente
+    </h2>
+
+    <h2 *ngIf="modoFormulario === 'editar'">
+      Editar expediente
+    </h2>
+
+    <p class="subtitulo"
+       *ngIf="modoFormulario === 'nuevo'">
+      Complete la información del expediente clínico
+    </p>
+
+    <p class="subtitulo"
+       *ngIf="modoFormulario === 'ver'">
+      Consulte la información registrada
+    </p>
+
+    <p class="subtitulo"
+       *ngIf="modoFormulario === 'editar'">
+      Modifique la información necesaria
+    </p>
+
+    <!-- FORMULARIO -->
+    <div class="form-grid">
+
+      <div class="campo">
+
+        <label>ID del paciente</label>
+
+        <input
+          type="number"
+          min="1"
+          placeholder="Ingrese el ID del paciente"
+          [(ngModel)]="nuevoExpediente.pacienteId"
+          [disabled]="modoFormulario === 'ver'">
+
+      </div>
+
+      <div class="campo">
+
+        <label>Número de expediente</label>
+
+        <input
+          type="text"
+          placeholder="Ej. EXP-0001"
+          [(ngModel)]="nuevoExpediente.numeroExpediente"
+          [disabled]="modoFormulario === 'ver'">
+
+      </div>
+
+      <div class="campo">
+
+        <label>Fecha de apertura</label>
+
+        <input
+          type="date"
+          [(ngModel)]="nuevoExpediente.fechaApertura"
+          [disabled]="modoFormulario === 'ver'">
+
+      </div>
+
+      <div class="campo">
+
+        <label>Estado</label>
+
+        <select
+          [(ngModel)]="nuevoExpediente.estado"
+          [disabled]="modoFormulario === 'ver'">
+
+          <option value="">Seleccione</option>
+          <option value="Activo">Activo</option>
+          <option value="Cerrado">Cerrado</option>
+          <option value="Inactivo">Inactivo</option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+    <!-- ACCIONES -->
+    <div class="acciones">
+
+      <button
+        *ngIf="modoFormulario === 'ver'"
+        type="button"
+        class="btn-cancelar"
+        (click)="cerrarFormulario()">
+
+        Cerrar
+
+      </button>
+
+      <ng-container *ngIf="modoFormulario !== 'ver'">
+
+        <button
+          type="button"
+          class="btn-cancelar"
+          (click)="cerrarFormulario()">
+
+          Cancelar
+
+        </button>
+
+        <button
+          type="button"
+          class="btn-guardar"
+          [disabled]="guardando"
+          (click)="guardarExpediente()">
+
+          <i class="bi bi-check-lg"></i>
+
+          {{
+            guardando
+              ? 'Guardando...'
+              : modoFormulario === 'nuevo'
+                ? 'Guardar'
+                : 'Guardar cambios'
+          }}
+
+        </button>
+
+      </ng-container>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- TABLA EXPEDIENTES -->
+<div class="tabla-contenedor">
+
+  <div class="tabla-header">
+
+    <div>
+
+      <h2>Expedientes clínicos</h2>
+
+      <p>
+        {{ totalRegistros }}
+
+        {{
+          totalRegistros === 1
+            ? 'expediente registrado'
+            : 'expedientes registrados'
+        }}
+
+      </p>
+
+    </div>
+
+    <button
+      type="button"
+      class="btn-nuevo"
+      (click)="abrirNuevoExpediente()">
+
+      <i class="bi bi-plus-lg"></i>
+
+      Nuevo expediente
+
+    </button>
+
+  </div>
+
+
+  <div class="tabla-responsive">
+
+    <table class="tabla-expedientes">
+
+      <thead>
+
+        <tr>
+
+          <th>ID</th>
+          <th>Paciente ID</th>
+          <th>Número de expediente</th>
+          <th>Fecha de apertura</th>
+          <th>Estado</th>
+
+          <th class="columna-acciones">
+            Acciones
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let expediente of expedientes()">
+
+          <td>
+            <span class="id-expediente">
+              {{ expediente.expedienteId }}
+            </span>
+          </td>
+
+          <td>
+            {{ expediente.pacienteId }}
+          </td>
+
+          <td>
+            <strong>
+              {{ expediente.numeroExpediente }}
+            </strong>
+          </td>
+
+          <td>
+            {{ expediente.fechaApertura | date:'dd/MM/yyyy' }}
+          </td>
+
+          <td>
+
+            <span
+              class="estado-expediente"
+              [class.cerrado]="expediente.estado === 'Cerrado'"
+              [class.inactivo]="expediente.estado === 'Inactivo'">
+
+              {{ expediente.estado }}
+
+            </span>
+
+          </td>
+
+          <td class="columna-acciones">
+
+            <app-botones-acciones
+              (ver)="verExpediente(expediente)"
+              (editar)="editarExpediente(expediente)"
+              (eliminar)="eliminarExpediente(expediente)">
+
+            </app-botones-acciones>
+
+          </td>
+
+        </tr>
+
+        <tr *ngIf="expedientes().length === 0">
+
+          <td
+            colspan="6"
+            class="sin-datos">
+
+            No hay expedientes clínicos registrados
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+  <!-- PAGINACION -->
+  <app-paginacion
+    [paginaActual]="paginaActual"
+    [tamanoPagina]="tamanoPagina"
+    [totalRegistros]="totalRegistros"
+    [totalPaginas]="totalPaginas"
+    nombreRegistros="expedientes"
+    (paginaCambiada)="cambiarPagina($event)"
+    (tamanoPaginaCambiado)="cambiarTamanoPagina($event)">
+
+  </app-paginacion>
+
+</div>
+

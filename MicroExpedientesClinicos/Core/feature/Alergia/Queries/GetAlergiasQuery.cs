@@ -1,5 +1,7 @@
 ﻿using Domain.Models;
+using Generics.Helpers;
 using Generics.Interfaces;
+using Generics.Models;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -9,13 +11,16 @@ using System.Threading.Tasks;
 
 namespace Core.feature.Alergia.Queries
 {
-    public class GetAlergiasQuery: IRequest<List<Alergias>>
+    public class GetAlergiasQuery : RequestParametersGets,
+         IRequest<PagedResult<Alergias>>
     {
-        public int TotalRegistros { get; set; }
     }
 
+
+
+
     public class GetAlergiasQueryHandler
-       : IRequestHandler<GetAlergiasQuery, List<Alergias>>
+        : IRequestHandler<GetAlergiasQuery, PagedResult<Alergias>>
     {
         private readonly IGenericRepository<Alergias> _repository;
 
@@ -25,13 +30,20 @@ namespace Core.feature.Alergia.Queries
             _repository = repository;
         }
 
-        public async Task<List<Alergias>> Handle(
+        public async Task<PagedResult<Alergias>> Handle(
             GetAlergiasQuery request,
             CancellationToken cancellationToken)
         {
-            var citas = await _repository.GetAllAsync();
+            var filter = !string.IsNullOrWhiteSpace(request.Filter)
+                ? Filter.FromStringExpression<Alergias>(request.Filter)
+                : null;
 
-            return citas.ToList();
+            return await _repository.GetPagedAsync(
+                pageNumber: request.PageNumber,
+                pageSize: request.PageSize,
+                filter: filter,
+                cancellationToken: cancellationToken
+            );
         }
     }
 }
